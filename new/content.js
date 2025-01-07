@@ -1,6 +1,3 @@
-// Name: Ashna Patgaonkar
-// Senior Capstone Project
-
 // Creates a new button element.
 /*const button = document.createElement('button');
 // Sets the text content of the button to 'Replace URL'.
