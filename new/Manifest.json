@@ -1,0 +1,24 @@
+
+{
+  "manifest_version": 3,
+  "name": "URL Replacer",
+  "version": "1.0",
+  "background": {
+    "service_worker": "background.js"
+  },
+  "action": {
+    "default_popup": "popup.html"
+  },
+  "content_scripts": [{
+    "matches": ["<all_urls>"],
+    "js": ["content.js"]
+  }],
+  "permissions": [
+    "activeTab",
+    "tabs",
+    "storage",
+    "history",
+    "webNavigation",
+    "browsingData"
+  ]
+}
