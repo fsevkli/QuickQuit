@@ -1,24 +1,22 @@
-
 {
-  "manifest_version": 3,
-  "name": "URL Replacer",
+  "name": "QuickQuit",
   "version": "1.0",
-  "background": {
-    "service_worker": "background.js"
-  },
+  "description": "A button used to quickly delete a website's browsing history.",
+  "permissions": ["activeTab", "tabs", "history"],
   "action": {
+    "default_icon": "icon.png",
     "default_popup": "popup.html"
   },
-  "content_scripts": [{
-    "matches": ["<all_urls>"],
-    "js": ["content.js"]
-  }],
-  "permissions": [
-    "activeTab",
-    "tabs",
-    "storage",
-    "history",
-    "webNavigation",
-    "browsingData"
-  ]
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["randomURLGenerator.js"]
+    }
+  ],
+  "externally_connectable": {
+    "matches": [
+      "*://*/*"
+    ]
+  },
+  "manifest_version": 3
 }
