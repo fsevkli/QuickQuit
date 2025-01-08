@@ -1,4 +1,6 @@
 const express = require('express'); // Import Express
+require('dotenv').config();         // Load .env variables
+
 const app = express();             // Create the Express app
 const PORT = process.env.PORT || 3000; // Use environment variable or default to 3000
 
