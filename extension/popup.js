@@ -26,58 +26,81 @@ async function getActiveTabURLDomain() {
 
 // Function to remove all instances of a specified domain from the browsing history
 async function removeDomainEntriesFromHistory(domainToRemove) {
-  chrome.history.search({ text: domainToRemove }, function (results) {
-    results.forEach(function (item) {
-      // Check if the URL's hostname includes the domain to remove
-      if (new URL(item.url).hostname.includes(domainToRemove)) {
-        // Delete the URL that matches the domain of the current URL
-        chrome.history.deleteUrl({ url: item.url }, function () {
-          // Generate a random URL to replace the deleted URL
-          var replaceUrl = {
-            url: getRandomURL()
-          };
+  return new Promise((resolve, reject) => {
+    chrome.history.search({ text: domainToRemove, maxResults: 1000 }, function (results) {
+      let deletionPromises = [];
 
-          // Add the random URL to the browsing history
-          chrome.history.addUrl(replaceUrl, function () { //won't add a url if the url is already added.
-            console.log("URL replaced successfully!");
+      results.forEach(function (item) {
+        const itemDomain = new URL(item.url).hostname;
+        if (itemDomain.includes(domainToRemove)) {
+          // Create a promise for each deleteUrl call
+          let deletePromise = new Promise((delResolve, delReject) => {
+            chrome.history.deleteUrl({ url: item.url }, function () {
+              if (chrome.runtime.lastError) {
+                delReject(`Failed to delete URL: ${item.url}`);
+              } else {
+                console.log(`Deleted URL: ${item.url}`);
+                delResolve();
+              }
+            });
           });
+          deletionPromises.push(deletePromise);
+        }
+      });
+
+      // Wait for all deletions to finish
+      Promise.all(deletionPromises)
+        .then(() => {
+          resolve();
+        })
+        .catch((error) => {
+          reject(`Error deleting URLs: ${error}`);
         });
-      }
     });
   });
 }
 
+
 // Replace URLs of all tabs with the same domain as the active tab with random URLs
 async function replaceTabsWithSameDomain() {
   try {
-      const activeDomain = await getActiveTabURLDomain();
-      
-      chrome.tabs.query({ currentWindow: true }, function(allTabs) {
-          allTabs.forEach(function(tab) {
-              const tabDomain = extractDomain(tab.url);
-              if (tabDomain === activeDomain) {
-                  const url = getRandomURL(); // Your function to get a random URL
-                  chrome.tabs.update(tab.id, { url: url }); // Update the URL of the tab with a random one
-              }
-          });
+    const activeDomain = await getActiveTabURLDomain();
+    
+    chrome.tabs.query({ currentWindow: true }, function(allTabs) {
+      allTabs.forEach(function(tab) {
+        const tabDomain = extractDomain(tab.url);
+        if (tabDomain === activeDomain) {
+          const url = getRandomURL(); // generating a random URL
+          chrome.tabs.update(tab.id, { url: url }); // Update the URL of the tab with a random one
+          console.log(`Updated tab with ID: ${tab.id} to URL: ${url}`);
+        }
       });
+    });
   } catch (error) {
-      console.error(error);
+    console.error('Error replacing tabs:', error);
   }
 }
 
 async function buttonClicked() {
+  try {
+    // Get the domain of the active tab
+    const domainToRemove = await getActiveTabURLDomain();
+    console.log(`Removing history for domain: ${domainToRemove}`);
 
-  //Uses functions to get the domain on the tab you are on and then removes it once the button is clicked
-  domainToRemove = await getActiveTabURLDomain();
-  removeDomainEntriesFromHistory(domainToRemove);
-  replaceTabsWithSameDomain();
+    // Remove domain entries from history
+    await removeDomainEntriesFromHistory(domainToRemove);
+
+    // Replace all tabs with the same domain with random URLs
+    await replaceTabsWithSameDomain();
+  } catch (error) {
+    console.error('Error in buttonClicked:', error);
+  }
 }
 
 // Function to handle button click or Escape key press
 function handleButtonClickOrEscape(event) {
   if (event.type === 'click' || (event.type === 'keydown' && event.key === 'Escape')) {
-      buttonClicked(); // Call the buttonClicked function when the button is clicked or Escape key is pressed
+    buttonClicked();
   }
 }
 
