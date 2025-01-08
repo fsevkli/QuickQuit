@@ -1,5 +1,6 @@
 require('dotenv').config(); // Load environment variables from .env file
 const express = require('express'); // Import Express
+const path = require('path');
 
 console.log('PORT from .env:', process.env.PORT); // Debug line
 
