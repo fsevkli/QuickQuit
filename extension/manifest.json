@@ -18,5 +18,8 @@
       "*://*/*"
     ]
   },
+  "background": {
+    "service_worker": "background.js"
+  },
   "manifest_version": 3
 }
