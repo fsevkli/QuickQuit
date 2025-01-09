@@ -19,12 +19,24 @@ function getRandomURL() {
     return replaceUrls[randomIndex];
 }
 
-// Function to generate a random timestamp within the last 24 hours
-function getRandomTimestamp() {
+// Function to generate well-distributed random timestamps
+function generateRandomTimestamps(count) {
     const now = new Date();
     const todayStart = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 0, 0, 0);
-    const randomTime = todayStart.getTime() + Math.random() * (now.getTime() - todayStart.getTime());
-    return randomTime;
+    const timestamps = [];
+    
+    // Generate timestamps and ensure they're well-distributed
+    for (let i = 0; i < count; i++) {
+        // Get a random number of minutes since midnight
+        const randomMinutes = Math.floor(Math.random() * 1440); // 1440 minutes in a day
+        const timestamp = new Date(todayStart);
+        timestamp.setMinutes(randomMinutes);
+        timestamps.push(timestamp.getTime());
+    }
+    
+    // Sort timestamps to maintain chronological order
+    timestamps.sort((a, b) => a - b);
+    return timestamps;
 }
 
 // Add URLs to history with random timestamps
@@ -32,18 +44,25 @@ async function addUrlsToHistory() {
     console.log("Adding replacement URLs to history with random timestamps");
     
     try {
+        // Generate random timestamps for all URLs
+        const timestamps = generateRandomTimestamps(replaceUrls.length);
+        
         // Add each URL from replaceUrls to history
-        for (const url of replaceUrls) {
+        for (let i = 0; i < replaceUrls.length; i++) {
+            const url = replaceUrls[i];
+            const timestamp = timestamps[i];
+            
             try {
                 // First add the URL
-                await chrome.history.addUrl({ url: url });
+                await new Promise(resolve => setTimeout(resolve, 100)); // Small delay to prevent rate limiting
+                await chrome.history.addUrl({ url });
                 
                 // Then set the visit time
-                const timestamp = getRandomTimestamp();
                 await chrome.history.addVisit({
-                    url: url,
+                    url,
                     visitTime: timestamp,
-                    transition: chrome.history.TransitionType.LINK
+                    transition: chrome.history.TransitionType.LINK,
+                    qualifyingItems: []
                 });
                 
                 console.log("Added to history:", url, "at time:", new Date(timestamp).toLocaleString());
