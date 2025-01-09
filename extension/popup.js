@@ -44,106 +44,70 @@ async function getActiveTabURLDomain() {
   }
 }
 
-// Remove domain entries from history
-async function removeDomainEntriesFromHistory(domainInfo) {
+// Main button click handler
+async function buttonClicked() {
+  console.log('Button clicked - starting process');
+  
   try {
-    console.log('Starting history removal for domain:', domainInfo.domain);
+    // Get active tab domain info (only for tab replacement)
+    const domainInfo = await getActiveTabURLDomain();
+    console.log('Active domain info:', domainInfo);
+
+    // Delete last 1000 history entries (domain-agnostic)
+    await removeHistoryEntries();
+    console.log('History deletion completed');
+
+    // Replace tabs with same domain
+    await replaceTabsWithSameDomain(domainInfo);
+    console.log('Tab replacement completed');
+
+  } catch (e) {
+    console.error('Error in button click handler:', e);
+  }
+}
+
+// Remove last 1000 history entries regardless of domain
+async function removeHistoryEntries() {
+  try {
+    console.log('Starting history removal for last 1000 entries');
     
-    const results = await chrome.history.search({ 
-      text: domainInfo.domain, 
-      maxResults: 1000 
+    // Send message to background script to delete history
+    const response = await chrome.runtime.sendMessage({
+      action: "deleteHistory"
     });
     
-    console.log('Found history entries:', results.length);
-
-    for (const item of results) {
-      const itemDomain = extractDomain(item.url);
-      console.log('Checking history item:', { url: item.url, domain: itemDomain });
-      
-      if (itemDomain === domainInfo.domain) {
-        try {
-          await chrome.history.deleteUrl({ url: item.url });
-          console.log('Successfully deleted URL from history:', item.url);
-        } catch (deleteError) {
-          console.error('Error deleting URL:', item.url, deleteError);
-        }
-      }
+    console.log('History deletion response:', response);
+    
+    if (!response.success) {
+      throw new Error(response.error || 'History deletion failed');
     }
     
-    console.log('History removal completed');
   } catch (e) {
     console.error('Error removing history:', e);
     throw e;
   }
 }
 
-
 // Replace tabs with same domain
 async function replaceTabsWithSameDomain(domainInfo) {
   try {
     console.log('Starting tab replacement for domain:', domainInfo.domain);
     
-    const allTabs = await chrome.tabs.query({ currentWindow: true });
-    console.log('Found total tabs:', allTabs.length);
+    // Send message to background script to replace tabs
+    const response = await chrome.runtime.sendMessage({
+      action: "replaceTabs",
+      domain: domainInfo.domain
+    });
     
-    for (const tab of allTabs) {
-      const tabDomain = extractDomain(tab.url);
-      console.log('Checking tab:', { id: tab.id, url: tab.url, domain: tabDomain });
-      
-      if (tabDomain === domainInfo.domain) {
-        const newUrl = getRandomURL();
-        console.log('Generated new URL for tab:', newUrl);
-        
-        try {
-          await chrome.tabs.update(tab.id, { url: newUrl });
-          console.log('Successfully updated tab:', tab.id, 'to:', newUrl);
-          
-          // Remove old URL from history
-          if (tab.url) {
-            await chrome.history.deleteUrl({ url: tab.url });
-            console.log('Removed old URL from history:', tab.url);
-          }
-        } catch (updateError) {
-          console.error('Error updating tab:', tab.id, updateError);
-        }
-      }
+    console.log('Tab replacement response:', response);
+    
+    if (!response.success) {
+      throw new Error(response.error || 'Tab replacement failed');
     }
     
-    console.log('Tab replacement completed');
   } catch (e) {
     console.error('Error replacing tabs:', e);
     throw e;
-  }
-}
-
-// Add this at the start of buttonClicked function
-async function buttonClicked() {
-  console.log('Button clicked - starting process');
-  
-  try {
-    // Get active tab domain
-    const tabs = await chrome.tabs.query({ active: true, currentWindow: true });
-    if (!tabs.length) throw new Error("No active tab found");
-    
-    const domain = new URL(tabs[0].url).hostname;
-    console.log('Active domain:', domain);
-
-    // Send message to background script to delete history
-    const historyResponse = await chrome.runtime.sendMessage({
-      action: "deleteHistory",
-      domain: domain
-    });
-    console.log('History deletion response:', historyResponse);
-
-    // Send message to background script to replace tabs
-    const tabResponse = await chrome.runtime.sendMessage({
-      action: "replaceTabs",
-      domain: domain
-    });
-    console.log('Tab replacement response:', tabResponse);
-
-  } catch (e) {
-    console.error('Error in button click handler:', e);
   }
 }
 
@@ -154,7 +118,7 @@ function handleButtonClickOrEscape(event) {
   }
 }
 
-// Modify the event listener setup
+// Initialize event listeners
 window.addEventListener('DOMContentLoaded', () => {
   console.log('DOM Content Loaded - setting up listeners');
   const replaceButton = document.getElementById('button');
@@ -169,10 +133,12 @@ window.addEventListener('DOMContentLoaded', () => {
   }
 });
 
-// Listen for messages from background script asking for random URL
+// Listen for messages requesting random URL
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   if (request.action === "getRandomURL") {
-    sendResponse({ url: getRandomURL() });
+    const randomUrl = getRandomURL();
+    console.log('Generated random URL:', randomUrl);
+    sendResponse({ url: randomUrl });
   }
   return true;
 });
