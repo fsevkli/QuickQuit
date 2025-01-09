@@ -63,11 +63,17 @@ async function replaceTabsWithSameDomain(domainInfo) {
     const updatePromises = allTabs.map(async (tab) => {
       const tabDomain = extractDomain(tab.url);
       if (tabDomain === domainInfo.domain) {
-        const newUrl = getRandomURL(); // Make sure this function exists in randomURLGenerator.js
+        const newUrl = getRandomURL();
+        // Remove replaceState and only use the supported properties
         await chrome.tabs.update(tab.id, { 
-          url: newUrl,
-          replaceState: true // This forces the URL to replace the current history entry
+          url: newUrl
         });
+        
+        // After updating the tab, remove the previous URL from history
+        if (tab.url) {
+          await chrome.history.deleteUrl({ url: tab.url });
+        }
+        
         console.log(`Updated tab ${tab.id} to ${newUrl}`);
       }
     });
