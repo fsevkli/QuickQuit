@@ -53,7 +53,7 @@ async function buttonClicked() {
     const domainInfo = await getActiveTabURLDomain();
     console.log('Active domain info:', domainInfo);
 
-    // Delete last 1000 history entries (domain-agnostic)
+    // Delete last 500 history entries (domain-agnostic)
     await removeHistoryEntries();
     console.log('History deletion completed');
 
@@ -66,10 +66,10 @@ async function buttonClicked() {
   }
 }
 
-// Remove last 1000 history entries regardless of domain
+// Remove last 500 history entries regardless of domain
 async function removeHistoryEntries() {
   try {
-    console.log('Starting history removal for last 1000 entries');
+    console.log('Starting history removal for last 500 entries');
     
     // Send message to background script to delete history
     const response = await chrome.runtime.sendMessage({

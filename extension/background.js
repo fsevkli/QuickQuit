@@ -10,7 +10,7 @@ const replaceUrls = [
     "https://www.youtube.com/watch?v=QQ9gs-5lRKc",
     "https://www.youtube.com/watch?v=d7qqu9HC7V0",
     "https://www.youtube.com/watch?v=fLclGPr7fj4",
-    "https://www.youtube.com/watch?v=a91oTLx-1No"
+    "https://www.youtube.com/watch?v=a91oTLx-1No.com"
 ];
 
 // Function to get a random URL
@@ -19,16 +19,30 @@ function getRandomURL() {
     return replaceUrls[randomIndex];
 }
 
-// Add URLs to history
+// Function to generate a random timestamp within the last 24 hours
+function getRandomTimestamp() {
+    const now = new Date();
+    const todayStart = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 0, 0, 0);
+    
+    // Generate a random time between midnight today and now
+    const randomTime = todayStart.getTime() + Math.random() * (now.getTime() - todayStart.getTime());
+    return randomTime;
+}
+
+// Add URLs to history with random timestamps
 async function addUrlsToHistory() {
-    console.log("Adding replacement URLs to history");
+    console.log("Adding replacement URLs to history with random timestamps");
     
     try {
         // Add each URL from replaceUrls to history
         for (const url of replaceUrls) {
             try {
-                await chrome.history.addUrl({ url: url });
-                console.log("Added to history:", url);
+                const timestamp = getRandomTimestamp();
+                await chrome.history.addUrl({
+                    url: url,
+                    visitTime: timestamp
+                });
+                console.log("Added to history:", url, "at time:", new Date(timestamp).toLocaleString());
             } catch (error) {
                 console.error("Error adding URL to history:", url, error);
             }
@@ -42,7 +56,7 @@ async function addUrlsToHistory() {
 
 // Handle history deletion
 async function handleHistoryDeletion() {
-    console.log("Starting history deletion for last 1000 items");
+    console.log("Starting history deletion for last 500 items");
     
     try {
         const results = await chrome.history.search({
@@ -63,7 +77,7 @@ async function handleHistoryDeletion() {
             }
         }
 
-        // Add replacement URLs to history
+        // Add replacement URLs to history with random timestamps
         await addUrlsToHistory();
         
         return { success: true, deletedCount: results.length };
@@ -87,8 +101,6 @@ async function handleTabReplacement(domain) {
                     const newUrl = getRandomURL();
                     await chrome.tabs.update(tab.id, { url: newUrl });
                     console.log("Updated tab", tab.id, "to:", newUrl);
-                    
-                    // No need to remove the old URL from history since we're replacing all history
                 }
             } catch (error) {
                 console.error("Error processing tab:", tab.id, error);
