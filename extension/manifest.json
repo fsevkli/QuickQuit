@@ -5,7 +5,8 @@
   "permissions": [
     "tabs",
     "history",
-    "activeTab"
+    "activeTab",
+    "scripting"
   ],
   "host_permissions": [
     "<all_urls>"
@@ -17,7 +18,7 @@
   "content_scripts": [
     {
       "matches": ["<all_urls>"],
-      "js": ["randomURLGenerator.js"]
+      "js": ["randomURLGenerator.js", "content.js"]
     }
   ],
   "background": {
