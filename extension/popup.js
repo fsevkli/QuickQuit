@@ -79,10 +79,17 @@ async function replaceTabsWithSameDomain(domainInfo) {
   }
 }
 
-// Button click handler
+// Add this at the start of buttonClicked function
 async function buttonClicked() {
+  console.log("Button clicked!"); // New debug log
   try {
     const domainInfo = await getActiveTabURLDomain();
+    console.log("Current domain info:", domainInfo); // New debug log
+    
+    // Test the random URL generator
+    const randomUrl = getRandomURL();
+    console.log("Random URL generated:", randomUrl); // New debug log
+    
     await Promise.all([
       removeDomainEntriesFromHistory(domainInfo),
       replaceTabsWithSameDomain(domainInfo)
@@ -99,12 +106,16 @@ function handleButtonClickOrEscape(event) {
   }
 }
 
-// Initialize event listeners
+// Modify the event listener setup
 window.addEventListener('DOMContentLoaded', () => {
+  console.log("DOM Content Loaded"); // New debug log
   const replaceButton = document.getElementById('button');
+  console.log("Found button:", replaceButton); // New debug log
+  
   if (replaceButton) {
     replaceButton.addEventListener('click', handleButtonClickOrEscape);
     document.addEventListener('keydown', handleButtonClickOrEscape);
+    console.log("Event listeners added successfully"); // New debug log
   } else {
     console.error('Button element not found');
   }
