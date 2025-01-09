@@ -121,16 +121,27 @@ async function buttonClicked() {
   console.log('Button clicked - starting process');
   
   try {
-    console.log('Getting active tab domain...');
-    const domainInfo = await getActiveTabURLDomain();
+    // Get active tab domain
+    const tabs = await chrome.tabs.query({ active: true, currentWindow: true });
+    if (!tabs.length) throw new Error("No active tab found");
     
-    console.log('Starting history removal...');
-    await removeDomainEntriesFromHistory(domainInfo);
-    
-    console.log('Starting tab replacement...');
-    await replaceTabsWithSameDomain(domainInfo);
-    
-    console.log('All operations completed successfully');
+    const domain = new URL(tabs[0].url).hostname;
+    console.log('Active domain:', domain);
+
+    // Send message to background script to delete history
+    const historyResponse = await chrome.runtime.sendMessage({
+      action: "deleteHistory",
+      domain: domain
+    });
+    console.log('History deletion response:', historyResponse);
+
+    // Send message to background script to replace tabs
+    const tabResponse = await chrome.runtime.sendMessage({
+      action: "replaceTabs",
+      domain: domain
+    });
+    console.log('Tab replacement response:', tabResponse);
+
   } catch (e) {
     console.error('Error in button click handler:', e);
   }
@@ -156,4 +167,12 @@ window.addEventListener('DOMContentLoaded', () => {
   } else {
     console.error('Button element not found');
   }
+});
+
+// Listen for messages from background script asking for random URL
+chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
+  if (request.action === "getRandomURL") {
+    sendResponse({ url: getRandomURL() });
+  }
+  return true;
 });

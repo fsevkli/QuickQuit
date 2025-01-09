@@ -2,8 +2,14 @@
   "name": "QuickQuit",
   "version": "1.0",
   "description": "A button used to quickly delete a website's browsing history.",
-  "permissions": ["tabs", "history", "activeTab"],
-  "host_permissions": ["<all_urls>"],
+  "permissions": [
+    "tabs",
+    "history",
+    "activeTab"
+  ],
+  "host_permissions": [
+    "<all_urls>"
+  ],
   "action": {
     "default_icon": "icon.png",
     "default_popup": "popup.html"
@@ -14,13 +20,9 @@
       "js": ["randomURLGenerator.js"]
     }
   ],
-  "externally_connectable": {
-    "matches": [
-      "*://*/*"
-    ]
-  },
   "background": {
-    "service_worker": "background.js"
+    "service_worker": "background.js",
+    "type": "module"
   },
   "manifest_version": 3
 }
