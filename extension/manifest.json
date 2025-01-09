@@ -5,8 +5,7 @@
   "permissions": [
     "tabs",
     "history",
-    "activeTab",
-    "scripting"
+    "activeTab"
   ],
   "host_permissions": [
     "<all_urls>"
@@ -15,12 +14,6 @@
     "default_icon": "icon.png",
     "default_popup": "popup.html"
   },
-  "content_scripts": [
-    {
-      "matches": ["<all_urls>"],
-      "js": ["randomURLGenerator.js", "content.js"]
-    }
-  ],
   "background": {
     "service_worker": "background.js",
     "type": "module"
