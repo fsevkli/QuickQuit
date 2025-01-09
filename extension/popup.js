@@ -1,19 +1,8 @@
 // Dynamically load randomURLGenerator.js and wait for it to load
-function loadRandomURLGenerator() {
-  return new Promise((resolve, reject) => {
-    var script = document.createElement('script');
-    script.src = 'randomURLGenerator.js';
-    script.onload = () => {
-      console.log("randomURLGenerator.js script loaded successfully");
-      resolve();  // Resolve once the script has loaded
-    };
-    script.onerror = (error) => {
-      console.error("Failed to load randomURLGenerator.js", error);
-      reject("Script loading failed");
-    };
-    document.head.appendChild(script);
-  });
-}
+var script = document.createElement('script');
+script.src = 'randomURLGenerator.js';
+document.head.appendChild(script);
+
 
 // This function extracts the domain from a URL
 function extractDomain(url) {
@@ -79,20 +68,11 @@ async function replaceTabsWithSameDomain() {
 
 // Triggered when the button is clicked to remove domain entries and replace tabs
 async function buttonClicked() {
-  try {
-    // Ensure randomURLGenerator.js is loaded before performing any operations
-    await loadRandomURLGenerator();
 
-    // Get the active tab's domain and remove corresponding entries from history
-    const { domain } = await getActiveTabURLDomain();
-    console.log(`Removing history entries for domain: ${domain}`);
-    await removeDomainEntriesFromHistory(domain);
-
-    // Replace all tabs with the same domain with random URLs
-    await replaceTabsWithSameDomain();
-  } catch (error) {
-    console.error("Error in buttonClicked:", error);
-  }
+  //Uses functions to get the domain on the tab you are on and then removes it once the button is clicked
+  domainToRemove = await getActiveTabURLDomain();
+  removeDomainEntriesFromHistory(domainToRemove);
+  replaceTabsWithSameDomain();
 }
 
 // Function to handle button click or Escape key press
