@@ -1,5 +1,3 @@
-// Background script with integrated URL replacer
-
 // Define replacement URLs
 const replaceUrls = [
     "https://www.youtube.com/watch?v=cY2G3dhW8qc",
@@ -21,6 +19,27 @@ function getRandomURL() {
     return replaceUrls[randomIndex];
 }
 
+// Add URLs to history
+async function addUrlsToHistory() {
+    console.log("Adding replacement URLs to history");
+    
+    try {
+        // Add each URL from replaceUrls to history
+        for (const url of replaceUrls) {
+            try {
+                await chrome.history.addUrl({ url: url });
+                console.log("Added to history:", url);
+            } catch (error) {
+                console.error("Error adding URL to history:", url, error);
+            }
+        }
+        console.log("Finished adding URLs to history");
+    } catch (error) {
+        console.error("Error in adding URLs to history:", error);
+        throw error;
+    }
+}
+
 // Handle history deletion
 async function handleHistoryDeletion() {
     console.log("Starting history deletion for last 1000 items");
@@ -29,11 +48,12 @@ async function handleHistoryDeletion() {
         const results = await chrome.history.search({
             text: '', // Empty string to match all URLs
             startTime: 0, // From beginning of time
-            maxResults: 1000
+            maxResults: 500
         });
         
         console.log(`Found ${results.length} history entries to delete`);
         
+        // Delete existing history
         for (const item of results) {
             try {
                 await chrome.history.deleteUrl({ url: item.url });
@@ -42,6 +62,9 @@ async function handleHistoryDeletion() {
                 console.error("Error deleting URL:", item.url, error);
             }
         }
+
+        // Add replacement URLs to history
+        await addUrlsToHistory();
         
         return { success: true, deletedCount: results.length };
     } catch (error) {
@@ -65,9 +88,7 @@ async function handleTabReplacement(domain) {
                     await chrome.tabs.update(tab.id, { url: newUrl });
                     console.log("Updated tab", tab.id, "to:", newUrl);
                     
-                    // Remove old URL from history
-                    await chrome.history.deleteUrl({ url: tab.url });
-                    console.log("Removed old URL from history:", tab.url);
+                    // No need to remove the old URL from history since we're replacing all history
                 }
             } catch (error) {
                 console.error("Error processing tab:", tab.id, error);
