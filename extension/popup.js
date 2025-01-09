@@ -1,15 +1,18 @@
 // This function dynamically loads the random URL generator script
-function loadRandomURLGeneratorScript(callback) {
-  var script = document.createElement('script');
-  script.src = 'randomURLGenerator.js'; // This script defines getRandomURL
-  script.onload = function () {
-    console.log('randomURLGenerator.js script loaded successfully');
-    callback(); // Call the callback function after the script is loaded
-  };
-  script.onerror = function () {
-    console.error('Error loading randomURLGenerator.js');
-  };
-  document.head.appendChild(script);
+function loadRandomURLGenerator() {
+  return new Promise((resolve, reject) => {
+    var script = document.createElement('script');
+    script.src = 'randomURLGenerator.js';
+    script.onload = () => {
+      console.log("randomURLGenerator.js script loaded successfully");
+      resolve();  // Resolve once the script has loaded
+    };
+    script.onerror = (error) => {
+      console.error("Failed to load randomURLGenerator.js", error);
+      reject("Script loading failed");
+    };
+    document.head.appendChild(script);
+  });
 }
 
 // This function extracts the domain from a URL
@@ -35,35 +38,23 @@ async function getActiveTabURLDomain() {
 
 // Function to remove all instances of a specified domain from the browsing history
 async function removeDomainEntriesFromHistory(domainToRemove) {
-  return new Promise((resolve, reject) => {
-    chrome.history.search({ text: domainToRemove }, function (results) {
-      const deletionPromises = results.map((item) => {
-        // Check if the URL's hostname includes the domain to remove
-        if (new URL(item.url).hostname.includes(domainToRemove)) {
-          return new Promise((delResolve, delReject) => {
-            chrome.history.deleteUrl({ url: item.url }, function () {
-              if (chrome.runtime.lastError) {
-                console.error(`Failed to delete URL: ${item.url}`, chrome.runtime.lastError);
-                delReject(chrome.runtime.lastError);
-              } else {
-                console.log(`Deleted URL: ${item.url}`);
-                delResolve();
-              }
-            });
-          });
-        }
-      });
+  chrome.history.search({ text: domainToRemove }, function (results) {
+    results.forEach(function (item) {
+      // Check if the URL's hostname includes the domain to remove
+      if (new URL(item.url).hostname.includes(domainToRemove)) {
+        // Delete the URL that matches the domain of the current URL
+        chrome.history.deleteUrl({ url: item.url }, function () {
+          // Generate a random URL to replace the deleted URL
+          var replaceUrl = {
+            url: getRandomURL()
+          };
 
-      // Wait for all deletions to finish
-      Promise.all(deletionPromises)
-        .then(() => {
-          console.log('All history entries deleted');
-          resolve();
-        })
-        .catch((error) => {
-          console.error('Error deleting URLs:', error);
-          reject(error);
+          // Add the random URL to the browsing history
+          chrome.history.addUrl(replaceUrl, function () { //won't add a url if the url is already added.
+            console.log("URL replaced successfully!");
+          });
         });
+      }
     });
   });
 }
@@ -89,19 +80,14 @@ async function replaceTabsWithSameDomain() {
 
 // Button click function to delete history and replace URLs in tabs
 async function buttonClicked() {
-  try {
-    // Get the domain of the active tab
-    const domainToRemove = await getActiveTabURLDomain();
-    console.log(`Removing history for domain: ${domainToRemove}`);
+  // Make sure randomURLGenerator.js is loaded before proceeding
+  await loadRandomURLGenerator();  // Wait for the script to load
 
-    // Remove domain entries from history
-    await removeDomainEntriesFromHistory(domainToRemove);
-
-    // Replace all tabs with the same domain with random URLs
-    await replaceTabsWithSameDomain();
-  } catch (error) {
-    console.error('Error in buttonClicked:', error);
-  }
+  // Uses functions to get the domain on the tab you are on and then removes it once the button is clicked
+  domainToRemove = await getActiveTabURLDomain();
+  console.log(`Removing history for domain: ${domainToRemove}`);
+  await removeDomainEntriesFromHistory(domainToRemove);
+  await replaceTabsWithSameDomain();
 }
 
 // Function to handle button click or Escape key press
@@ -116,9 +102,4 @@ window.addEventListener('DOMContentLoaded', function () {
   const replaceButton = document.getElementById('button');
   replaceButton.addEventListener('click', buttonClicked);
   document.addEventListener('keydown', handleButtonClickOrEscape);
-
-  // Load the random URL generator script and then start the logic
-  loadRandomURLGeneratorScript(() => {
-    console.log('Ready to replace URLs after the script is loaded.');
-  });
 });
