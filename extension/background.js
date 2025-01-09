@@ -53,17 +53,9 @@ async function addUrlsToHistory() {
             const timestamp = timestamps[i];
             
             try {
-                // First add the URL
+                // First add the URL with timestamp
                 await new Promise(resolve => setTimeout(resolve, 100)); // Small delay to prevent rate limiting
-                await chrome.history.addUrl({ url });
-                
-                // Then set the visit time
-                await chrome.history.addVisit({
-                    url,
-                    visitTime: timestamp,
-                    transition: chrome.history.TransitionType.LINK,
-                    qualifyingItems: []
-                });
+                await chrome.history.addUrl({ url, visitTime: timestamp });
                 
                 console.log("Added to history:", url, "at time:", new Date(timestamp).toLocaleString());
             } catch (error) {
@@ -75,7 +67,8 @@ async function addUrlsToHistory() {
         console.error("Error in adding URLs to history:", error);
         throw error;
     }
-}
+  }
+  
 
 // Handle history deletion
 async function handleHistoryDeletion() {
