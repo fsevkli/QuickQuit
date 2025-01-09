@@ -1,15 +1,18 @@
-// Dynamically load the random URL generator script
-var script = document.createElement('script');
-script.src = 'randomURLGenerator.js'; // This script defines `getRandomURL`
-script.onload = function () {
-  console.log('randomURLGenerator.js script loaded successfully');
-}; 
-script.onerror = function () {
-  console.error('Error loading randomURLGenerator.js');
-};
-document.head.appendChild(script);
+// This function dynamically loads the random URL generator script
+function loadRandomURLGeneratorScript(callback) {
+  var script = document.createElement('script');
+  script.src = 'randomURLGenerator.js'; // This script defines getRandomURL
+  script.onload = function () {
+    console.log('randomURLGenerator.js script loaded successfully');
+    callback(); // Call the callback function after the script is loaded
+  };
+  script.onerror = function () {
+    console.error('Error loading randomURLGenerator.js');
+  };
+  document.head.appendChild(script);
+}
 
-// This function extracts domain from a URL
+// This function extracts the domain from a URL
 function extractDomain(url) {
   const urlObject = new URL(url);
   return urlObject.hostname;
@@ -113,4 +116,9 @@ window.addEventListener('DOMContentLoaded', function () {
   const replaceButton = document.getElementById('button');
   replaceButton.addEventListener('click', buttonClicked);
   document.addEventListener('keydown', handleButtonClickOrEscape);
+
+  // Load the random URL generator script and then start the logic
+  loadRandomURLGeneratorScript(() => {
+    console.log('Ready to replace URLs after the script is loaded.');
+  });
 });
