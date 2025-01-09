@@ -9,9 +9,10 @@ document.head.appendChild(script);
 function extractDomain(url) {
   try {
     const urlObject = new URL(url);
+    console.log('Extracted domain:', urlObject.hostname);
     return urlObject.hostname;
   } catch (e) {
-    console.error('Invalid URL:', e);
+    console.error('Invalid URL:', url, e);
     return null;
   }
 }
@@ -20,12 +21,22 @@ function extractDomain(url) {
 async function getActiveTabURLDomain() {
   try {
     const tabs = await chrome.tabs.query({ active: true, currentWindow: true });
-    if (tabs.length === 0) throw new Error("No active tab found");
+    console.log('Active tabs found:', tabs);
+    
+    if (tabs.length === 0) {
+      console.error("No active tab found");
+      throw new Error("No active tab found");
+    }
     
     const currentTab = tabs[0];
     const domain = extractDomain(currentTab.url);
-    if (!domain) throw new Error("Invalid URL in active tab");
     
+    if (!domain) {
+      console.error("Invalid URL in active tab");
+      throw new Error("Invalid URL in active tab");
+    }
+    
+    console.log('Active tab info:', { url: currentTab.url, domain, tabId: currentTab.id });
     return { currentUrl: currentTab.url, domain, tabId: currentTab.id };
   } catch (e) {
     console.error('Error getting active tab:', e);
@@ -36,49 +47,69 @@ async function getActiveTabURLDomain() {
 // Remove domain entries from history
 async function removeDomainEntriesFromHistory(domainInfo) {
   try {
+    console.log('Starting history removal for domain:', domainInfo.domain);
+    
     const results = await chrome.history.search({ 
       text: domainInfo.domain, 
       maxResults: 1000 
     });
+    
+    console.log('Found history entries:', results.length);
 
-    const deletePromises = results.map(async (item) => {
-      if (extractDomain(item.url) === domainInfo.domain) {
-        await chrome.history.deleteUrl({ url: item.url });
-        console.log(`Deleted URL: ${item.url}`);
+    for (const item of results) {
+      const itemDomain = extractDomain(item.url);
+      console.log('Checking history item:', { url: item.url, domain: itemDomain });
+      
+      if (itemDomain === domainInfo.domain) {
+        try {
+          await chrome.history.deleteUrl({ url: item.url });
+          console.log('Successfully deleted URL from history:', item.url);
+        } catch (deleteError) {
+          console.error('Error deleting URL:', item.url, deleteError);
+        }
       }
-    });
-
-    await Promise.all(deletePromises);
+    }
+    
+    console.log('History removal completed');
   } catch (e) {
     console.error('Error removing history:', e);
     throw e;
   }
 }
 
+
 // Replace tabs with same domain
 async function replaceTabsWithSameDomain(domainInfo) {
   try {
-    const allTabs = await chrome.tabs.query({ currentWindow: true });
+    console.log('Starting tab replacement for domain:', domainInfo.domain);
     
-    const updatePromises = allTabs.map(async (tab) => {
+    const allTabs = await chrome.tabs.query({ currentWindow: true });
+    console.log('Found total tabs:', allTabs.length);
+    
+    for (const tab of allTabs) {
       const tabDomain = extractDomain(tab.url);
+      console.log('Checking tab:', { id: tab.id, url: tab.url, domain: tabDomain });
+      
       if (tabDomain === domainInfo.domain) {
         const newUrl = getRandomURL();
-        // Remove replaceState and only use the supported properties
-        await chrome.tabs.update(tab.id, { 
-          url: newUrl
-        });
+        console.log('Generated new URL for tab:', newUrl);
         
-        // After updating the tab, remove the previous URL from history
-        if (tab.url) {
-          await chrome.history.deleteUrl({ url: tab.url });
+        try {
+          await chrome.tabs.update(tab.id, { url: newUrl });
+          console.log('Successfully updated tab:', tab.id, 'to:', newUrl);
+          
+          // Remove old URL from history
+          if (tab.url) {
+            await chrome.history.deleteUrl({ url: tab.url });
+            console.log('Removed old URL from history:', tab.url);
+          }
+        } catch (updateError) {
+          console.error('Error updating tab:', tab.id, updateError);
         }
-        
-        console.log(`Updated tab ${tab.id} to ${newUrl}`);
       }
-    });
-
-    await Promise.all(updatePromises);
+    }
+    
+    console.log('Tab replacement completed');
   } catch (e) {
     console.error('Error replacing tabs:', e);
     throw e;
@@ -87,19 +118,19 @@ async function replaceTabsWithSameDomain(domainInfo) {
 
 // Add this at the start of buttonClicked function
 async function buttonClicked() {
-  console.log("Button clicked!"); // New debug log
+  console.log('Button clicked - starting process');
+  
   try {
+    console.log('Getting active tab domain...');
     const domainInfo = await getActiveTabURLDomain();
-    console.log("Current domain info:", domainInfo); // New debug log
     
-    // Test the random URL generator
-    const randomUrl = getRandomURL();
-    console.log("Random URL generated:", randomUrl); // New debug log
+    console.log('Starting history removal...');
+    await removeDomainEntriesFromHistory(domainInfo);
     
-    await Promise.all([
-      removeDomainEntriesFromHistory(domainInfo),
-      replaceTabsWithSameDomain(domainInfo)
-    ]);
+    console.log('Starting tab replacement...');
+    await replaceTabsWithSameDomain(domainInfo);
+    
+    console.log('All operations completed successfully');
   } catch (e) {
     console.error('Error in button click handler:', e);
   }
@@ -114,14 +145,14 @@ function handleButtonClickOrEscape(event) {
 
 // Modify the event listener setup
 window.addEventListener('DOMContentLoaded', () => {
-  console.log("DOM Content Loaded"); // New debug log
+  console.log('DOM Content Loaded - setting up listeners');
   const replaceButton = document.getElementById('button');
-  console.log("Found button:", replaceButton); // New debug log
   
   if (replaceButton) {
+    console.log('Button found - adding event listeners');
     replaceButton.addEventListener('click', handleButtonClickOrEscape);
     document.addEventListener('keydown', handleButtonClickOrEscape);
-    console.log("Event listeners added successfully"); // New debug log
+    console.log('Event listeners added successfully');
   } else {
     console.error('Button element not found');
   }
