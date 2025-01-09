@@ -10,7 +10,7 @@ const replaceUrls = [
     "https://www.youtube.com/watch?v=QQ9gs-5lRKc",
     "https://www.youtube.com/watch?v=d7qqu9HC7V0",
     "https://www.youtube.com/watch?v=fLclGPr7fj4",
-    "https://www.youtube.com/watch?v=a91oTLx-1No.com"
+    "https://www.youtube.com/watch?v=a91oTLx-1No"
 ];
 
 // Function to get a random URL
@@ -23,8 +23,6 @@ function getRandomURL() {
 function getRandomTimestamp() {
     const now = new Date();
     const todayStart = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 0, 0, 0);
-    
-    // Generate a random time between midnight today and now
     const randomTime = todayStart.getTime() + Math.random() * (now.getTime() - todayStart.getTime());
     return randomTime;
 }
@@ -37,11 +35,17 @@ async function addUrlsToHistory() {
         // Add each URL from replaceUrls to history
         for (const url of replaceUrls) {
             try {
+                // First add the URL
+                await chrome.history.addUrl({ url: url });
+                
+                // Then set the visit time
                 const timestamp = getRandomTimestamp();
-                await chrome.history.addUrl({
+                await chrome.history.addVisit({
                     url: url,
-                    visitTime: timestamp
+                    visitTime: timestamp,
+                    transition: chrome.history.TransitionType.LINK
                 });
+                
                 console.log("Added to history:", url, "at time:", new Date(timestamp).toLocaleString());
             } catch (error) {
                 console.error("Error adding URL to history:", url, error);
