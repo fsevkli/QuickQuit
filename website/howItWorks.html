@@ -2,114 +2,101 @@
 <html lang="en">
 
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Get Me Out - How It Works</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
-    <script src="https://code.jquery.com/jquery-3.6.3.min.js"
-        integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Get Me Out - How It Works</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+  <script src="https://code.jquery.com/jquery-3.6.3.min.js"
+    integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
 </head>
 
 
 <body>
-    <!--Navigation Bar-->
-    <nav class="navbar navbar-expand-lg bg-body-tertiary navbar bg-dark border-bottom border-body" data-bs-theme="dark">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="#">Get Me Out</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup"
-                aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-                <div class="navbar-nav">
-                    <a class="nav-link" href="index.html">About The Extension</a>
-                    <a class="nav-link" href="#">How It Works</a>
-                    <a class="nav-link" href="aboutUs.html">About Us</a>
-                </div>
-            </div>
+  <!--Navigation Bar-->
+  <nav class="navbar navbar-expand-lg bg-body-tertiary navbar bg-dark border-bottom border-body" data-bs-theme="dark">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="#">Get Me Out</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup"
+        aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+        <div class="navbar-nav">
+          <a class="nav-link" href="index.html">About The Extension</a>
+          <a class="nav-link" href="#">How It Works</a>
+          <a class="nav-link" href="aboutUs.html">About Us</a>
         </div>
-    </nav>
+      </div>
+    </div>
+  </nav>
 
-    <!--Intro Text-->
-    <h1>How It Works</h1>
-    <h2></h2>
-    <p>A button is added to your website so the user can activate the extension. If the user decides not to download the
-        extension, they will still be able to leave the website."</p>
+  <!--Intro Text-->
+  <h1>How It Works</h1>
+  <h2></h2>
+  <p>A button is added to your website so the user can activate the extension. If the user decides not to download the
+    extension, they will still be able to leave the website."</p>
 
-    <!--Tutorial for adding button to website-->
-    <h2>How to add the button to your website</h2>
-    <ol>
-        <!--Website to be removed from browser history-->
-        <li>Please enter any domain names associated with your site. Any page under this domain will be removed from the
-            users history.</li>
-        <div class="form-floating">
-            <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea"></textarea>
-            <label for="floatingTextarea">Comments</label>
+  <!--Tutorial for adding button to website-->
+  <h2>How to add the button to your website</h2>
+  <ol>
+    <!--Website to be removed from browser history-->
+    <li>Please enter any domain names associated with your site. Any page under this domain will be removed from the
+      users history.</li>
+    <div class="form-floating">
+      <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea"></textarea>
+      <label for="floatingTextarea">Comments</label>
+    </div>
+
+    <!--Button text-->
+    <li>
+      Please choose what you would like the button text to say.
+      <div class="form-floating">
+        <textarea class="form-control" placeholder="ex. 'Get Me Out Of Here'" id="floatingTextarea"></textarea>
+        <label for="floatingTextarea">Comments</label>
+      </div>
+    </li>
+
+    <!--Chose what should replace the browsing history-->
+    <li>
+      Please choose what kind of auto-generated content will replace the user's browser history.
+      <ul class="dropdown-menu">
+        <li><span class="dropdown-item-text">Dropdown item text</span></li>
+        <li><a class="dropdown-item" href="#">News articles</a></li>
+        <li><a class="dropdown-item" href="#">YouTube videos</a></li>
+        <li><a class="dropdown-item" href="#">Something else here</a></li>
+      </ul>
+    </li>
+
+    <!--Copyable code snippet-->
+    <li>
+      Copy and paste this code into your website's HTML header.
+
+      <div class="card">
+        <div class="card-header">
+          <button type="button" class="btn">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-clipboard"
+              viewBox="0 0 16 16">
+              <path
+                d="M4 1.5H3a2 2 0 0 0-2 2V14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3.5a2 2 0 0 0-2-2h-1v1h1a1 1 0 0 1 1 1V14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3.5a1 1 0 0 1 1-1h1z" />
+              <path
+                d="M9.5 1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5zm-3-1A1.5 1.5 0 0 0 5 1.5v1A1.5 1.5 0 0 0 6.5 4h3A1.5 1.5 0 0 0 11 2.5v-1A1.5 1.5 0 0 0 9.5 0z" />
+            </svg>
+          </button>
         </div>
+        <div class="card-body">
+          <p>hello</p>
+        </div>
+      </div>
 
-        <!--Button text-->
-        <li>
-            Please choose what you would like the button text to say.
-            <div class="form-floating">
-                <textarea class="form-control" placeholder="ex. 'Get Me Out Of Here'" id="floatingTextarea"></textarea>
-                <label for="floatingTextarea">Comments</label>
-            </div>
-        </li>
+    </li>
+  </ol>
 
-        <!--Chose what should replace the browsing history-->
-        <li>
-            Please choose what kind of auto-generated content will replace the user's browser history.
-            <ul class="dropdown-menu">
-                <li><span class="dropdown-item-text">Dropdown item text</span></li>
-                <li><a class="dropdown-item" href="#">News articles</a></li>
-                <li><a class="dropdown-item" href="#">YouTube videos</a></li>
-                <li><a class="dropdown-item" href="#">Something else here</a></li>
-            </ul>
-        </li>
+  <button type="button">Click Me!</button>
 
-        <!--Copyable code snippet-->
-        <li>
-            Copy and paste this code into your website's HTML header.
-            <div class="bd-code-snippet">
-                <div class="bd-clipboard"> <button type="button" class="btn-clipboard"> <svg class="bi" role="img"
-                            aria-label="Copy">
-                            <use xlink:href="#clipboard"></use>
-                        </svg> </button> </div>
-                <div class="highlight">
-                    <pre tabindex="0" class="chroma"><code class="language-scss" data-lang="scss"><span class="line"><span class="cl"><span class="c1">// Functions first
-            </span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">@import</span> <span class="s2">"../node_modules/bootstrap/scss/functions"</span><span class="p">;</span>
-            </span></span><span class="line"><span class="cl">
-            </span></span><span class="line"><span class="cl"><span class="c1">// Variable overrides second
-            </span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nv">$primary</span><span class="o">:</span> <span class="mh">#900</span><span class="p">;</span>
-            </span></span><span class="line"><span class="cl"><span class="nv">$enable-shadows</span><span class="o">:</span> <span class="n">true</span><span class="p">;</span>
-            </span></span><span class="line"><span class="cl"><span class="nv">$prefix</span><span class="o">:</span> <span class="s2">"mo-"</span><span class="p">;</span>
-            </span></span><span class="line"><span class="cl">
-            </span></span><span class="line"><span class="cl"><span class="c1">// Required Bootstrap imports
-            </span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">@import</span> <span class="s2">"../node_modules/bootstrap/scss/variables"</span><span class="p">;</span>
-            </span></span><span class="line"><span class="cl"><span class="k">@import</span> <span class="s2">"../node_modules/bootstrap/scss/variables-dark"</span><span class="p">;</span>
-            </span></span><span class="line"><span class="cl"><span class="k">@import</span> <span class="s2">"../node_modules/bootstrap/scss/maps"</span><span class="p">;</span>
-            </span></span><span class="line"><span class="cl"><span class="k">@import</span> <span class="s2">"../node_modules/bootstrap/scss/mixins"</span><span class="p">;</span>
-            </span></span><span class="line"><span class="cl"><span class="k">@import</span> <span class="s2">"../node_modules/bootstrap/scss/root"</span><span class="p">;</span>
-            </span></span><span class="line"><span class="cl">
-            </span></span><span class="line"><span class="cl"><span class="c1">// Optional components
-            </span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">@import</span> <span class="s2">"../node_modules/bootstrap/scss/utilities"</span><span class="p">;</span>
-            </span></span><span class="line"><span class="cl"><span class="k">@import</span> <span class="s2">"../node_modules/bootstrap/scss/reboot"</span><span class="p">;</span>
-            </span></span><span class="line"><span class="cl"><span class="k">@import</span> <span class="s2">"../node_modules/bootstrap/scss/containers"</span><span class="p">;</span>
-            </span></span><span class="line"><span class="cl"><span class="k">@import</span> <span class="s2">"../node_modules/bootstrap/scss/grid"</span><span class="p">;</span>
-            </span></span><span class="line"><span class="cl"><span class="k">@import</span> <span class="s2">"../node_modules/bootstrap/scss/helpers"</span><span class="p">;</span>
-            </span></span><span class="line"><span class="cl"><span class="k">@import</span> <span class="s2">"../node_modules/bootstrap/scss/utilities/api"</span><span class="p">;</span>
-            </span></span></code></pre>
-                </div>
-            </div>
-        </li>
-    </ol>
-
-    <button type="button">Click Me!</button>
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
-        crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+    crossorigin="anonymous"></script>
 </body>
 
 </html>
