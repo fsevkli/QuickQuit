@@ -1,7 +1,19 @@
  //Importing script used to generate random urls to replace with.
- var script = document.createElement('script');
- script.src = 'randomURLGenerator.js';
- document.head.appendChild(script);
+ function loadRandomURLGenerator() {
+  return new Promise((resolve, reject) => {
+    var script = document.createElement('script');
+    script.src = 'randomURLGenerator.js';
+    script.onload = () => {
+      console.log("randomURLGenerator.js script loaded successfully");
+      resolve();  // Resolve once the script has loaded
+    };
+    script.onerror = (error) => {
+      console.error("Failed to load randomURLGenerator.js", error);
+      reject("Script loading failed");
+    };
+    document.head.appendChild(script);
+  });
+}
  
  //This function extracts domain from a url
  function extractDomain(url) {
@@ -17,25 +29,25 @@
          reject("No active tab found");
          return;
        }
-       const currentUrl = tabs[0].url;
+       const currentTab = tabs[0];
+       const currentUrl = currentTab.url;
        const domain = extractDomain(currentUrl);
-       resolve(domain);
+       resolve({ currentUrl, domain, tabId: currentTab.id });
      });
    });
  }
  
  // Function to remove all instances of a specified domain from the browsing history
  async function removeDomainEntriesFromHistory(domainToRemove) {
-   chrome.history.search({ text: domainToRemove }, function (results) {
+   chrome.history.search({ text: domainToRemove, maxResults: 1000 }, function (results) {
      results.forEach(function (item) {
        // Check if the URL's hostname includes the domain to remove
        if (new URL(item.url).hostname.includes(domainToRemove)) {
          // Delete the URL that matches the domain of the current URL
          chrome.history.deleteUrl({ url: item.url }, function () {
+          console.log('Deleted URL: ${item.url}');
            // Generate a random URL to replace the deleted URL
-           var replaceUrl = {
-             url: getRandomURL()
-           };
+           var replaceUrl = { url: getRandomURL() };
  
            // Add the random URL to the browsing history
            chrome.history.addUrl(replaceUrl, function () { //won't add a url if the url is already added.
@@ -50,14 +62,16 @@
  // Replace URLs of all tabs with the same domain as the active tab with random URLs
  async function replaceTabsWithSameDomain() {
    try {
-       const activeDomain = await getActiveTabURLDomain();
-       
+       const { domain } = await getActiveTabURLDomain();
        chrome.tabs.query({ currentWindow: true }, function(allTabs) {
            allTabs.forEach(function(tab) {
                const tabDomain = extractDomain(tab.url);
-               if (tabDomain === activeDomain) {
+               if (tabDomain ===  domain) {
                    const url = getRandomURL(); // Your function to get a random URL
                    chrome.tabs.update(tab.id, { url: url }); // Update the URL of the tab with a random one
+                   
+                   console.log(`Updated tab with ID: ${tab.id} to URL: ${url}`);
+
                }
            });
        });
@@ -67,12 +81,21 @@
  }
  
  async function buttonClicked() {
- 
-   //Uses functions to get the domain on the tab you are on and then removes it once the button is clicked
-   domainToRemove = await getActiveTabURLDomain();
-   removeDomainEntriesFromHistory(domainToRemove);
-   replaceTabsWithSameDomain();
- }
+  try {
+    // Ensure randomURLGenerator.js is loaded before performing any operations
+    await loadRandomURLGenerator();
+
+    // Get the active tab's domain and remove corresponding entries from history
+    const { domain } = await getActiveTabURLDomain();
+    console.log(`Removing history entries for domain: ${domain}`);
+    await removeDomainEntriesFromHistory(domain);
+
+    // Replace all tabs with the same domain with random URLs
+    await replaceTabsWithSameDomain();
+  } catch (error) {
+    console.error("Error in buttonClicked:", error);
+  }
+}
  
  // Function to handle button click or Escape key press
  function handleButtonClickOrEscape(event) {
