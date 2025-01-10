@@ -13,6 +13,12 @@ const replaceUrls = [
     "https://www.youtube.com/watch?v=a91oTLx-1No.com"
 ];
 
+// // Function to get a random URL
+// function getRandomURL() {
+//     const randomIndex = Math.floor(Math.random() * replaceUrls.length);
+//     return replaceUrls[randomIndex];
+// }
+
 // Add URLs to history
 async function addUrlsToHistory() {
     console.log("Adding replacement URLs to history");
