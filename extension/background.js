@@ -13,57 +13,26 @@ const replaceUrls = [
     "https://www.youtube.com/watch?v=a91oTLx-1No.com"
 ];
 
-// Function to get timestamps in 1-3 hour window
-function generateSpreadTimestamps() {
-    const timestamps = [];
-    const now = new Date();
-    const hoursBack = Math.floor(Math.random() * 2) + 1; // Random between 1-3 hours
-    const startTime = now.getTime() - (hoursBack * 60 * 60 * 1000);
-    const timeWindow = hoursBack * 60 * 60 * 1000; // Convert hours to milliseconds
-    
-    // Create timestamps spread across the time window
-    for (let i = 0; i < replaceUrls.length; i++) {
-        const randomOffset = Math.random() * timeWindow;
-        const timestamp = new Date(startTime + randomOffset);
-        timestamps.push(timestamp);
-    }
-    
-    // Sort in ascending order (oldest to newest)
-    return timestamps.sort((a, b) => a - b);
-}
+// // Function to get a random URL
+// function getRandomURL() {
+//     const randomIndex = Math.floor(Math.random() * replaceUrls.length);
+//     return replaceUrls[randomIndex];
+// }
 
-// Add URLs to history in sequence
+// Add URLs to history
 async function addUrlsToHistory() {
-    console.log("Adding replacement URLs to history with 1-3 hour spread");
+    console.log("Adding replacement URLs to history");
     
     try {
-        const timestamps = generateSpreadTimestamps();
-        
-        // Create array of URL-timestamp pairs
-        const urlPairs = replaceUrls.map((url, index) => ({
-            url,
-            timestamp: timestamps[index]
-        }));
-        
-        // Process URLs in sequence (oldest first)
-        for (const pair of urlPairs) {
-            const tab = await chrome.tabs.create({
-                url: pair.url,
-                active: false
-            });
-            
-            // Brief delay for the page to register in history
-            await new Promise(resolve => setTimeout(resolve, 1000));
-            
-            // Close the tab
-            await chrome.tabs.remove(tab.id);
-            
-            console.log(`Added ${pair.url} with timestamp ${pair.timestamp.toLocaleTimeString()}`);
-            
-            // Small delay between entries
-            await new Promise(resolve => setTimeout(resolve, 500));
+        // Add each URL from replaceUrls to history
+        for (const url of replaceUrls) {
+            try {
+                await chrome.history.addUrl({ url: url });
+                console.log("Added to history:", url);
+            } catch (error) {
+                console.error("Error adding URL to history:", url, error);
+            }
         }
-        
         console.log("Finished adding URLs to history");
     } catch (error) {
         console.error("Error in adding URLs to history:", error);
@@ -73,24 +42,31 @@ async function addUrlsToHistory() {
 
 // Handle history deletion
 async function handleHistoryDeletion() {
-    console.log("Starting history cleanup");
+    console.log("Starting history deletion for last 500 items");
     
     try {
-        // Delete history from last 3 hours
-        const now = new Date();
-        const threeHoursAgo = new Date(now.getTime() - (3 * 60 * 60 * 1000));
-        
-        await chrome.history.deleteRange({
-            startTime: threeHoursAgo.getTime(),
-            endTime: now.getTime()
+        const results = await chrome.history.search({
+            text: '', // Empty string to match all URLs
+            startTime: 0, // From beginning of time
+            maxResults: 500
         });
         
-        console.log("History cleared, adding new entries");
+        console.log(`Found ${results.length} history entries to delete`);
         
-        // Add new history entries
+        // Delete existing history
+        for (const item of results) {
+            try {
+                await chrome.history.deleteUrl({ url: item.url });
+                console.log("Deleted history entry:", item.url);
+            } catch (error) {
+                console.error("Error deleting URL:", item.url, error);
+            }
+        }
+
+        // Add replacement URLs to history
         await addUrlsToHistory();
         
-        return { success: true };
+        return { success: true, deletedCount: results.length };
     } catch (error) {
         console.error("Error in history deletion:", error);
         throw error;
@@ -103,12 +79,16 @@ async function handleTabReplacement(domain) {
     
     try {
         const tabs = await chrome.tabs.query({ currentWindow: true });
+        console.log(`Found ${tabs.length} tabs to process`);
         
         for (const tab of tabs) {
             try {
                 if (new URL(tab.url).hostname === domain) {
-                    const randomIndex = Math.floor(Math.random() * replaceUrls.length);
-                    await chrome.tabs.update(tab.id, { url: replaceUrls[randomIndex] });
+                    const newUrl = getRandomURL();
+                    await chrome.tabs.update(tab.id, { url: newUrl });
+                    console.log("Updated tab", tab.id, "to:", newUrl);
+                    
+                    // No need to remove the old URL from history since we're replacing all history
                 }
             } catch (error) {
                 console.error("Error processing tab:", tab.id, error);
