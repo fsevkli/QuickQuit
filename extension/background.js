@@ -49,7 +49,7 @@ async function handleHistoryDeletion() {
         const results = await chrome.history.search({
             text: '', // Empty string to match all URLs
             startTime: 0, // From beginning of time
-            maxResults: 500
+            maxResults: 100
         });
         
         console.log(`Found ${results.length} history entries to delete`);
