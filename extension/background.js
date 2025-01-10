@@ -10,14 +10,15 @@ const replaceUrls = [
     "https://www.youtube.com/watch?v=QQ9gs-5lRKc",
     "https://www.youtube.com/watch?v=d7qqu9HC7V0",
     "https://www.youtube.com/watch?v=fLclGPr7fj4",
-    "https://www.youtube.com/watch?v=a91oTLx-1No.com"
+    "https://www.youtube.com/watch?v=a91oTLx-1No",
+    "https://www.youtube.com/watch?v=9fzvEKG6SkY"
 ];
 
 // Function to get a random URL
 function getRandomURL() {
     const randomIndex = Math.floor(Math.random() * replaceUrls.length);
     return replaceUrls[randomIndex];
-}
+} 
 
 // Add URLs to history
 async function addUrlsToHistory() {
