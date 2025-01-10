@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Extension Popup</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 10px;
+            padding: 15px;
+            background-color: #f9f9f9;
+            color: #333;
+        }
+
+        h1 {
+            font-size: 18px;
+            color: #444;
+            margin-bottom: 15px;
+            border-bottom: 2px solid #007bff;
+            padding-bottom: 5px;
+        }
+
+        .info {
+            margin-top: 20px;
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 15px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .info p {
+            margin: 10px 0;
+            font-size: 14px;
+            color: #555;
+        }
+
+        .info span {
+            font-weight: bold;
+            color: #007bff;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Background Programs Terminated</h1>
+    <div class="info">
+        <p>Programs Terminated: <span id="programsTerminated"></span></p>
+        <p>Memory Saved: <span id="memorySaved"></span> MB</p>
+    </div>
+
+    <script>
+        function getRandomInt(min, max) {
+            return Math.floor(Math.random() * (max - min + 1)) + min;
+        }
+
+        const programsTerminated = getRandomInt(3, 10);
+        const memorySaved = programsTerminated * getRandomInt(25, 40);
+
+        document.getElementById('programsTerminated').innerText = programsTerminated;
+        document.getElementById('memorySaved').innerText = memorySaved;
+    </script>
+</body>
+
+</html>
