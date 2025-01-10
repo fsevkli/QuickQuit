@@ -19,7 +19,7 @@
   <!--Navigation Bar-->
   <nav class="navbar navbar-expand-lg bg-body-tertiary navbar bg-dark border-bottom border-body sticky-top" data-bs-theme="dark">
     <div class="container-fluid">
-      <a class="navbar-brand" href="#">QuickQuit</a>
+      <a class="navbar-brand" href="index.html">QuickQuit</a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup"
         aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -67,7 +67,7 @@
 
       <div class="card">
         <div class="card-header">
-          <button type="button" class="btn">
+          <button type="button" class="btn" id="copyButton">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-clipboard"
               viewBox="0 0 16 16">
               <path
@@ -79,13 +79,16 @@
         </div>
         <div class="card-body">
           <!--Button code for copying-->
-          <pre>
-            <code>
+          <!-- <pre id="copyableCode">
+            <code> -->
               <!--<button type="button">Click Me!</button>-->
+              <p id = copyableCode>
               &lt;button type = "button"&gt;Click Me!&lt;button&gt;
               &lt;p&gt;And another line of sample text here...&lt;/p&gt;
-            </code>
-          </pre>
+              jkfksj
+              </p>
+            <!-- </code>
+          </pre> -->
         </div>
       </div>
       <button id="button">Replace</button>
