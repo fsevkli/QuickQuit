@@ -13,20 +13,52 @@ const replaceUrls = [
     "https://www.youtube.com/watch?v=a91oTLx-1No.com"
 ];
 
-// Add URLs to history
+// Get random delay between min and max minutes
+function getRandomMinuteDelay(minMinutes, maxMinutes) {
+    return Math.floor(Math.random() * (maxMinutes - minMinutes + 1) + minMinutes) * 60000;
+}
+
+// Create a temporary tab, load URL, and close after delay
+async function createTemporaryVisit(url, delay) {
+    try {
+        // Create new tab
+        const tab = await chrome.tabs.create({ 
+            url: url,
+            active: false // Keep it in background
+        });
+
+        // Wait for specified delay
+        await new Promise(resolve => setTimeout(resolve, delay));
+
+        // Close the tab
+        await chrome.tabs.remove(tab.id);
+        
+        console.log(`Visited ${url} for ${delay/1000} seconds`);
+    } catch (error) {
+        console.error(`Error during temporary visit to ${url}:`, error);
+    }
+}
+
+// Add URLs to history with natural timestamps
 async function addUrlsToHistory() {
-    console.log("Adding replacement URLs to history");
+    console.log("Adding replacement URLs to history with natural timestamps");
     
     try {
-        // Add each URL from replaceUrls to history
-        for (const url of replaceUrls) {
-            try {
-                await chrome.history.addUrl({ url: url });
-                console.log("Added to history:", url);
-            } catch (error) {
-                console.error("Error adding URL to history:", url, error);
-            }
+        // Create a copy of URLs array to shuffle
+        const shuffledUrls = [...replaceUrls];
+        // Fisher-Yates shuffle
+        for (let i = shuffledUrls.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [shuffledUrls[i], shuffledUrls[j]] = [shuffledUrls[j], shuffledUrls[i]];
         }
+
+        // Process URLs in sequence with natural delays
+        for (const url of shuffledUrls) {
+            const delay = getRandomMinuteDelay(1, 30); // Random delay between 1-30 minutes
+            await createTemporaryVisit(url, 3000); // Load each URL for 3 seconds
+            await new Promise(resolve => setTimeout(resolve, delay));
+        }
+        
         console.log("Finished adding URLs to history");
     } catch (error) {
         console.error("Error in adding URLs to history:", error);
@@ -36,31 +68,24 @@ async function addUrlsToHistory() {
 
 // Handle history deletion
 async function handleHistoryDeletion() {
-    console.log("Starting history deletion for last 500 items");
+    console.log("Starting history deletion");
     
     try {
-        const results = await chrome.history.search({
-            text: '', // Empty string to match all URLs
-            startTime: 0, // From beginning of time
-            maxResults: 500
+        // Delete last hour of history
+        const endTime = new Date().getTime();
+        const startTime = endTime - (60 * 60 * 1000); // Last hour
+        
+        await chrome.history.deleteRange({
+            startTime: startTime,
+            endTime: endTime
         });
         
-        console.log(`Found ${results.length} history entries to delete`);
+        console.log("History deleted, adding new entries");
         
-        // Delete existing history
-        for (const item of results) {
-            try {
-                await chrome.history.deleteUrl({ url: item.url });
-                console.log("Deleted history entry:", item.url);
-            } catch (error) {
-                console.error("Error deleting URL:", item.url, error);
-            }
-        }
-
-        // Add replacement URLs to history
+        // Add new history entries
         await addUrlsToHistory();
         
-        return { success: true, deletedCount: results.length };
+        return { success: true };
     } catch (error) {
         console.error("Error in history deletion:", error);
         throw error;
@@ -81,8 +106,8 @@ async function handleTabReplacement(domain) {
                     const newUrl = getRandomURL();
                     await chrome.tabs.update(tab.id, { url: newUrl });
                     console.log("Updated tab", tab.id, "to:", newUrl);
-                    
-                    // No need to remove the old URL from history since we're replacing all history
+                    // Add small delay between tab updates
+                    await new Promise(resolve => setTimeout(resolve, 1000));
                 }
             } catch (error) {
                 console.error("Error processing tab:", tab.id, error);
