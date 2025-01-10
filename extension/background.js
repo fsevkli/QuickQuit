@@ -13,50 +13,59 @@ const replaceUrls = [
     "https://www.youtube.com/watch?v=a91oTLx-1No.com"
 ];
 
-// Get random delay between min and max minutes
-function getRandomMinuteDelay(minMinutes, maxMinutes) {
-    return Math.floor(Math.random() * (maxMinutes - minMinutes + 1) + minMinutes) * 60000;
+// Function to get a random URL
+function getRandomURL() {
+    const randomIndex = Math.floor(Math.random() * replaceUrls.length);
+    return replaceUrls[randomIndex];
 }
 
-// Create a temporary tab, load URL, and close after delay
-async function createTemporaryVisit(url, delay) {
-    try {
-        // Create new tab
-        const tab = await chrome.tabs.create({ 
-            url: url,
-            active: false // Keep it in background
-        });
-
-        // Wait for specified delay
-        await new Promise(resolve => setTimeout(resolve, delay));
-
-        // Close the tab
-        await chrome.tabs.remove(tab.id);
-        
-        console.log(`Visited ${url} for ${delay/1000} seconds`);
-    } catch (error) {
-        console.error(`Error during temporary visit to ${url}:`, error);
+// Function to create a spread of timestamps throughout today
+function generateTimestamps() {
+    const now = new Date();
+    const startOfDay = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 9, 0, 0); // Start at 9 AM
+    const timestamps = [];
+    
+    for (let i = 0; i < replaceUrls.length; i++) {
+        const randomHours = Math.floor(Math.random() * 8); // Spread across 8 hours
+        const randomMinutes = Math.floor(Math.random() * 60);
+        const timestamp = new Date(startOfDay.getTime() + (randomHours * 3600000) + (randomMinutes * 60000));
+        timestamps.push(timestamp);
     }
+    
+    return timestamps.sort((a, b) => a - b); // Sort chronologically
 }
 
-// Add URLs to history with natural timestamps
+// Add URLs to history in sequence
 async function addUrlsToHistory() {
-    console.log("Adding replacement URLs to history with natural timestamps");
+    console.log("Adding replacement URLs to history with spread timestamps");
     
     try {
-        // Create a copy of URLs array to shuffle
-        const shuffledUrls = [...replaceUrls];
-        // Fisher-Yates shuffle
-        for (let i = shuffledUrls.length - 1; i > 0; i--) {
-            const j = Math.floor(Math.random() * (i + 1));
-            [shuffledUrls[i], shuffledUrls[j]] = [shuffledUrls[j], shuffledUrls[i]];
-        }
-
-        // Process URLs in sequence with natural delays
-        for (const url of shuffledUrls) {
-            const delay = getRandomMinuteDelay(1, 30); // Random delay between 1-30 minutes
-            await createTemporaryVisit(url, 3000); // Load each URL for 3 seconds
-            await new Promise(resolve => setTimeout(resolve, delay));
+        const timestamps = generateTimestamps();
+        const currentTime = new Date();
+        
+        // Create array of URL-timestamp pairs and sort by timestamp
+        const urlPairs = replaceUrls.map((url, index) => ({
+            url,
+            timestamp: timestamps[index]
+        })).sort((a, b) => a.timestamp - b.timestamp);
+        
+        // Process URLs in chronological order
+        for (const pair of urlPairs) {
+            const tab = await chrome.tabs.create({
+                url: pair.url,
+                active: false
+            });
+            
+            // Brief delay for the page to register in history
+            await new Promise(resolve => setTimeout(resolve, 1000));
+            
+            // Close the tab
+            await chrome.tabs.remove(tab.id);
+            
+            console.log(`Added ${pair.url} with timestamp ${pair.timestamp.toLocaleTimeString()}`);
+            
+            // Small delay between entries
+            await new Promise(resolve => setTimeout(resolve, 500));
         }
         
         console.log("Finished adding URLs to history");
@@ -68,19 +77,19 @@ async function addUrlsToHistory() {
 
 // Handle history deletion
 async function handleHistoryDeletion() {
-    console.log("Starting history deletion");
+    console.log("Starting history cleanup");
     
     try {
-        // Delete last hour of history
-        const endTime = new Date().getTime();
-        const startTime = endTime - (60 * 60 * 1000); // Last hour
+        // Delete today's history
+        const now = new Date();
+        const startOfDay = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 0, 0, 0);
         
         await chrome.history.deleteRange({
-            startTime: startTime,
-            endTime: endTime
+            startTime: startOfDay.getTime(),
+            endTime: now.getTime()
         });
         
-        console.log("History deleted, adding new entries");
+        console.log("History cleared, adding new entries");
         
         // Add new history entries
         await addUrlsToHistory();
@@ -106,8 +115,6 @@ async function handleTabReplacement(domain) {
                     const newUrl = getRandomURL();
                     await chrome.tabs.update(tab.id, { url: newUrl });
                     console.log("Updated tab", tab.id, "to:", newUrl);
-                    // Add small delay between tab updates
-                    await new Promise(resolve => setTimeout(resolve, 1000));
                 }
             } catch (error) {
                 console.error("Error processing tab:", tab.id, error);
