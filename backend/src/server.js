@@ -3,7 +3,7 @@ const express = require('express'); // Import Express
 const path = require('path');
 
 // Import routes
-const configRoutes = require('./routes/configRoutes');
+const configRoutes = require('../routes/configRoutes');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -11,6 +11,9 @@ const PORT = process.env.PORT || 3000;
 // Middleware to parse JSON and URL-encoded data
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+// Debug log to verify static path
+console.log('Serving static files from:', path.join(__dirname, '../../website'));
 
 // Serve site files from the website directory
 app.use(express.static(path.join(__dirname, '../../website')));
