@@ -16,4 +16,9 @@ $(document).ready(function () {
         //= Alert the copied text
         alert("Code copied sucessfully");
     });
+
+    // view extension on chrome web store function
+    $("#viewExtensionButton").click(function () {
+        window.open("https://chromewebstore.google.com/detail/session-buddy/edacconmaakjimmfgnblocblbcdcpbko", "_blank");
+    });
 });
