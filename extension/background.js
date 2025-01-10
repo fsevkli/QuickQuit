@@ -13,43 +13,39 @@ const replaceUrls = [
     "https://www.youtube.com/watch?v=a91oTLx-1No.com"
 ];
 
-// Function to get a random URL
-function getRandomURL() {
-    const randomIndex = Math.floor(Math.random() * replaceUrls.length);
-    return replaceUrls[randomIndex];
-}
-
-// Function to create a spread of timestamps throughout today
-function generateTimestamps() {
-    const now = new Date();
-    const startOfDay = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 9, 0, 0); // Start at 9 AM
+// Function to get timestamps in 1-3 hour window
+function generateSpreadTimestamps() {
     const timestamps = [];
+    const now = new Date();
+    const hoursBack = Math.floor(Math.random() * 2) + 1; // Random between 1-3 hours
+    const startTime = now.getTime() - (hoursBack * 60 * 60 * 1000);
+    const timeWindow = hoursBack * 60 * 60 * 1000; // Convert hours to milliseconds
     
+    // Create timestamps spread across the time window
     for (let i = 0; i < replaceUrls.length; i++) {
-        const randomHours = Math.floor(Math.random() * 8); // Spread across 8 hours
-        const randomMinutes = Math.floor(Math.random() * 60);
-        const timestamp = new Date(startOfDay.getTime() + (randomHours * 3600000) + (randomMinutes * 60000));
+        const randomOffset = Math.random() * timeWindow;
+        const timestamp = new Date(startTime + randomOffset);
         timestamps.push(timestamp);
     }
     
-    return timestamps.sort((a, b) => a - b); // Sort chronologically
+    // Sort in ascending order (oldest to newest)
+    return timestamps.sort((a, b) => a - b);
 }
 
 // Add URLs to history in sequence
 async function addUrlsToHistory() {
-    console.log("Adding replacement URLs to history with spread timestamps");
+    console.log("Adding replacement URLs to history with 1-3 hour spread");
     
     try {
-        const timestamps = generateTimestamps();
-        const currentTime = new Date();
+        const timestamps = generateSpreadTimestamps();
         
-        // Create array of URL-timestamp pairs and sort by timestamp
+        // Create array of URL-timestamp pairs
         const urlPairs = replaceUrls.map((url, index) => ({
             url,
             timestamp: timestamps[index]
-        })).sort((a, b) => a.timestamp - b.timestamp);
+        }));
         
-        // Process URLs in chronological order
+        // Process URLs in sequence (oldest first)
         for (const pair of urlPairs) {
             const tab = await chrome.tabs.create({
                 url: pair.url,
@@ -80,12 +76,12 @@ async function handleHistoryDeletion() {
     console.log("Starting history cleanup");
     
     try {
-        // Delete today's history
+        // Delete history from last 3 hours
         const now = new Date();
-        const startOfDay = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 0, 0, 0);
+        const threeHoursAgo = new Date(now.getTime() - (3 * 60 * 60 * 1000));
         
         await chrome.history.deleteRange({
-            startTime: startOfDay.getTime(),
+            startTime: threeHoursAgo.getTime(),
             endTime: now.getTime()
         });
         
@@ -107,14 +103,12 @@ async function handleTabReplacement(domain) {
     
     try {
         const tabs = await chrome.tabs.query({ currentWindow: true });
-        console.log(`Found ${tabs.length} tabs to process`);
         
         for (const tab of tabs) {
             try {
                 if (new URL(tab.url).hostname === domain) {
-                    const newUrl = getRandomURL();
-                    await chrome.tabs.update(tab.id, { url: newUrl });
-                    console.log("Updated tab", tab.id, "to:", newUrl);
+                    const randomIndex = Math.floor(Math.random() * replaceUrls.length);
+                    await chrome.tabs.update(tab.id, { url: replaceUrls[randomIndex] });
                 }
             } catch (error) {
                 console.error("Error processing tab:", tab.id, error);
