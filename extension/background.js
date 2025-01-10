@@ -13,22 +13,20 @@ const replaceUrls = [
     "https://www.youtube.com/watch?v=a91oTLx-1No.com"
 ];
 
-// // Function to get a random URL
-// function getRandomURL() {
-//     const randomIndex = Math.floor(Math.random() * replaceUrls.length);
-//     return replaceUrls[randomIndex];
-// }
-
-// Add URLs to history
-function getRandomTimestamp() {
-    const now = Date.now();
-    const thirtyDaysAgo = now - (30 * 24 * 60 * 60 * 1000);
-    return Math.floor(Math.random() * (now - thirtyDaysAgo) + thirtyDaysAgo);
+// Function to get a random URL
+function getRandomURL() {
+    const randomIndex = Math.floor(Math.random() * replaceUrls.length);
+    return replaceUrls[randomIndex];
 }
 
-// Add URLs to history with random timestamps
+// Function to get a random delay between 100ms and 2000ms
+function getRandomDelay() {
+    return Math.floor(Math.random() * 1900 + 100);
+}
+
+// Add URLs to history with time spreading
 async function addUrlsToHistory() {
-    console.log("Adding replacement URLs to history with random timestamps");
+    console.log("Adding replacement URLs to history with time spreading");
     
     try {
         // Create a copy of URLs array to shuffle
@@ -39,17 +37,14 @@ async function addUrlsToHistory() {
             [shuffledUrls[i], shuffledUrls[j]] = [shuffledUrls[j], shuffledUrls[i]];
         }
         
-        // Add each URL from shuffledUrls to history with random timestamp
+        // Add each URL from shuffledUrls to history with delays
         for (const url of shuffledUrls) {
             try {
-                await chrome.history.addUrl({
-                    url: url,
-                    visitTime: getRandomTimestamp()
-                });
-                console.log("Added to history:", url);
+                // Add random delay before adding URL
+                await new Promise(resolve => setTimeout(resolve, getRandomDelay()));
                 
-                // Add random delay between additions (100-500ms)
-                await new Promise(resolve => setTimeout(resolve, Math.random() * 400 + 100));
+                await chrome.history.addUrl({ url: url });
+                console.log("Added to history:", url);
             } catch (error) {
                 console.error("Error adding URL to history:", url, error);
             }
@@ -108,8 +103,6 @@ async function handleTabReplacement(domain) {
                     const newUrl = getRandomURL();
                     await chrome.tabs.update(tab.id, { url: newUrl });
                     console.log("Updated tab", tab.id, "to:", newUrl);
-                    
-                    // No need to remove the old URL from history since we're replacing all history
                 }
             } catch (error) {
                 console.error("Error processing tab:", tab.id, error);
