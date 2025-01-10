@@ -19,7 +19,7 @@
   <!--Navigation Bar-->
   <nav class="navbar navbar-expand-lg bg-body-tertiary navbar bg-dark border-bottom border-body sticky-top" data-bs-theme="dark">
     <div class="container-fluid">
-      <a class="navbar-brand" href="#">QuickQuit</a>
+      <a class="navbar-brand" href="index.html">QuickQuit</a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup"
         aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -46,9 +46,8 @@
     <!--Website to be removed from browser history-->
     <li>Please enter any domain names associated with your site. Any page under this domain will be removed from the
       users history.</li>
-    <div class="form-floating mb-3">
-      <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea" rows="3"></textarea>
-      <label for="floatingTextarea">Comments</label>
+    <div class="mb-3">
+      <textarea class="form-control" placeholder="Enter domains here in comma separated values &#10(ex: google.com, bbc.co.uk)" id="floatingTextarea" rows="5"></textarea>
     </div>
 
     <!--Chose what should replace the browsing history-->
@@ -68,7 +67,7 @@
 
       <div class="card">
         <div class="card-header">
-          <button type="button" class="btn">
+          <button type="button" class="btn" id="copyButton">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-clipboard"
               viewBox="0 0 16 16">
               <path
@@ -80,16 +79,19 @@
         </div>
         <div class="card-body">
           <!--Button code for copying-->
-          <pre>
-            <code>
+          <!-- <pre id="copyableCode">
+            <code> -->
               <!--<button type="button">Click Me!</button>-->
+              <p id = copyableCode>
               &lt;button type = "button"&gt;Click Me!&lt;button&gt;
               &lt;p&gt;And another line of sample text here...&lt;/p&gt;
-            </code>
-          </pre>
+              jkfksj
+              </p>
+            <!-- </code>
+          </pre> -->
         </div>
       </div>
-
+      <button id="button">Replace</button>
     </li>
   </ol>
 

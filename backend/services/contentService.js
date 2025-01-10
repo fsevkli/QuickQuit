@@ -25,12 +25,12 @@ const generateSafeContent = (contentType) => {
             'https://www.sports.yahoo.com/',
             'https://www.foxsports.com/',
         ],
-        'top shows': [
+        shows: [
             'https://www.netflix.com/',
             'https://www.hulu.com/',
             'https://www.hbomax.com/',
         ],
-        'top music': [
+        music: [
             'https://www.spotify.com/',
             'https://www.apple.com/music/',
             'https://www.soundcloud.com/',
