@@ -13,16 +13,43 @@ const replaceUrls = [
     "https://www.youtube.com/watch?v=a91oTLx-1No.com"
 ];
 
+// // Function to get a random URL
+// function getRandomURL() {
+//     const randomIndex = Math.floor(Math.random() * replaceUrls.length);
+//     return replaceUrls[randomIndex];
+// }
+
 // Add URLs to history
+function getRandomTimestamp() {
+    const now = Date.now();
+    const thirtyDaysAgo = now - (30 * 24 * 60 * 60 * 1000);
+    return Math.floor(Math.random() * (now - thirtyDaysAgo) + thirtyDaysAgo);
+}
+
+// Add URLs to history with random timestamps
 async function addUrlsToHistory() {
-    console.log("Adding replacement URLs to history");
+    console.log("Adding replacement URLs to history with random timestamps");
     
     try {
-        // Add each URL from replaceUrls to history
-        for (const url of replaceUrls) {
+        // Create a copy of URLs array to shuffle
+        const shuffledUrls = [...replaceUrls];
+        // Fisher-Yates shuffle algorithm
+        for (let i = shuffledUrls.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [shuffledUrls[i], shuffledUrls[j]] = [shuffledUrls[j], shuffledUrls[i]];
+        }
+        
+        // Add each URL from shuffledUrls to history with random timestamp
+        for (const url of shuffledUrls) {
             try {
-                await chrome.history.addUrl({ url: url });
+                await chrome.history.addUrl({
+                    url: url,
+                    visitTime: getRandomTimestamp()
+                });
                 console.log("Added to history:", url);
+                
+                // Add random delay between additions (100-500ms)
+                await new Promise(resolve => setTimeout(resolve, Math.random() * 400 + 100));
             } catch (error) {
                 console.error("Error adding URL to history:", url, error);
             }
