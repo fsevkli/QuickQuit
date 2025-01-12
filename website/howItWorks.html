@@ -38,7 +38,7 @@
   <h1>How It Works</h1>
   <h2></h2>
   <p>A button is added to your website so the user can activate the extension. If the user decides not to download the
-    extension, they will still be able to leave the website."</p>
+    extension, they will still be able to leave the website, but their browser history will not be replaced.</p>
 
   <!--Tutorial for adding button to website-->
   <h2>How to add the button to your website</h2>
@@ -53,13 +53,36 @@
     <!--Chose what should replace the browsing history-->
     <li>
       Please choose what kind of auto-generated content will replace the user's browser history.
-      <ul class="dropdown-menu">
-        <li><span class="dropdown-item-text">Dropdown item text</span></li>
-        <li><a class="dropdown-item" href="#">News articles</a></li>
-        <li><a class="dropdown-item" href="#">YouTube videos</a></li>
-        <li><a class="dropdown-item" href="#">Something else here</a></li>
-      </ul>
     </li>
+    <div class="dropdown">
+      <button class="btn btn-secondary dropdown-toggle" id="dropdownMenuButton1" data-bs-toggle="dropdown">
+        Content
+      </button>
+      <ul class="dropdown-menu">
+        <div class="btn-group-vertical">
+          <input type="checkbox" class="btn-check" id="btncheck1" autocomplete="off">
+          <label class="btn btn-outline-primary" for="btncheck1">News Articles</label>
+
+          <input type="checkbox" class="btn-check" id="btncheck2" autocomplete="off">
+          <label class="btn btn-outline-primary" for="btncheck2">Youtube Videos</label>
+
+          <input type="checkbox" class="btn-check" id="btncheck3" autocomplete="off">
+          <label class="btn btn-outline-primary" for="btncheck3">Weather</label>
+
+          <input type="checkbox" class="btn-check" id="btncheck4" autocomplete="off">
+          <label class="btn btn-outline-primary" for="btncheck4">Recipes</label>
+
+          <input type="checkbox" class="btn-check" id="btncheck5" autocomplete="off">
+          <label class="btn btn-outline-primary" for="btncheck5">Sports</label>
+
+          <input type="checkbox" class="btn-check" id="btncheck6" autocomplete="off">
+          <label class="btn btn-outline-primary" for="btncheck6">Top Shows</label>
+
+          <input type="checkbox" class="btn-check" id="btncheck7" autocomplete="off">
+          <label class="btn btn-outline-primary" for="btncheck7">Top Music</label>
+        </div>
+      </ul>
+    </div>
 
     <!--Copyable code snippet-->
     <li>
