@@ -1,7 +1,11 @@
+h1 {
+  padding-left: 20px; /* Adjust this value for responsiveness */
+}
+
+
 body {
   background-color: #BC67CB; 
 }
-
 
 .card {
   width: 100%;
