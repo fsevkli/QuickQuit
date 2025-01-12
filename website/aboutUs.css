@@ -1,0 +1,61 @@
+.card {
+  width: 100%;
+  margin-bottom: 15px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  overflow: hidden; /* Prevent content overflow */
+  position: relative; /* Enable positioning for child elements */
+}
+
+.card-body {
+  text-align: center;
+}
+
+.card-title {
+  margin-bottom: 10px; /* Space below title */
+  font-size: 16px;
+  font-weight: bold;
+}
+
+/* Shared space for image and text */
+.card-content {
+  position: relative;
+  height: 200px; /* Consistent height for image/text area */
+  overflow: hidden;
+}
+
+.card-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: opacity 0.3s ease, transform 0.3s ease; /* Smooth fade and shrink effect */
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.card-text {
+  font-size: 14px;
+  text-align: left;
+  color: #555;
+  padding: 10px;
+  background: #f8f9fa; /* Optional: Add a background color */
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  opacity: 0; /* Initially hidden */
+  transform: scale(0.9); /* Slight shrink to match hover effect */
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+/* Hover effect: Replace image with text */
+.card:hover .card-img {
+  opacity: 0; /* Hide the image */
+  transform: scale(0.9); /* Slight shrink effect */
+}
+
+.card:hover .card-text {
+  opacity: 1; /* Show the text */
+  transform: scale(1); /* Reset scale */
+}
