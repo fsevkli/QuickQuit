@@ -2,11 +2,7 @@
 Welcome to the CSE Capstone Project for *Get Me Out*! This repository is the foundation for the capstone development effort.
 
 ### Key Links:
-- **Repository HTTPS URL**: [https://github.com/fsevkli/getMeOut.git](https://github.com/fsevkli/getMeOut.git)
-- **Repository SSH URL**: `git@github.com:fsevkli/getMeOut.git`
-- **Old Project Wiki**: [Git clone command](git@gitlab.csi.miamioh.edu:2024-capstone/lifeshare/lifeshare.wiki.git)
-- **New Server IP**: `52.21.65.34`
-- **Server Deployment Script**: To update & restart the server, run: `/var/www/getMeOut/scripts/deploy.sh`
+
 
 ## Project Overview
 *Get Me Out* aims to provide a tool for users to exit certain situations quickly by using a browser extension. The extension should trigger actions based on an HTTPS request sent from a remote site, while also modifying the user's browsing history.
