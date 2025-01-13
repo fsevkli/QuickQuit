@@ -2,27 +2,46 @@
 <html lang="en">
 
 <head>
+  <!-- Meta Tags -->
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+  <!-- Page Title -->
   <title>QuickQuit - About the Developers</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+  
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" 
+        rel="stylesheet" 
+        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" 
+        crossorigin="anonymous">
+  
+  <!-- Custom Stylesheet -->
   <link rel="stylesheet" href="quickquit.css">
+  
+  <!-- jQuery (for Bootstrap functionality) -->
   <script src="https://code.jquery.com/jquery-3.6.3.min.js"
-    integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
-    <link rel="icon" href="qqLogo.ico" type="image/x-icon">
+          integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" 
+          crossorigin="anonymous"></script>
+  
+  <!-- Favicon -->
+  <link rel="icon" href="qqLogo.ico" type="image/x-icon">
 </head>
 
-
 <body>
-  <!--Navigation Bar-->
+
+  <!-- Navigation Bar -->
   <nav class="navbar navbar-expand-lg bg-body-tertiary navbar bg-dark border-bottom border-body sticky-top" data-bs-theme="dark">
     <div class="container-fluid">
       <img src="src/qqLogoTransparent.svg" alt="QuickQuit Logo" style="width:60px;">
       <a class="navbar-brand" href="index.html">QuickQuit</a>
+      
+      <!-- Navbar Toggler for Small Screens -->
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup"
-        aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+              aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
+      
+      <!-- Navbar Links -->
       <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
         <div class="navbar-nav">
           <a class="nav-link" href="howItWorks.html">How It Works</a>
@@ -32,140 +51,143 @@
     </div>
   </nav>
 
-  <!--Text-->
-  <h1 class="aboutUsH1">About Us</h1>
-  <p class="px-4">We are a group of students from Miami Univerity in Oxford, Ohio, U.S.A. 
-     We are passionate about technology and want to utilize it to make a
-     positive impact on the world. Our goal for this project is to provide safety
-     to the vulnerable people who need it most. </p>
+  <!-- Main Content Section -->
+  <main class="container py-5">
+  
+    <!-- About Us Section -->
+    <section id="about-us">
+      <h1 class="aboutUsH1 text-center">About Us</h1>
+      <p class="px-4 text-center">We are a group of students from Miami University in Oxford, Ohio, U.S.A. We are passionate about technology and want to utilize it to make a positive impact on the world. Our goal for this project is to provide safety to the vulnerable people who need it most.</p>
+    </section>
+    
+    <!-- Our Story Section -->
+    <section id="our-story">
+      <h1 class="aboutUsH1 text-center">Our Story</h1>
+      <p class="px-4">In January 2025, we went on a study abroad to Manchester, England. Here we had the opportunity to learn more about the homelessness crisis facing Manchester while also looking over the websites Justlife and Lifeshare, which provide resources to people in need. An aspect of these websites that stood out to us was the "get me out" button. We had never seen anything like this before...</p>
+    </section>
 
-  <h1 class="aboutUsH1">Our Story</h1>
+    <!-- Meet the Team Section -->
+    <section id="meet-the-team">
+      <h1 class="aboutUsH1 text-center">Meet the Team</h1>
+      
+      <div class="container my-5 px-0">
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-4 g-2">
+          
+          <!-- Team Member Card 1 -->
+          <div class="col">
+            <div class="card" style="width: 100%; margin-bottom: 10px;">
+              <div class="card-body text-center">
+                <h5 class="card-title">Claire Weaver</h5>
+              </div>
+              <div class="card-content">
+                <img src="images/icon.png" class="card-img" alt="Claire Weaver">
+                <p class="card-text">Claire is a student from Detroit, Michigan, U.S.A. She will graduate from Miami University in May 2025 with a B.S. in Computer Science.</p>
+              </div>
+            </div>
+          </div>
 
-  <p class="px-4"> In January 2025 we went on a study abroad to Manchester, England.
-    Here we had the opportunity to learn more about the homelessness crisis facing Manchester
-    while also looking over the websites Justlife and Lifeshare, which provide
-    resources to people in need. An aspect of these websites that stood out to us was the "get me out" button.
-    We had never seen anything like this before and after asking questions we learned its purpose is
-    to help victims of domestic abuse. Many people in this situation use websites
-    like these to seek resources, however, the abuser walking in on them accessing these
-    sites could put them in more danger. The "get me out" button is used to allow the victim to quickly
-    leave the website before the abuser gets the chance to see what they were on. Unfortunately, we quickly realized
-    none of these buttons worked or if they did work they opened to a blank Google search page, which could
-    be seen as suspicious. In addition, the abuser would still be able to view the search history and see if they were accessing
-    sites for help to escape domestic abuse. From this exploration, we came up with QuickQuit to
-    fix these issues and potentially help save a life.  
-  </p>
+          <!-- Team Member Card 2 -->
+          <div class="col">
+            <div class="card" style="width: 100%; margin-bottom: 10px;">
+              <div class="card-body text-center">
+                <h5 class="card-title">Gunnar Von Bergen</h5>
+              </div>
+              <div class="card-content">
+                <img src="images/icon.png" class="card-img" alt="Gunnar Von Bergen">
+                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+              </div>
+            </div>
+          </div>
 
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
-    integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
-    crossorigin="anonymous"></script>
+          <!-- Team Member Card 3 -->
+          <div class="col">
+            <div class="card" style="width: 100%; margin-bottom: 10px;">
+              <div class="card-body text-center">
+                <h5 class="card-title">Yusuf Sevkli</h5>
+              </div>
+              <div class="card-content">
+                <img src="images/icon.png" class="card-img" alt="Yusuf Sevkli">
+                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+              </div>
+            </div>
+          </div>
 
-    <h1 class="aboutUsH1">Meet the Team</h1>
+          <!-- Team Member Card 4 -->
+          <div class="col">
+            <div class="card" style="width: 100%; margin-bottom: 10px;">
+              <div class="card-body text-center">
+                <h5 class="card-title">Neela Polly</h5>
+              </div>
+              <div class="card-content">
+                <img src="images/neelaPollyAboutUs.jpg" class="card-img" alt="Neela Polly">
+                <p class="card-text">Neela Polly is a Computer Science student from Cleveland, Ohio, United States. She expects to graduate with a B.S. in Computer Science January 2025.</p>
+              </div>
+            </div>
+          </div>
 
-    <div class="container my-5 px-0">
-      <div class="row row-cols-1 row-cols-sm-2 row-cols-md-4 g-2">
-        <!-- Card 1 -->
-        <div class="col">
-          <div class="card" style="width: 100%; margin-bottom: 10px;">
-            <div class="card-body text-center">
-              <h5 class="card-title">Claire Weaver</h5>
-            </div>
-            <div class="card-content">
-              <img src="images/icon.png" class="card-img" alt="Claire Weaver">
-              <p class="card-text">Claire is a student from Detroit, Michigan, U.S.A. 
-                She will graduate from Miami University in May 2025 with a B.S. in Computer Science.</p>
+          <!-- Team Member Card 5 -->
+          <div class="col">
+            <div class="card" style="width: 100%; margin-bottom: 10px;">
+              <div class="card-body text-center">
+                <h5 class="card-title">Ryan Cheng</h5>
+              </div>
+              <div class="card-content">
+                <img src="images/icon.png" class="card-img" alt="Ryan Cheng">
+                <p class="card-text">Ryan Cheng graduated with an associate degree in electro-mechanical engineering technology from Sinclair College. He is an undergrad at Miami University double majoring in robotics, electrical, and computer science engineering.</p>
+              </div>
             </div>
           </div>
-        </div>
-        <!-- Card 2 -->
-        <div class="col">
-          <div class="card" style="width: 100%; margin-bottom: 10px;">
-            <div class="card-body text-center">
-              <h5 class="card-title">Gunnar Von Bergen</h5>
-            </div>
-            <div class="card-content">
-              <img src="images/icon.png" class="card-img" alt="Gunnar Von Bergen">
-              <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-            </div>
-          </div>
-        </div>
-        <!-- Card 3 -->
-        <div class="col">
-          <div class="card" style="width: 100%; margin-bottom: 10px;">
-            <div class="card-body text-center">
-              <h5 class="card-title">Yusuf Sevkli</h5>
-            </div>
-            <div class="card-content">
-              <img src="images/icon.png" class="card-img" alt="Yusuf Sevkli">
-              <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+
+          <!-- Team Member Card 6 -->
+          <div class="col">
+            <div class="card" style="width: 100%; margin-bottom: 10px;">
+              <div class="card-body text-center">
+                <h5 class="card-title">Nathan Chlysta</h5>
+              </div>
+              <div class="card-content">
+                <img src="images/icon.png" class="card-img" alt="Nathan Chlysta">
+                <p class="card-text">Nathan is a student from Hudson, Ohio, U.S.A. He will graduate from Miami University in May 2025 with a B.S. in Software Engineering.</p>
+              </div>
             </div>
           </div>
-        </div>
-        <!-- Card 4 -->
-        <div class="col">
-          <div class="card" style="width: 100%; margin-bottom: 10px;">
-            <div class="card-body text-center">
-              <h5 class="card-title">Neela Polly</h5>
-            </div>
-            <div class="card-content">
-              <img src="images/neelaPollyAboutUs.jpg" class="card-img" alt="Neela Polly">
-              <p class="card-text">Neela Polly is a Computer Science student from Cleveland, Ohio, United States. She expects to graduate with a B.S. in Computer Science Janurary 2025.</p>
-            </div>
-          </div>
-        </div>
-        <!-- Card 5 -->
-        <div class="col">
-          <div class="card" style="width: 100%; margin-bottom: 10px;">
-            <div class="card-body text-center">
-              <h5 class="card-title">Ryan Cheng</h5>
-            </div>
-            <div class="card-content">
-              <img src="images/icon.png" class="card-img" alt="Ryan Cheng">
-              <p class="card-text">Ryan Cheng graduated with an associate degree in electro-mechanical engineering technology (ABET accredited) from Sinclair College. He won the National Association of Rocketry Scholarship and is an undergrad at Miami University double majoring in robotics, electrical, and computer science engineering.</p>
+
+          <!-- Team Member Card 7 -->
+          <div class="col">
+            <div class="card" style="width: 100%; margin-bottom: 10px;">
+              <div class="card-body text-center">
+                <h5 class="card-title">Xyann Fisher</h5>
+              </div>
+              <div class="card-content">
+                <img src="images/icon.png" class="card-img" alt="Xyann Fisher">
+                <p class="card-text">Xyann is a Miami University student from Middletown, Ohio who will graduate in 2025. She will earn a degree in Healthcare Information Technology.</p>
+              </div>
             </div>
           </div>
-        </div>
-        <!-- Card 6 -->
-        <div class="col">
-          <div class="card" style="width: 100%; margin-bottom: 10px;">
-            <div class="card-body text-center">
-              <h5 class="card-title">Nathan Chlysta</h5>
-            </div>
-            <div class="card-content">
-              <img src="images/icon.png" class="card-img" alt="Nathan Chlysta">
-              <p class="card-text">Nathan is a student from Hudson, Ohio, U.S.A. He will graduate from Miami University in May 2025 with a B.S. in Software Engineering.</p>
-            </div>
-          </div>
-        </div>
-        <!-- Card 7 -->
-        <div class="col">
-          <div class="card" style="width: 100%; margin-bottom: 10px;">
-            <div class="card-body text-center">
-              <h5 class="card-title">Xyann Fisher</h5>
-            </div>
-            <div class="card-content">
-              <img src="images/icon.png" class="card-img" alt="Xyann Fisher">
-              <p class="card-text">Xyann is a Miami Univeristy student from Middletown, Ohio who will graduate in 2025. She will earn a degree in Healthcare Information Technology.
-              </p>
+
+          <!-- Team Member Card 8 -->
+          <div class="col">
+            <div class="card" style="width: 100%; margin-bottom: 10px;">
+              <div class="card-body text-center">
+                <h5 class="card-title">Zach Schwab</h5>
+              </div>
+              <div class="card-content">
+                <img src="images/icon.png" class="card-img" alt="Zach Schwab">
+                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+              </div>
             </div>
           </div>
-        </div>
-        <!-- Card 8 -->
-        <div class="col">
-          <div class="card" style="width: 100%; margin-bottom: 10px;">
-            <div class="card-body text-center">
-              <h5 class="card-title">Zach Schwab</h5>
-            </div>
-            <div class="card-content">
-              <img src="images/icon.png" class="card-img" alt="Zach Schwab">
-              <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-            </div>
-          </div>
+
         </div>
       </div>
-    </div>
+    </section>
     
-    
+  </main>
+
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+          integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+          crossorigin="anonymous"></script>
+  
 </body>
 
 </html>
