@@ -26,7 +26,7 @@ $(document).ready(function () {
     $("#replaceButton").click(function (){
         var checked = $('input[type="checkbox"]:checked');
 
-        checked.forEach(function() {
+        checked.each(function() {
             console.log(this.value);
         });
     });
