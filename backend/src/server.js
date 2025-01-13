@@ -1,37 +1,49 @@
-require('dotenv').config(); // Load environment variables
-const express = require('express'); // Import Express
+require('dotenv').config();
+const express = require('express');
 const path = require('path');
-
-// Import routes
-const configRoutes = require('../routes/configRoutes');
+const { generateSafeContent } = require('../services/contentService');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// Middleware to parse JSON and URL-encoded data
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-
-// Debug log to verify static path
-console.log('Serving static files from:', path.join(__dirname, '../../website'));
-
-// Serve site files from the website directory
+// Serve static files from the 'website' and 'public' directories
 app.use(express.static(path.join(__dirname, '../../website')));
+app.use('/static', express.static(path.join(__dirname, 'public')));
 
-// Use routes
-app.use('/api/config', configRoutes);
+// Serve quickquit.js dynamically
+app.get('/static/js/quickquit.js', (req, res) => {
+    const domains = req.query.domains ? req.query.domains.split(',') : [];
+    const contentTypes = req.query.safeContent
+        ? req.query.safeContent.split(',')
+        : ['news'];
 
-// Default route: Serve index.html
-app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, '../../website/index.html'));
+    const safeContent = contentTypes.flatMap((type) => generateSafeContent(type));
+
+    const script = `
+        (function() {
+            const domains = ${JSON.stringify(domains)};
+            const safeContent = ${JSON.stringify(safeContent)};
+            const exitSite = "${req.query.exitSite || 'https://www.google.com'}";
+
+            const button = document.createElement("button");
+            button.textContent = "Get Me Out!";
+            button.style.cssText = "position: fixed; bottom: 10px; right: 10px; background-color: red; color: white; border: none; padding: 10px 20px; font-size: 16px; z-index: 1000;";
+            document.body.appendChild(button);
+
+            button.addEventListener("click", () => {
+                window.postMessage({ type: "QUICK_QUIT_CONFIG", data: { domains, safeContent, exitSite } }, "*");
+            });
+
+            console.log("Quick Quit loaded!");
+        })();
+    `;
+
+    res.type('application/javascript').send(script);
 });
 
-// Catch-all route for unknown paths (404 handling)
-app.use((req, res) => {
-    res.status(404).json({
-        success: false,
-        message: 'Endpoint not found',
-    });
+// Catch-all route to serve index.html
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, '../../website/index.html'));
 });
 
 // Start the server
