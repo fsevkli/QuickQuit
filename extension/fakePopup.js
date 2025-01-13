@@ -7,3 +7,9 @@ const memorySaved = programsTerminated * getRandomInt(25, 40);
 
 document.getElementById('programsTerminated').innerText = programsTerminated;
 document.getElementById('memorySaved').innerText = memorySaved;
+
+// If you want to handle the button click:
+document.getElementById('actionButton').addEventListener('click', function() {
+    console.log("Button clicked!");
+    // You can put additional functionality here to handle the button click
+});

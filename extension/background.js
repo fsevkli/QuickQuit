@@ -43,7 +43,7 @@ async function addUrlsToHistory() {
 
 // Handle history deletion
 async function handleHistoryDeletion() {
-    console.log("Starting history deletion for last 500 items");
+    console.log("Starting history deletion for last 100 items");
     
     try {
         const results = await chrome.history.search({

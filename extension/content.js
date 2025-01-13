@@ -2,11 +2,11 @@ console.log('Content script loaded');
 
 // Listen for messages from background script
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
-  console.log('Content script received message:', request);
+console.log('Content script received message:', request);
   
   if (request.action === "getRandomURL") {
     try {
-      const randomUrl = getRandomURL(); // This function comes from randomURLGenerator.js
+      const randomUrl = getRandomURL(); // This function comes from background.js
       console.log('Generated random URL:', randomUrl);
       sendResponse({ url: randomUrl });
     } catch (error) {
