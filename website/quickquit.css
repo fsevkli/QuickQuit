@@ -405,3 +405,9 @@ li {
         background-color: var(--cream);
     }
 }
+
+#viewExtensionButton {
+    display: block; /* Makes the button a block element */
+    margin: 10px auto; /* Centers it horizontally */
+  }
+  
