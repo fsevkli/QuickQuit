@@ -83,6 +83,7 @@ h1, h2 {
     color: var(--heading-color);
     font-weight: 700;
     letter-spacing: -0.5px;
+    padding-left: 25px;
 }
 
 h1 {
@@ -119,6 +120,7 @@ ol {
 /* List item styling */
 li {
     margin-bottom: 25px;
+    margin-left: 25px;
     color: var(--text-color);
 }
 

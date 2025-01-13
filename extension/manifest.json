@@ -15,8 +15,8 @@
     }
   ],
   "icons": {
-    "16": "icon.png",
-    "48": "icon.png",
-    "128": "website/src/qqLogoTransparent.svg"
+    "16": "qqLogo16.png",
+    "48": "qqLogo48.png",
+    "128": "qqLogo128.png"
   }
 }
