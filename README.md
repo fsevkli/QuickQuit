@@ -42,7 +42,6 @@ The tech stack includes a modern web development stack, with a focus on clean de
 
 ---
 
-<<<<<<< HEAD
 ## GitLab Usage
 
 ### **Issues and Collaboration**:
