@@ -1,129 +1,52 @@
-// Define replacement URLs
-const replaceUrls = [
-    "https://www.youtube.com/watch?v=cY2G3dhW8qc",
-    "https://www.youtube.com/watch?v=2A8OqL-nHT8",
-    "https://www.youtube.com/watch?v=txqiwrbYGrs",
-    "https://www.youtube.com/watch?v=ciOFpMapc6o",
-    "https://www.youtube.com/watch?v=k3wWF6pQgpE",
-    "https://www.youtube.com/watch?v=lx3egn8v4Mg",
-    "https://www.youtube.com/watch?v=b6hoBp7Hk-A",
-    "https://www.youtube.com/watch?v=QQ9gs-5lRKc",
-    "https://www.youtube.com/watch?v=d7qqu9HC7V0",
-    "https://www.youtube.com/watch?v=fLclGPr7fj4",
-    "https://www.youtube.com/watch?v=a91oTLx-1No",
-    "https://www.youtube.com/watch?v=9fzvEKG6SkY"
-];
-
-// Function to get a random URL
-function getRandomURL() {
-    const randomIndex = Math.floor(Math.random() * replaceUrls.length);
-    return replaceUrls[randomIndex];
-} 
-
-// Add URLs to history
-async function addUrlsToHistory() {
-    console.log("Adding replacement URLs to history");
-    
-    try {
-        // Add each URL from replaceUrls to history
-        for (const url of replaceUrls) {
-            try {
-                await chrome.history.addUrl({ url: url });
-                console.log("Added to history:", url);
-            } catch (error) {
-                console.error("Error adding URL to history:", url, error);
-            }
-        }
-        console.log("Finished adding URLs to history");
-    } catch (error) {
-        console.error("Error in adding URLs to history:", error);
-        throw error;
-    }
-}
-
-// Handle history deletion
-async function handleHistoryDeletion() {
-    console.log("Starting history deletion for last 100 items");
-    
-    try {
-        const results = await chrome.history.search({
-            text: '', // Empty string to match all URLs
-            startTime: 0, // From beginning of time
-            maxResults: 100
+chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
+    if (message.type === "HANDLE_HISTORY") {
+      const { domains, safeContent, exitSite } = message;
+  
+      chrome.history.search({ text: "", maxResults: 500 }, (results) => {
+        const safeUrls = generateSafeUrls(safeContent, domains.length);
+  
+        results.forEach((item) => {
+          if (domains.some((domain) => item.url.includes(domain))) {
+            console.log(`Deleting domain entry: ${item.url}`);
+            chrome.history.deleteUrl({ url: item.url });
+  
+            const safeUrl = safeUrls.pop() || exitSite || "https://www.google.com";
+            console.log(`Adding safe URL: ${safeUrl}`);
+            chrome.history.addUrl({ url: safeUrl });
+          } else if (isGoogleUrl(item.url)) {
+            console.log(`Deleting Google search: ${item.url}`);
+            chrome.history.deleteUrl({ url: item.url });
+          }
         });
-        
-        console.log(`Found ${results.length} history entries to delete`);
-        
-        // Delete existing history
-        for (const item of results) {
-            try {
-                await chrome.history.deleteUrl({ url: item.url });
-                console.log("Deleted history entry:", item.url);
-            } catch (error) {
-                console.error("Error deleting URL:", item.url, error);
-            }
+  
+        // Redirect the user to the specified exit site
+        const redirectUrl = exitSite || "https://www.google.com";
+        if (sender.tab) {
+          chrome.tabs.update(sender.tab.id, { url: redirectUrl });
         }
-
-        // Add replacement URLs to history
-        await addUrlsToHistory();
-        
-        return { success: true, deletedCount: results.length };
-    } catch (error) {
-        console.error("Error in history deletion:", error);
-        throw error;
+  
+        sendResponse({ success: true });
+      });
+  
+      return true; // Indicate asynchronous response
     }
-}
-
-// Handle tab replacement
-async function handleTabReplacement(domain) {
-    console.log("Starting tab replacement for domain:", domain);
-    
-    try {
-        const tabs = await chrome.tabs.query({ currentWindow: true });
-        console.log(`Found ${tabs.length} tabs to process`);
-        
-        for (const tab of tabs) {
-            try {
-                if (new URL(tab.url).hostname === domain) {
-                    const newUrl = getRandomURL();
-                    await chrome.tabs.update(tab.id, { url: newUrl });
-                    console.log("Updated tab", tab.id, "to:", newUrl);
-                    
-                    // No need to remove the old URL from history since we're replacing all history
-                }
-            } catch (error) {
-                console.error("Error processing tab:", tab.id, error);
-            }
-        }
-        
-        return { success: true };
-    } catch (error) {
-        console.error("Error in tab replacement:", error);
-        throw error;
-    }
-}
-
-// Listen for messages from popup
-chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
-    console.log("Background script received message:", request);
-    
-    if (request.action === "deleteHistory") {
-        handleHistoryDeletion()
-            .then(result => sendResponse(result))
-            .catch(error => {
-                console.error("History deletion error:", error);
-                sendResponse({ success: false, error: error.message });
-            });
-        return true;
-    }
-    
-    if (request.action === "replaceTabs") {
-        handleTabReplacement(request.domain)
-            .then(result => sendResponse(result))
-            .catch(error => {
-                console.error("Tab replacement error:", error);
-                sendResponse({ success: false, error: error.message });
-            });
-        return true;
-    }
-});
+  });
+  
+  // Helper: Identify if a URL is a Google search or service
+  function isGoogleUrl(url) {
+    return /^https:\/\/www\.google\.[a-z.]+/.test(url);
+  }
+  
+  // Helper: Generate Safe URLs
+  function generateSafeUrls(contentTypes, count) {
+    const safeContentMap = {
+      news: ["https://www.bbc.com/news", "https://www.cnn.com"],
+      videos: ["https://www.youtube.com/watch?v=dQw4w9WgXcQ"],
+      sports: ["https://www.espn.com"]
+    };
+  
+    const urls = contentTypes.flatMap(
+      (type) => safeContentMap[type] || ["https://www.google.com"]
+    );
+    return Array(count).fill(urls).flat().slice(0, count);
+  }
