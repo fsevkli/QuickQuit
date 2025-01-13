@@ -1,18 +1,28 @@
-console.log('Content script loaded');
+// Listen for messages from the page
+window.addEventListener("message", (event) => {
+  if (event.source !== window) return;
 
-// Listen for messages from background script
-chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
-console.log('Content script received message:', request);
-  
-  if (request.action === "getRandomURL") {
-    try {
-      const randomUrl = getRandomURL(); // This function comes from background.js
-      console.log('Generated random URL:', randomUrl);
-      sendResponse({ url: randomUrl });
-    } catch (error) {
-      console.error('Error generating random URL:', error);
-      sendResponse({ error: error.message });
-    }
+  // Respond to extension detection
+  if (event.data && event.data.type === "QUICK_QUIT_PING") {
+    window.postMessage({ type: "QUICK_QUIT_PONG", extensionInstalled: true }, "*");
   }
-  return true; // Keep the message channel open for async response
+
+  // Forward configuration to the background script
+  if (event.data && event.data.type === "QUICK_QUIT_CONFIG") {
+    const { domains, safeContent, exitSite } = event.data.data; // Include exitSite in the configuration
+
+    // Send the configuration to the background script
+    chrome.runtime.sendMessage(
+      { type: "HANDLE_HISTORY", domains, safeContent, exitSite },
+      (response) => {
+        if (response && response.success) {
+          console.log("History modification completed successfully.");
+        } else {
+          console.error("Failed to modify history:", response.message);
+        }
+      }
+    );
+  }
 });
+
+console.log("Content script loaded!");

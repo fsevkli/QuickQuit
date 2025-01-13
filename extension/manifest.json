@@ -1,22 +1,22 @@
 {
-  "name": "QuickQuit",
+  "manifest_version": 3,
+  "name": "Quick Quit",
   "version": "1.0",
-  "description": "A button used to quickly delete a website's browsing history.",
-  "permissions": [
-    "tabs",
-    "history",
-    "activeTab"
-  ],
-  "host_permissions": [
-    "<all_urls>"
-  ],
-  "action": {
-    "default_icon": "icon.png",
-    "default_popup": "popup.html"
-  },
+  "description": "An extension to remove specified history entries and redirect users.",
+  "permissions": ["history", "scripting", "tabs"],
+  "host_permissions": ["<all_urls>"],
   "background": {
-    "service_worker": "background.js",
-    "type": "module"
+    "service_worker": "background.js"
   },
-  "manifest_version": 3
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["content.js"]
+    }
+  ],
+  "icons": {
+    "16": "icon.png",
+    "48": "icon.png",
+    "128": "website/src/qqLogoTransparent.svg"
+  }
 }
