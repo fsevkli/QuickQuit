@@ -11,7 +11,14 @@ body {
     padding-left: 15px; /* Consistent padding */
     padding-right: 15px; /* Consistent padding */
   }
-  
+  /* Replace "your-class-name" with your actual class name */
+  .aboutUsH1 {
+    text-align: center; /* Centers the text horizontally */
+    margin: 0 auto; /* Ensures the element is centered */
+    margin-bottom: 20px;
+  }
+
+
   /* Add some padding for spacing */
   h1 {
     margin-top: 20px;
