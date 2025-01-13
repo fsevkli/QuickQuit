@@ -160,15 +160,96 @@ li {
     color: var(--cream);
 }
 
-/* Card for Copyable Code */
+/* Card Grid Layout */
+.card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 2rem;
+    margin: 2rem auto;
+    max-width: 1200px;
+    padding: 0 2rem;
+}
+
+/* Enhanced Card Styling */
 .card {
+    width: 100%;
+    margin-bottom: 15px;
+    transition: all 0.3s ease;
+    overflow: hidden;
+    position: relative;
+    border: 1px solid var(--border-color);
+    border-radius: 10px;
+    background-color: var(--cream);
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(74, 36, 69, 0.1);
+}
+
+.card-body {
+    text-align: center;
+    padding: 25px;
+}
+
+.card-title {
+    margin-bottom: 10px;
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: var(--heading-color);
+}
+
+.card-content {
+    position: relative;
+    height: 200px;
+    overflow: hidden;
+    border-radius: 5px;
+}
+
+.card-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: all 0.3s ease;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.card-text {
+    font-size: 1rem;
+    text-align: left;
+    color: var(--text-color);
+    padding: 15px;
+    background: var(--light-purple);
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    opacity: 0;
+    transform: translateY(100%);
+    transition: all 0.3s ease;
+}
+
+.card:hover .card-img {
+    transform: translateY(-100%);
+}
+
+.card:hover .card-text {
+    transform: translateY(0);
+    opacity: 1;
+}
+
+/* Card for Copyable Code */
+.code-card {
     margin-top: 30px;
     border: 1px solid var(--text-color);
     border-radius: 10px;
     background-color: var(--cream);
 }
 
-.card-header {
+.code-card .card-header {
     background-color: var(--text-color);
     color: var(--cream);
     border-bottom: none;
@@ -176,7 +257,7 @@ li {
     border-radius: 9px 9px 0 0;
 }
 
-.card-body {
+.code-card .card-body {
     padding: 25px;
 }
 
@@ -261,7 +342,26 @@ li {
         padding: 15px;
     }
     
-    .card {
+    .card-grid {
+        grid-template-columns: 1fr;
+        padding: 0 1rem;
+        gap: 1rem;
+    }
+
+    .card-content {
+        height: 180px;
+    }
+
+    .card-title {
+        font-size: 1.1rem;
+    }
+
+    .card-text {
+        font-size: 0.9rem;
+        padding: 10px;
+    }
+    
+    .code-card {
         margin-top: 15px;
     }
     
