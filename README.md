@@ -34,6 +34,3 @@ This project templates includes 2 branches to start with.
 | ------ | ------ |
 | Master         | Protected branch.  You cannot push directly to master.  This branch should be what you push to your test server (ceclnx for example) or other devices for your client to review. |
 | . . .          | Thereafter, you should follow the code management strategy defined and agreed upon by the team.  I recommend a branch from master for each sprint or interval.  From the sprint-branch, I recommend branching by issue.  Throughout the sprint, rebase your issue branch regularly especially begore a commit.  If an issue is incomplete during the prescribed sprint, commit it to the next spring branch.  This approach gives the master branch an additional degree of protection.
-
- 
-
