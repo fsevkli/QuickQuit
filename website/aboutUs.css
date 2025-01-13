@@ -1,86 +1,305 @@
+/* Color Variables */
+:root {
+  --cream: #fffbf6;          /* Cream background color */
+  --text-color: #4a2445;     /* Deep purple */
+  --green: #92a68f;          /* Sage green */
+  --teal: #1d4545;          /* Deep teal */
+  --border-color: #e6e6e6;   /* Light border */
+  --heading-color: #3d1938;  /* Dark purple */
+  --light-purple: #e6d3e6;   /* Light purple */
+  --gold: #c4a062;          /* Gold accent */
+}
+
+/* General body styles */
 body {
-  background-color: #fffbf6; /* Change this to your desired color */
+  font-family: 'Inter', sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: var(--cream);
+  color: var(--text-color);
 }
 
-
-/* Align headers and paragraphs with cards */
-h1, p {
-  margin-left: auto;
-  margin-right: auto;
-  max-width: 1140px; /* Matches Bootstrap container width */
-  padding-left: 15px; /* Consistent padding */
-  padding-right: 15px; /* Consistent padding */
+/* Navbar styling */
+.navbar {
+  background-color: var(--cream) !important;
+  padding: 0;
+  border-bottom: 1px solid var(--border-color);
+  box-shadow: 0 2px 4px rgba(74, 36, 69, 0.05);
 }
 
-/* Add some padding for spacing */
-h1 {
-  margin-top: 20px;
-  margin-bottom: 10px;
-  padding-left: 0; 
+.navbar .container-fluid {
+  padding: 0 2rem;
 }
 
-p {
-  margin-bottom: 20px;
-  line-height: 1.6; /* Improves readability */
-}
-
-/* Keep existing styles for cards */
-.card {
-  width: 100%;
-  margin-bottom: 15px;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  overflow: hidden;
+.navbar .navbar-brand {
+  font-weight: bold;
+  color: var(--text-color) !important;
+  padding: 1rem 0;
   position: relative;
 }
 
-.card-body {
+.navbar .navbar-brand::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background-color: var(--teal);
+  transform: scaleX(0);
+  transition: transform 0.3s ease;
+}
+
+.navbar .navbar-brand:hover::after {
+  transform: scaleX(1);
+}
+
+.navbar .navbar-nav .nav-link {
+  padding: 1rem 1.5rem;
+  color: var(--text-color) !important;
+  position: relative;
+  transition: color 0.3s ease;
+}
+
+.navbar .navbar-nav .nav-link::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background-color: var(--green);
+  transform: scaleX(0);
+  transition: transform 0.3s ease;
+}
+
+.navbar .navbar-nav .nav-link:hover::after {
+  transform: scaleX(1);
+}
+
+/* Headings */
+h1, h2 {
+  font-family: 'Inter', sans-serif;
+  color: var(--heading-color);
+  font-weight: 700;
+  letter-spacing: -0.5px;
+}
+
+h1 {
+  font-size: 3rem;
+  margin: 50px 0;
   text-align: center;
 }
 
-.card-title {
-  margin-bottom: 10px;
-  font-size: 16px;
-  font-weight: bold;
+h2 {
+  font-size: 2rem;
+  margin: 30px 0;
+  letter-spacing: -0.3px;
 }
 
-.card-content {
-  position: relative;
-  height: 200px;
-  overflow: hidden;
+/* Intro Text */
+p {
+  font-size: 1.2rem;
+  line-height: 1.6;
+  margin-bottom: 40px;
+  text-align: center;
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
+  color: var(--text-color);
 }
 
-.card-img {
+/* Ordered list styling */
+ol {
+  margin: 0;
+  padding-left: 20px;
+  font-size: 1.2rem;
+}
+
+/* List item styling */
+li {
+  margin-bottom: 25px;
+  color: var(--text-color);
+}
+
+/* Textarea styling */
+.form-control {
   width: 100%;
-  height: 100%;
-  object-fit: cover;
-  transition: opacity 0.3s ease, transform 0.3s ease;
-  position: absolute;
-  top: 0;
-  left: 0;
+  padding: 12px;
+  font-size: 1.1rem;
+  margin-top: 15px;
+  border-radius: 5px;
+  border: 1px solid var(--green);
+  background-color: var(--cream);
+  color: var(--text-color);
+  resize: vertical;
 }
 
-.card-text {
-  font-size: 14px;
+.form-control:focus {
+  border-color: var(--teal);
+  box-shadow: 0 0 0 0.2rem rgba(29, 69, 69, 0.15);
+}
+
+.form-control::placeholder {
+  color: var(--text-color);
+  opacity: 0.7;
+}
+
+/* Button styling */
+.btn-outline-primary {
+  color: var(--text-color);
+  border-color: var(--text-color);
+  background-color: var(--cream);
+  transition: all 0.3s ease;
+}
+
+.btn-outline-primary:hover, 
+.btn-check:checked + .btn-outline-primary {
+  background-color: var(--text-color);
+  border-color: var(--text-color);
+  color: var(--cream);
+}
+
+/* Card for Copyable Code */
+.card {
+  margin-top: 30px;
+  border: 1px solid var(--text-color);
+  border-radius: 10px;
+  background-color: var(--cream);
+}
+
+.card-header {
+  background-color: var(--text-color);
+  color: var(--cream);
+  border-bottom: none;
+  padding: 15px;
+  border-radius: 9px 9px 0 0;
+}
+
+.card-body {
+  padding: 25px;
+}
+
+#copyableCode {
+  background-color: var(--light-purple);
+  padding: 15px;
+  border-radius: 5px;
+  white-space: pre-wrap;
+  word-wrap: break-word;
   text-align: left;
-  color: #555;
-  padding: 10px;
-  background: #f8f9fa;
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  opacity: 0;
-  transform: scale(0.9);
-  transition: opacity 0.3s ease, transform 0.3s ease;
+  font-family: monospace;
+  margin: 0;
+  color: var(--text-color);
+  border: 1px solid var(--text-color);
 }
 
-.card:hover .card-img {
-  opacity: 0;
-  transform: scale(0.9);
+/* Button styling */
+#copyButton, #replaceButton {
+  background-color: var(--text-color);
+  color: var(--cream);
+  font-size: 1.2rem;
+  padding: 12px 25px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 30px;
+  transition: all 0.3s ease;
 }
 
-.card:hover .card-text {
-  opacity: 1;
-  transform: scale(1);
+#copyButton:hover, #replaceButton:hover {
+  background-color: var(--green);
+  color: var(--cream);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(74, 36, 69, 0.1);
+}
+
+/* Checkbox button group */
+.d-flex {
+  gap: 1rem;
+  margin: 1rem 0;
+}
+
+/* Style checkboxes when they are checked */
+.btn-check:checked + .btn-outline-primary {
+  background-color: var(--text-color);
+  border-color: var(--text-color);
+  color: var(--cream);
+}
+
+/* Hover effect when checkbox is checked */
+.btn-check:checked + .btn-outline-primary:hover {
+  background-color: var(--teal);
+  border-color: var(--teal);
+}
+
+/* Container width limit */
+.container-fluid > * {
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Responsive styles */
+@media (max-width: 767px) {
+  .navbar .container-fluid {
+      padding: 0 1rem;
+  }
+
+  h1 {
+      font-size: 2.5rem;
+  }
+  
+  h2 {
+      font-size: 1.8rem;
+  }
+  
+  ol {
+      padding-left: 15px;
+  }
+  
+  .card-body {
+      padding: 15px;
+  }
+  
+  .card {
+      margin-top: 15px;
+  }
+  
+  .form-control {
+      font-size: 1rem;
+  }
+  
+  #copyButton, #replaceButton {
+      font-size: 1.1rem;
+      padding: 10px 20px;
+  }
+  
+  .d-flex {
+      flex-wrap: wrap;
+  }
+
+  .container-fluid {
+      padding: 0 1rem;
+  }
+}
+
+/* Print styles */
+@media print {
+  .navbar {
+      display: none;
+  }
+
+  body {
+      background-color: var(--cream);
+      color: var(--text-color);
+  }
+
+  h1, h2 {
+      color: var(--heading-color);
+  }
+
+  .card {
+      break-inside: avoid;
+      background-color: var(--cream);
+  }
 }
