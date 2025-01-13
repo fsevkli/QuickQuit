@@ -3,49 +3,54 @@ body {
     font-family: 'Arial', sans-serif;
     margin: 0;
     padding: 0;
-    background-color: #f4f4f9;
-    color: #333;
+    background-color: #fffbf6; /* Background color */
+    color: #24021c; /* Text color */
 }
 
 /* Navbar styling */
 .navbar {
-    margin-bottom: 20px;
+    background-color: #ffffff; /* Navbar color */
+    margin-bottom: 30px;
+    padding: 15px 0;
+    border-bottom: 2px solid #BC67CB; /* Border to match the text color */
 }
 
 .navbar .navbar-brand {
     font-weight: bold;
+    color: #BC67CB; /* Navbar brand text color */
 }
 
 .navbar .navbar-nav .nav-link {
-    margin-right: 15px;
-    font-size: 1.1rem;
+    margin-right: 20px;
+    font-size: 1.2rem;
+    color: #BC67CB; /* Navbar link color */
 }
 
 .navbar .navbar-nav .nav-link:hover {
-    color: #f8f9fa;
-    background-color: #343a40;
+    color: #fff;
+    background-color: #BC67CB; /* Hover effect */
     border-radius: 5px;
 }
 
 /* Headings */
 h1 {
-    font-size: 2.5rem;
-    color: #333;
-    margin: 40px 0;
+    font-size: 3rem;
+    color: #24021c; /* Text color */
+    margin: 50px 0;
     text-align: center;
 }
 
 h2 {
-    font-size: 1.8rem;
-    color: #333;
-    margin: 20px 0;
+    font-size: 2rem;
+    color: #24021c; /* Text color */
+    margin: 30px 0;
 }
 
 /* Intro Text */
 p {
-    font-size: 1.1rem;
+    font-size: 1.2rem;
     line-height: 1.6;
-    margin-bottom: 30px;
+    margin-bottom: 40px;
     text-align: center;
     max-width: 800px;
     margin-left: auto;
@@ -56,27 +61,30 @@ p {
 ol {
     margin: 0;
     padding-left: 20px;
-    font-size: 1.1rem;
+    font-size: 1.2rem;
 }
 
 /* List item styling */
 li {
-    margin-bottom: 20px;
+    margin-bottom: 25px;
 }
 
 /* Textarea styling */
 textarea {
     width: 100%;
-    padding: 10px;
-    font-size: 1rem;
-    margin-top: 10px;
+    padding: 12px;
+    font-size: 1.1rem;
+    margin-top: 15px;
     border-radius: 5px;
-    border: 1px solid #ccc;
+    border: 1px solid #BC67CB; /* Border color */
+    background-color: #fff;
+    color: #24021c;
+    resize: vertical;
 }
 
 /* Dropdown styles */
 .dropdown-menu {
-    padding: 10px;
+    padding: 15px;
     max-width: 100%;
 }
 
@@ -85,30 +93,33 @@ textarea {
 }
 
 .dropdown-menu .btn-check + .btn-outline-primary {
-    margin-bottom: 10px;
+    margin-bottom: 15px;
     width: 100%;
+    font-size: 1.1rem;
 }
 
 .btn-check:checked + .btn-outline-primary {
-    background-color: #007bff;
+    background-color: #BC67CB; /* Checked state color */
     color: white;
 }
 
 /* Card for Copyable Code */
 .card {
-    margin-top: 20px;
+    margin-top: 30px;
     border: 1px solid #ddd;
-    border-radius: 5px;
+    border-radius: 10px;
+    background-color: #fff;
 }
 
 .card-header {
-    background-color: #007bff;
+    background-color: #BC67CB; /* Card header color */
     color: white;
     border-bottom: 1px solid #ddd;
+    padding: 15px;
 }
 
 .card-body {
-    padding: 20px;
+    padding: 25px;
 }
 
 .card-body p {
@@ -121,29 +132,30 @@ textarea {
 
 /* Button styling */
 button {
-    background-color: #28a745;
+    background-color: #BC67CB; /* Button color */
     color: white;
-    font-size: 1.1rem;
-    padding: 10px 20px;
+    font-size: 1.2rem;
+    padding: 12px 25px;
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    margin-top: 20px;
-    transition: background-color 0.3s ease;
+    margin-top: 30px;
+    transition: background-color 0.3s ease, transform 0.2s ease-in-out;
 }
 
 button:hover {
-    background-color: #218838;
+    background-color: #9b4c99; /* Darker shade on hover */
+    transform: scale(1.05); /* Slight zoom effect */
 }
 
 /* Responsive styles */
 @media (max-width: 767px) {
     h1 {
-        font-size: 2rem;
+        font-size: 2.5rem;
     }
 
     h2 {
-        font-size: 1.6rem;
+        font-size: 1.8rem;
     }
 
     ol {
@@ -151,18 +163,19 @@ button:hover {
     }
 
     .card-body {
-        padding: 10px;
+        padding: 15px;
     }
 
     .card {
-        margin-top: 10px;
+        margin-top: 15px;
     }
 
     textarea {
-        font-size: 0.9rem;
+        font-size: 1rem;
     }
 
     button {
-        font-size: 1rem;
+        font-size: 1.1rem;
+        padding: 10px 20px;
     }
 }
