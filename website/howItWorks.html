@@ -5,37 +5,38 @@
   <!-- Meta Tags -->
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-
+  
   <!-- Page Title -->
   <title>QuickQuit - How It Works</title>
-
+  
   <!-- Bootstrap CSS -->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
-    integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
-
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" 
+        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" 
+        crossorigin="anonymous">
+  
   <!-- Custom Stylesheet -->
   <link rel="stylesheet" href="quickquit.css">
-
+  
   <!-- jQuery (for Bootstrap functionality) -->
-  <script src="https://code.jquery.com/jquery-3.6.3.min.js"
-    integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
-
+  <script src="https://code.jquery.com/jquery-3.6.3.min.js" 
+          integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" 
+          crossorigin="anonymous"></script>
+  
   <!-- Custom JavaScript -->
   <script src="quickquit.js"></script>
-
+  
   <!-- Favicon -->
   <link rel="icon" href="qqLogo.ico" type="image/x-icon">
 </head>
 
 <body>
   <!-- Navigation Bar -->
-  <nav class="navbar navbar-expand-lg bg-body-tertiary navbar bg-dark border-bottom border-body sticky-top"
-    data-bs-theme="dark">
+  <nav class="navbar navbar-expand-lg bg-body-tertiary navbar bg-dark border-bottom border-body sticky-top" data-bs-theme="dark">
     <div class="container-fluid">
       <img src="src/qqLogoTransparent.svg" alt="QuickQuit Logo" style="width:60px;">
       <a class="navbar-brand" href="index.html">QuickQuit</a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup"
-        aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+              aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
@@ -49,12 +50,11 @@
 
   <!-- Main Content Section -->
   <main class="container py-5">
-
+  
     <!-- How It Works Introduction -->
     <section id="how-it-works">
       <h1>How It Works</h1>
-      <p>A button is added to your website so the user can activate the extension. If the user decides not to download
-        the extension, they will still be able to leave the website, but their browser history will not be replaced.</p>
+      <p>A button is added to your website so the user can activate the extension. If the user decides not to download the extension, they will still be able to leave the website, but their browser history will not be replaced.</p>
     </section>
 
     <!-- Tutorial: How to Add the Button -->
@@ -62,12 +62,9 @@
       <h2>How to Add the Button to Your Website</h2>
       <ol>
         <!-- Step 1: Enter domains -->
-        <li>Please enter any domain names associated with your site. Any page under this domain will be removed from the
-          user's history.</li>
+        <li>Please enter any domain names associated with your site. Any page under this domain will be removed from the user's history.</li>
         <div class="mb-3">
-          <textarea class="form-control"
-            placeholder="Enter domains here in comma separated values &#10(ex: google.com, bbc.co.uk)"
-            id="floatingTextarea" rows="5"></textarea>
+          <textarea class="form-control" placeholder="Enter domains here in comma separated values &#10(ex: google.com, bbc.co.uk)" id="floatingTextarea" rows="5"></textarea>
         </div>
 
         <!-- Step 2: Choose content for replacement -->
@@ -109,55 +106,30 @@
         <div class="card">
           <div class="card-header">
             <button type="button" class="btn" id="copyButton">
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-clipboard"
-                viewBox="0 0 16 16">
-                <path
-                  d="M4 1.5H3a2 2 0 0 0-2 2V14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3.5a2 2 0 0 0-2-2h-1v1h1a1 1 0 0 1 1 1V14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3.5a1 1 0 0 1 1-1h1z" />
-                <path
-                  d="M9.5 1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5zm-3-1A1.5 1.5 0 0 0 5 1.5v1A1.5 1.5 0 0 0 6.5 4h3A1.5 1.5 0 0 0 11 2.5v-1A1.5 1.5 0 0 0 9.5 0z" />
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-clipboard" viewBox="0 0 16 16">
+                <path d="M4 1.5H3a2 2 0 0 0-2 2V14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3.5a2 2 0 0 0-2-2h-1v1h1a1 1 0 0 1 1 1V14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3.5a1 1 0 0 1 1-1h1z" />
+                <path d="M9.5 1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5zm-3-1A1.5 1.5 0 0 0 5 1.5v1A1.5 1.5 0 0 0 6.5 4h3A1.5 1.5 0 0 0 11 2.5v-1A1.5 1.5 0 0 0 9.5 0z" />
               </svg>
             </button>
           </div>
           <div class="card-body">
             <p id="copyableCode">
-              <!-- Code Block -->
-              <pre><code class="language-html">
-              &lt;!-- Quick Quit Button --&gt;
-              &lt;button id="quickQuitButton" style="
-                position: fixed;
-                bottom: 10px;
-                right: 10px;
-                background-color: red;
-                color: white;
-                border: none;
-                padding: 10px 20px;
-                font-size: 16px;
-                cursor: pointer;
-                z-index: 1000;
-              "&gt;Get Me Out!&lt;/button&gt;
-              
-              &lt;!-- Quick Quit Script --&gt;
-              &lt;script
-                src="https://yourdomain.com/static/js/quickquit.js"
-                data-domains="justlife.org.uk,lifeshare.org.uk"
-                data-safe-content="news,videos"
-                data-exit-site="https://example.com"&gt;
-              &lt;/script&gt;
-              </code></pre>
+              &lt;button type="button"&gt;Click Me!&lt;/button&gt;
+              &lt;p&gt;And another line of sample text here...&lt;/p&gt;
             </p>
           </div>
         </div>
         <button id="replaceButton">Replace</button>
-        </div>
-      </ol>
-    </section>
-
+      </div>
+    </ol>
+  </section>
+  
   </main>
 
   <!-- Bootstrap JS -->
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
-    integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
-    crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" 
+          integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" 
+          crossorigin="anonymous"></script>
 </body>
 
 <!-- Footer -->
@@ -173,3 +145,5 @@
 </footer>
 
 </html>
+
+
