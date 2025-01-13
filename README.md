@@ -36,4 +36,15 @@ This project templates includes 2 branches to start with.
 | . . .          | Thereafter, you should follow the code management strategy defined and agreed upon by the team.  I recommend a branch from master for each sprint or interval.  From the sprint-branch, I recommend branching by issue.  Throughout the sprint, rebase your issue branch regularly especially begore a commit.  If an issue is incomplete during the prescribed sprint, commit it to the next spring branch.  This approach gives the master branch an additional degree of protection.
 
  
+- **Overview**: A high-level explanation of what the project is, its key features, and the main purpose of the extension.
+- **Installation**: A guide on how to install and set up the extension on a browser.
+- **Usage**: Step-by-step instructions on how to use the extension, including entering domain names, selecting content types, and integrating the code snippet into a website.
+- **Project Structure**: Breakdown of the project folder and files so developers can easily understand where to find specific parts of the project.
+- **Technologies Used**: The technologies (HTML, CSS, JavaScript, etc.) that were used to build the extension.
+- **Contributing**: Instructions for developers who want to contribute to the project.
+- **License**: Information about the license under which the project is released (MIT in this case).
+- **Contact**: Contact information in case anyone has questions.
 
+---
+
+This `README.md` file should provide a comprehensive guide for anyone looking to understand, install, use, or contribute to the `QuickQuit` project.
