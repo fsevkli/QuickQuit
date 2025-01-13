@@ -5,6 +5,8 @@ body {
   padding: 15px;
   background-color: #f9f9f9;
   color: #333;
+  width: 800px;  /* Adjust width */
+  height: 120000px;
 }
 
 h1 {
