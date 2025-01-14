@@ -350,55 +350,55 @@ li {
     background-color: var(--cream);
     color: var(--text-color);
     padding: 2rem 0 0 0;
-    margin-top: 3rem;
     border-top: 1px solid var(--border-color);
 }
 
 .footer h5 {
     color: var(--heading-color);
     font-weight: 600;
-    margin-bottom: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+.footer p {
+    margin-bottom: 0.5rem;
+    line-height: 1.4;
+    font-size: 1rem;
 }
 
 .footer address {
     font-style: normal;
-    line-height: 1.6;
+    margin-bottom: 0;
 }
 
-.footer a {
+.footer-nav ul {
+    margin: 0;
+    padding: 0;
+}
+
+.footer-nav ul li {
+    margin-bottom: 0.5rem;
+}
+
+.footer-nav ul li a {
     color: var(--text-color);
     text-decoration: none;
     transition: color 0.3s ease;
 }
 
-.footer a:hover {
+.footer-nav ul li a:hover {
     color: var(--teal);
     text-decoration: underline;
 }
 
-.footer-nav ul li {
-    margin-bottom: 0.8rem;
-}
-
 .footer-logo img {
-    max-width: 300px;
+    max-width: 250px;
     height: auto;
 }
 
-.footer .social-links {
-    margin-top: 1rem;
-}
-
-.footer .social-links a {
-    margin-right: 1rem;
-    color: var(--text-color);
-}
-
-/* Copyright section styling */
 .footer-copyright {
     background-color: #000;
     color: #fff;
-    padding: 1rem 0;
+    padding: 0.75rem 0;
     margin-top: 2rem;
     font-size: 0.875rem;
     text-align: center;
