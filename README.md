@@ -1,11 +1,11 @@
-# CSE Capstone Project - *Quick Quit*
-Welcome to the CSE Capstone Project for *Quick Quit*! This repository is the foundation for the capstone development effort.
+# CSE Capstone Project - *QuickQuit*
+Welcome to the CSE Capstone Project for *QuickQuit*! This repository is the foundation for the capstone development effort.
 
 ### Key Links:
 
 
 ## Project Overview
-*Quick Quit* aims to provide a tool for users to exit certain situations quickly by using a browser extension. The extension should trigger actions based on an HTTPS request sent from a remote site, while also modifying the user's browsing history.
+*QuickQuit* aims to provide a tool for users to exit certain situations quickly by using a browser extension. The extension should trigger actions based on an HTTPS request sent from a remote site, while also modifying the user's browsing history.
 
 ### Pre-Development Considerations for Exit Extension:
 - The extension should react to an HTTPS request from a remote site.
