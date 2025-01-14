@@ -36,15 +36,16 @@
     data-bs-theme="dark">
     <div class="container-fluid">
       <img src="src/qqLogoTransparent.svg" alt="QuickQuit Logo" style="width:50px;">
-      <a class="navbar-brand" href="/website/index">QuickQuit</a>
+      <a class="navbar-brand" href="https://quickquit.app">QuickQuit</a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup"
         aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
         <div class="navbar-nav">
-          <a class="nav-link" href="#">How It Works</a>
-          <a class="nav-link" href="/website/aboutUs">About Us</a>
+          <a class="nav-link active" href="https://www.quickquit.app/howItWorks">How It Works</a>
+          <a class="nav-link" href="https://www.quickquit.app/demo">Button Demo</a>
+          <a class="nav-link" href="https://quickquit.app/aboutUs">About Us</a>
         </div>
 
         <ul class="navbar-nav ms-auto">
@@ -82,46 +83,46 @@
           user's history.</li>
         <div class="mb-3">
           <textarea class="form-control"
-            placeholder="Enter domains here in comma separated values &#10(ex: google.com, bbc.co.uk)"
-            id="domainsTextBox" rows="5"></textarea>
+            placeholder="Enter domains here in comma separated values &#10(ex: google.com,bbc.co.uk)"
+            id="domainTextarea" rows="5"></textarea>
         </div>
         <!-- Step 2: Enter defualt safe website is user dosn't download extension -->
         <li>Please enter safe website name used to replace current website if user chooses not to download the extension.</li>
         <div class="mb-3">
           <textarea class="form-control"
             placeholder="Enter website name (ex: google.com)"
-            id="redirectTextBox" rows="1"></textarea>
+            id="redirectTextarea" rows="1"></textarea>
         </div>
         <!-- Step 3: Choose content for replacement -->
         <li>Please choose what kind of auto-generated content will replace the user's browser history.</li>
         <div class="d-flex flex-wrap">
           <!-- Content Type Checkboxes -->
           <div class="me-3 py-1">
-            <input type="checkbox" class="btn-check" id="btncheck1" autocomplete="off" value="News">
+            <input type="checkbox" class="btn-check safeContent" id="btncheck1" autocomplete="off" value="news">
             <label class="btn btn-outline-primary" for="btncheck1">News Articles</label>
           </div>
           <div class="me-3 py-1">
-            <input type="checkbox" class="btn-check" id="btncheck2" autocomplete="off" value="Youtube">
+            <input type="checkbox" class="btn-check safeContent" id="btncheck2" autocomplete="off" value="youtube">
             <label class="btn btn-outline-primary" for="btncheck2">Youtube Videos</label>
           </div>
           <div class="me-3 py-1">
-            <input type="checkbox" class="btn-check" id="btncheck3" autocomplete="off" value="Weather">
+            <input type="checkbox" class="btn-check safeContent" id="btncheck3" autocomplete="off" value="weather">
             <label class="btn btn-outline-primary" for="btncheck3">Weather</label>
           </div>
           <div class="me-3 py-1">
-            <input type="checkbox" class="btn-check" id="btncheck4" autocomplete="off" value="Recipes">
+            <input type="checkbox" class="btn-check safeContent" id="btncheck4" autocomplete="off" value="recipes">
             <label class="btn btn-outline-primary" for="btncheck4">Recipes</label>
           </div>
           <div class="me-3 py-1">
-            <input type="checkbox" class="btn-check" id="btncheck5" autocomplete="off" value="Sports">
+            <input type="checkbox" class="btn-check safeContent" id="btncheck5" autocomplete="off" value="sports">
             <label class="btn btn-outline-primary" for="btncheck5">Sports</label>
           </div>
           <div class="me-3 py-1">
-            <input type="checkbox" class="btn-check" id="btncheck6" autocomplete="off" value="Shows">
+            <input type="checkbox" class="btn-check safeContent" id="btncheck6" autocomplete="off" value="shows">
             <label class="btn btn-outline-primary" for="btncheck6">Top Shows</label>
           </div>
           <div class="me-3 py-1">
-            <input type="checkbox" class="btn-check" id="btncheck7" autocomplete="off" value="Music">
+            <input type="checkbox" class="btn-check safeContent" id="btncheck7" autocomplete="off" value="music">
             <label class="btn btn-outline-primary" for="btncheck7">Top Music</label>
           </div>
         </div>
@@ -142,7 +143,7 @@
           </div>
           <div class="card-body">
             <!-- Indentation has to be ugly like this for the box -->  
-            <pre id="copyableCode"><code class="language-html">&lt;!-- Quick Quit Button --&gt;
+            <pre id="copyableCode"><code id="codeBlock" class="language-html">&lt;!-- Quick Quit Button --&gt;
 &lt;!-- Below ID for Custom Styling --&gt;        
 &lt;button id="quickQuitButton" style="
   position: fixed;
@@ -167,7 +168,6 @@
           </div>
           
         </div>
-        <button id="replaceButton">Replace</button>
         </div>
       </ol>
     </section>
@@ -205,6 +205,7 @@
                       <li><a href="https://quickquit.app">Home</a></li>
                       <li><a href="https://quickquit.app/aboutUs">About Us</a></li>
                       <li><a href="https://quickquit.app/howItWorks">How It Works</a></li>
+                      <li><a href="https://quickquit.app/demo">Button Demo</a></li>
                       <li><a href="https://github.com/fsevkli/getMeOut" target="_blank">GitHub Repository</a></li>
                   </ul>
               </nav>
