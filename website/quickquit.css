@@ -178,12 +178,12 @@ li {
     transition: all 0.3s ease;
 }
 
-.btn-primary:hover, 
-.btn-check:checked + .btn-primary {
+.btn-primary:hover {
+    background-color: var(--green);
+    border-color: var(--green);
     color: var(--cream);
-    background-color: var(--text-color);
-    border-color: var(--text-color);
-    color: var(--cream);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(74, 36, 69, 0.1);
 }
 
 /* Card Grid Layout */
@@ -327,15 +327,16 @@ li {
 
 /* Style checkboxes when they are checked */
 .btn-check:checked + .btn-outline-primary {
-    background-color: var(--text-color);
-    border-color: var(--text-color);
+    background-color: var(--green);
+    border-color: var(--green);
     color: var(--cream);
 }
 
 /* Hover effect when checkbox is checked */
-.btn-check:checked + .btn-outline-primary:hover {
-    background-color: var(--teal);
-    border-color: var(--teal);
+.btn-check:hover + .btn-outline-primary {
+    background-color: var(--green);
+    border-color: var(--green);
+    color: var(--cream);
 }
 
 /* Container width limit */
