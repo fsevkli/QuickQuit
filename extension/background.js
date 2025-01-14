@@ -76,9 +76,9 @@ function generateSafeUrls(contentTypes, count) {
             "https://www.hbo.com/whats-new-whats-leaving"
         ],
         music: [
-            "https://www.spotify.com/",
-            "https://www.apple.com/music/",
-            "https://www.soundcloud.com/"
+            "https://open.spotify.com/track/4fGEj1YkKvY4KZiK8isuSg",
+            "https://music.apple.com/ca/curator/best-playlists-ever/1494209940",
+            "https://soundcloud.com/charts/top"
         ]
     };
 
