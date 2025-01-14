@@ -28,8 +28,8 @@ $(document).ready(function () {
     });
 
     // Update Code Function
+    const safeContentCheckboxes = document.querySelectorAll('.safeContent');
     function updateCode() {
-        const safeContentCheckboxes = document.querySelectorAll('.safeContent');
         const selectedSafeContent = Array.from(safeContentCheckboxes)
             .filter(checkbox => checkbox.checked)
             .map(checkbox => checkbox.value)
