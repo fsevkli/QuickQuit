@@ -11,9 +11,22 @@ app.use(express.static(path.join(__dirname, '../../website')));
 // Serve static files from the 'public' directory
 app.use('/static', express.static(path.join(__dirname, 'public')));
 
-// Catch-all route to serve index.html for the main site
-app.get('/', (req, res) => {
+// Specific routes to remove .html extensions
+app.get('/index', (req, res) => {
     res.sendFile(path.join(__dirname, '../../website/index.html'));
+});
+
+app.get('/howItWorks', (req, res) => {
+    res.sendFile(path.join(__dirname, '../../website/howItWorks.html'));
+});
+
+app.get('/aboutUs', (req, res) => {
+    res.sendFile(path.join(__dirname, '../../website/aboutUs.html'));
+});
+
+// Redirect root to /index for cleaner URL
+app.get('/', (req, res) => {
+    res.redirect('/index');
 });
 
 // Start the server
