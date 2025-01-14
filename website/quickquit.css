@@ -60,8 +60,8 @@ body {
 .navbar .navbar-nav .nav-link {
     padding-top: 1rem;
     padding-bottom: 1rem;
-    padding-left: 1rem 1;
-    padding-right: 1rem 1;
+    padding-left: 1rem;
+    padding-right: 1rem;
     color: var(--text-color) !important;
     position: relative;
     transition: color 0.3s ease;
