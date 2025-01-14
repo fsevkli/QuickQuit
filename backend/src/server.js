@@ -5,33 +5,30 @@ const path = require('path');
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// Serve static files from the 'website' directory
+// Serve static assets from the 'website' directory
 app.use(express.static(path.join(__dirname, '../../website')));
 
-// Redirect root URL to /website/index
+// Redirect root URL to the homepage
 app.get('/', (req, res) => {
-    res.redirect('/website/index');
-});
-
-// Serve specific routes for clean URLs
-app.get('/website/index', (req, res) => {
     res.sendFile(path.join(__dirname, '../../website/index.html'));
 });
 
-app.get('/website/howItWorks', (req, res) => {
+// Route for "How It Works" page
+app.get('/howItWorks', (req, res) => {
     res.sendFile(path.join(__dirname, '../../website/howItWorks.html'));
 });
 
-app.get('/website/aboutUs', (req, res) => {
+// Route for "About Us" page
+app.get('/aboutUs', (req, res) => {
     res.sendFile(path.join(__dirname, '../../website/aboutUs.html'));
 });
 
-// Catch-all route to handle 404 errors for unmatched paths
+// 404 handler for undefined routes
 app.use((req, res) => {
     res.status(404).send('Page not found');
 });
 
 // Start the server
 app.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}`);
+    console.log(`Server is running on http://localhost:${PORT}`);
 });
