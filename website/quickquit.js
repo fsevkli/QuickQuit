@@ -41,7 +41,7 @@ $(document).ready(function () {
 
     // Update Code Function
     const safeContentCheckboxes = document.querySelectorAll('.safeContent');
-    const codeBlock = document.getElementById('copyableCode');
+    const codeBlock = document.getElementById('codeBlock');
     function updateCode() {
         const selectedSafeContent = Array.from(safeContentCheckboxes)
             .filter(checkbox => checkbox.checked)
@@ -49,8 +49,8 @@ $(document).ready(function () {
             .join(',');
 
       // Update displayed code
-      codeBlock.innerHTML = `
-<code class="language-html">
+      codeBlock.innerHTML = `&lt;!-- Quick Quit Button --&gt;
+&lt;!-- Below ID for Custom Styling --&gt;        
 &lt;button id="quickQuitButton" style="
   position: fixed;
   bottom: 10px;
@@ -63,13 +63,15 @@ $(document).ready(function () {
   cursor: pointer;
   z-index: 1000;"&gt;Get Me Out!&lt;/button&gt;
 
+&lt;!-- Quick Quit Script --&gt;
 &lt;script
   src="https://yourdomain.com/static/js/quickquit.js"
   data-domains="justlife.org.uk,lifeshare.org.uk"
   data-safe-content="${selectedSafeContent}"
   data-exit-site="https://example.com"&gt;
-&lt;/script&gt;
-</code>`
+&lt;/script&gt;`;
+
+        Prism.highlightAll();
     }
 
     // Add Event Listeners
