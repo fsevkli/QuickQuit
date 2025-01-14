@@ -1,0 +1,158 @@
+/* Dark Mode Color Variables */
+:root {
+    --dark-purple: #2b022d; /* Dark purple background */
+    --creamy-text: #f5e9e2; /* Creamy text color */
+    --green: #92a68f; /* Sage green */
+    --teal: #1d4545; /* Deep teal */
+    --border-color: #4a2445; /* Border color matching dark mode */
+    --heading-color: #f5e9e2; /* Creamy heading color */
+    --light-purple: #4a2445; /* Subtle light purple for elements */
+    --gold: #c4a062; /* Gold accent */
+    --button-bg: #4a2445; /* Button background */
+    --button-hover-bg: #c4a062; /* Button hover background */
+    --button-text: #f5e9e2; /* Button text color */
+    --button-hover-text: #2b022d; /* Button hover text color */
+}
+
+/* General body styles */
+body {
+    font-family: 'Inter', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: var(--dark-purple);
+    color: var(--creamy-text);
+}
+
+/* Navbar styling */
+.navbar {
+    background-color: var(--dark-purple) !important;
+    padding: .5rem;
+    border-bottom: 1px solid var(--border-color);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.navbar .navbar-brand {
+    font-weight: bold;
+    color: var(--creamy-text) !important;
+}
+
+.navbar .navbar-nav .nav-link {
+    color: var(--creamy-text) !important;
+    position: relative;
+    transition: color 0.3s ease;
+}
+
+.navbar .navbar-nav .nav-link:hover::after {
+    transform: scaleX(1);
+}
+
+.navbar-toggler {
+    border-color: var(--creamy-text);
+}
+
+.navbar-toggler-icon {
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='%23f5e9e2' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e") !important;
+}
+
+/* Headings */
+h1, h2 {
+    color: var(--heading-color);
+    font-weight: 700;
+    letter-spacing: -0.5px;
+}
+
+h1 {
+    font-size: 3rem;
+    margin: 50px 0;
+    text-align: center;
+}
+
+h2 {
+    font-size: 2rem;
+    margin: 30px 0;
+}
+
+/* Text styles */
+p {
+    font-size: 1.2rem;
+    line-height: 1.6;
+    color: var(--creamy-text);
+}
+
+/* Footer styling */
+.footer {
+    background-color: var(--dark-purple);
+    color: var(--creamy-text);
+    padding: 2rem 0;
+    border-top: 1px solid var(--border-color);
+}
+
+.footer h5 {
+    color: var(--creamy-text);
+}
+
+.footer p {
+    font-size: 1rem;
+}
+
+.footer-nav ul li a {
+    color: var(--creamy-text);
+}
+
+.footer-nav ul li a:hover {
+    color: var(--gold);
+}
+
+/* Cards */
+.card {
+    background-color: var(--light-purple);
+    color: var(--creamy-text);
+    border: 1px solid var(--border-color);
+}
+
+.card:hover {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+}
+
+.card-title {
+    color: var(--creamy-text);
+}
+
+.card-text {
+    background: var(--dark-purple);
+}
+
+/* Buttons */
+.btn-primary {
+    color: var(--button-text);
+    background-color: var(--button-bg);
+    border: 1px solid var(--border-color);
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.btn-primary:hover {
+    background-color: var(--button-hover-bg);
+    color: var(--button-hover-text);
+}
+
+/* Forms */
+.form-control {
+    background-color: var(--light-purple);
+    color: var(--creamy-text);
+    border: 1px solid var(--border-color);
+}
+
+.form-control:focus {
+    border-color: var(--teal);
+    box-shadow: 0 0 0 0.2rem rgba(29, 69, 69, 0.5);
+}
+
+/* Responsive styles */
+@media (max-width: 767px) {
+    h1 {
+        font-size: 2.5rem;
+    }
+    h2 {
+        font-size: 1.8rem;
+    }
+}
