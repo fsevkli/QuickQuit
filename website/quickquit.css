@@ -434,3 +434,6 @@ li {
     margin: 10px auto; /* Centers it horizontally */
 }
   
+.left-aligned-text {
+    text-align: left;
+}
