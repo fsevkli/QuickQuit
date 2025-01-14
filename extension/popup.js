@@ -1,16 +1,20 @@
-$(document).ready(function() {  // This ensures the DOM is fully loaded
+document.addEventListener("DOMContentLoaded", function () {
+    // Function to generate a random integer between min and max (inclusive)
     function getRandomInt(min, max) {
         return Math.floor(Math.random() * (max - min + 1)) + min;
     }
 
+    // Generate random values for programs terminated and memory saved
     const programsTerminated = getRandomInt(3, 10);
     const memorySaved = programsTerminated * getRandomInt(25, 40);
 
-    // Ensure the elements exist and are available before accessing them
-    if ($('#programsTerminated').length && $('#memorySaved').length) {
-        // Set the values to the DOM elements using jQuery
-        $('#programsTerminated').text(programsTerminated);
-        $('#memorySaved').text(memorySaved);
+    // Set the values to the DOM elements (using native JavaScript)
+    const programsTerminatedElement = document.getElementById('programsTerminated');
+    const memorySavedElement = document.getElementById('memorySaved');
+
+    if (programsTerminatedElement && memorySavedElement) {
+        programsTerminatedElement.innerText = programsTerminated;
+        memorySavedElement.innerText = memorySaved;
     } else {
         console.error('Elements not found in the DOM');
     }
