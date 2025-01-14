@@ -53,6 +53,8 @@ $(document).ready(function () {
     function updateCode() {
         // Choses default value or user input if there is any
         let domains = domainText.value || 'justlife.org.uk,lifeshare.org.uk'; 
+        // Removes spaces incase user puts them (scenario like google.com, yahoo.com, etc)
+        // doesnt work rn
         domains.replace(/\s+/g, "");
         const redirect = redirectText.value || 'https://www.google.com'
         // Gets each value from all the checkboxes and adds them to string with comma separated
