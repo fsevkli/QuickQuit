@@ -27,12 +27,40 @@ $(document).ready(function () {
         window.open("https://github.com/fsevkli/getMeOut", "_blank");
     });
 
-    // Get values from checkboxes for replacing content
-    $("#replaceButton").click(function (){
-        var checked = $('input[type="checkbox"]:checked');
+    // Update Code Function
+    function updateCode() {
+        const safeContentCheckboxes = document.querySelectorAll('.safeContent');
+        const selectedSafeContent = Array.from(safeContentCheckboxes)
+            .filter(checkbox => checkbox.checked)
+            .map(checkbox => checkbox.value)
+            .join(',');
 
-        checked.each(function() {
-            console.log(this.value);
-        });
-    });
+      // Update displayed code
+      codeBlock.innerHTML = `
+<code class="language-html">
+&lt;button id="quickQuitButton" style="
+  position: fixed;
+  bottom: 10px;
+  right: 10px;
+  background-color: red;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  z-index: 1000;"&gt;Get Me Out!&lt;/button&gt;
+
+&lt;script
+  src="https://yourdomain.com/static/js/quickquit.js"
+  data-domains="justlife.org.uk,lifeshare.org.uk"
+  data-safe-content="${selectedSafeContent}"
+  data-exit-site="https://example.com"&gt;
+&lt;/script&gt;
+</code>`
+    }
+
+    // Add Event Listeners
+    safeContentCheckboxes.forEach(checkbox => {
+        checkbox.addEventListener('change', updateCode);
+      });
 });
