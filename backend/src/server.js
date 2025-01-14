@@ -8,6 +8,8 @@ const PORT = process.env.PORT || 3000;
 // Serve static assets from the 'website' directory
 app.use(express.static(path.join(__dirname, '../../website')));
 
+app.use('/static', express.static(path.join(__dirname, 'public')));
+
 // Redirect root URL to the homepage
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, '../../website'));
