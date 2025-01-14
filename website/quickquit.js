@@ -32,7 +32,7 @@ $(document).ready(function () {
         var checked = $('input[type="checkbox"]:checked');
 
         checked.each(function() {
-            console.log(`test: ${checked};`);
+            console.log(this.value);
         });
     });
 });
