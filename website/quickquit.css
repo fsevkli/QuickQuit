@@ -36,8 +36,8 @@ body {
     color: var(--text-color) !important;
     padding-top: 1rem;
     padding-bottom: 1rem;
-    padding-left: 1rem 1;
-    padding-right: 1rem 1;
+    padding-left: 1rem;
+    padding-right: 1rem;
     position: relative;
 }
 
