@@ -46,13 +46,14 @@ function isGoogleUrl(url) {
 function generateSafeUrls(contentTypes, count) {
     const safeContentMap = {
         news: [
-            "https://www.bbc.com/news",
-            "https://www.cnn.com",
-            "https://www.nytimes.com"
+            "https://www.bbc.co.uk/news/world",
+            "https://edition.cnn.com/world",
+            "https://www.nytimes.com/section/world"
         ],
         videos: [
             "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-            "https://www.youtube.com/watch?v=3JZ_D3ELwOQ"
+            "https://www.youtube.com/watch?v=tpiyEe_CqB4",
+            "https://www.youtube.com/watch?v=FfJOz5UX0sk"
         ],
         sports: [
             "https://www.espn.com",
