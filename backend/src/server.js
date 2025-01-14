@@ -10,7 +10,7 @@ app.use(express.static(path.join(__dirname, '../../website')));
 
 // Redirect root URL to the homepage
 app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, '../../website/index.html'));
+    res.sendFile(path.join(__dirname, '../../website'));
 });
 
 // Route for "How It Works" page
