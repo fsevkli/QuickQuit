@@ -50,7 +50,6 @@
         <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
           <button class="btn btn-primary" type="button" id="viewGitHubButton">GitHub Repository</button>
         </ul>
-<<<<<<< Updated upstream
         
         <script>
           document.getElementById("viewGitHubButton").addEventListener("click", function() {
@@ -58,9 +57,6 @@
           });
         </script>
         
-=======
-
->>>>>>> Stashed changes
       </div>
     </div>
   </nav>
@@ -87,8 +83,14 @@
             placeholder="Enter domains here in comma separated values &#10(ex: google.com, bbc.co.uk)"
             id="floatingTextarea" rows="5"></textarea>
         </div>
-
-        <!-- Step 2: Choose content for replacement -->
+        <!-- Step 2: Enter defualt safe website is user dosn't download extension -->
+        <li>Please enter safe website name used to replace current website if user chooses not to download the extension.</li>
+        <div class="mb-3">
+          <textarea class="form-control"
+            placeholder="Enter website name (ex: google.com)"
+            id="floatingTextarea" rows="1"></textarea>
+        </div>
+        <!-- Step 3: Choose content for replacement -->
         <li>Please choose what kind of auto-generated content will replace the user's browser history.</li>
         <div class="d-flex flex-wrap">
           <!-- Content Type Checkboxes -->
