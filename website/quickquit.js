@@ -39,16 +39,29 @@ $(document).ready(function () {
         window.open("https://github.com/fsevkli/getMeOut", "_blank");
     });
 
-    // Update Code Function
+    // Updating code block based on user input
+    // Getting values of content checkboxes
     const safeContentCheckboxes = document.querySelectorAll('.safeContent');
+    // Getting what the user typed in the domains textbox
+    const domainText = document.getElementById('domainTextarea');
+    // Getting what the user typed in the saafe website textbox
+    const redirectText = document.getElementById('redirectTextarea');
+    // Code block where copiable code is displayed
     const codeBlock = document.getElementById('codeBlock');
+
+    // Updates codeblock based off user input
     function updateCode() {
+        // Choses default value or user input if there is any
+        let domains = domainText.value || 'justlife.org.uk,lifeshare.org.uk'; 
+        domains.replace(/\s+/g, "");
+        const redirect = redirectText.value || 'https://www.google.com'
+        // Gets each value from all the checkboxes and adds them to string with comma separated
         const selectedSafeContent = Array.from(safeContentCheckboxes)
             .filter(checkbox => checkbox.checked)
             .map(checkbox => checkbox.value)
             .join(',');
 
-      // Update displayed code
+      // Updating displayed code
       codeBlock.innerHTML = `&lt;!-- Quick Quit Button --&gt;
 &lt;!-- Below ID for Custom Styling --&gt;        
 &lt;button id="quickQuitButton" style="
@@ -66,16 +79,22 @@ $(document).ready(function () {
 &lt;!-- Quick Quit Script --&gt;
 &lt;script
   src="https://yourdomain.com/static/js/quickquit.js"
-  data-domains="justlife.org.uk,lifeshare.org.uk"
+  data-domains="${domains}"
   data-safe-content="${selectedSafeContent}"
-  data-exit-site="https://example.com"&gt;
+  data-exit-site="${redirect}"&gt;
 &lt;/script&gt;`;
 
+        // Refreshes PrismJS to make code look good
         Prism.highlightAll();
     }
 
-    // Add Event Listeners
+    // Event listeners to update code block when user does something
+    // All checkboxes
     safeContentCheckboxes.forEach(checkbox => {
         checkbox.addEventListener('change', updateCode);
       });
+      // Domain text area
+      domainText.addEventListener('input', updateCode);
+      // Redirect text area
+      redirectText.addEventListener('input', updateCode);
 });
