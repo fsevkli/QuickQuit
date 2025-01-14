@@ -8,25 +8,27 @@ const PORT = process.env.PORT || 3000;
 // Serve static files from the 'website' directory
 app.use(express.static(path.join(__dirname, '../../website')));
 
-// Serve static files from the 'public' directory
-app.use('/static', express.static(path.join(__dirname, 'public')));
+// Redirect root URL to /website/index
+app.get('/', (req, res) => {
+    res.redirect('/website/index');
+});
 
-// Specific routes to remove .html extensions
-app.get('/index', (req, res) => {
+// Serve specific routes for clean URLs
+app.get('/website/index', (req, res) => {
     res.sendFile(path.join(__dirname, '../../website/index.html'));
 });
 
-app.get('/howItWorks', (req, res) => {
+app.get('/website/howItWorks', (req, res) => {
     res.sendFile(path.join(__dirname, '../../website/howItWorks.html'));
 });
 
-app.get('/aboutUs', (req, res) => {
+app.get('/website/aboutUs', (req, res) => {
     res.sendFile(path.join(__dirname, '../../website/aboutUs.html'));
 });
 
-// Redirect root to /index for cleaner URL
-app.get('/', (req, res) => {
-    res.redirect('/index');
+// Catch-all route to handle 404 errors for unmatched paths
+app.use((req, res) => {
+    res.status(404).send('Page not found');
 });
 
 // Start the server
