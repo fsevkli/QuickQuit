@@ -1,22 +1,32 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <link href="popup.css" rel="stylesheet" />
-    <script src="randomURLGenerator.js"></script>
-    <script src="popup.js"></script>
-    <script src="fakePopup.js"></script>
-    <title>Extension Popup</title> 
+    <script src="randomURLGenerator.js" defer></script>
+    <script src="popup.js" defer></script>
+    <script src="fakePopup.js" defer></script>
+    <title>Extension Popup</title>
 </head>
-<body>
-    <h1>Background Programs Terminated</h1>
-    <div class="info">
-        <p>Programs Terminated: <span id="programsTerminated"></span></p>
-        <p>Memory Saved: <span id="memorySaved"></span> MB</p>
-    </div>
 
-    <img src="src/qqLogoTransparent" alt="QuickQuit Logo" class="logo">
+<body>
+    <header>
+        <h1>Background Programs Terminated</h1>
+    </header>
+
+    <main>
+        <section class="info">
+            <p>Programs Terminated: <span id="programsTerminated">0</span></p>
+            <p>Memory Saved: <span id="memorySaved">0</span> MB</p>
+        </section>
+
+        <section class="logo-container">
+            <img src="src/qqLogoTransparent.png" alt="QuickQuit Logo" class="logo">
+        </section>
+    </main>
 </body>
 
 </html>
