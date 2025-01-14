@@ -103,7 +103,7 @@ p {
     font-size: 1.2rem;
     line-height: 1.6;
     margin-bottom: 40px;
-    text-align: center;
+    text-align: left;
     max-width: 800px;
     margin-left: auto;
     margin-right: auto;
@@ -147,7 +147,7 @@ li {
     opacity: 0.7;
 }
 
-/* Button styling */
+/* Outlined Button styling */
 .btn-outline-primary {
     color: var(--text-color);
     border-color: var(--text-color);
@@ -157,6 +157,22 @@ li {
 
 .btn-outline-primary:hover, 
 .btn-check:checked + .btn-outline-primary {
+    background-color: var(--text-color);
+    border-color: var(--text-color);
+    color: var(--cream);
+}
+
+/* Filled Button styling */
+.btn-primary {
+    color: var(--cream);
+    background-color: var(--text-color);
+    border-color: var(--text-color);
+    transition: all 0.3s ease;
+}
+
+.btn-primary:hover, 
+.btn-check:checked + .btn-primary {
+    color: var(--cream);
     background-color: var(--text-color);
     border-color: var(--text-color);
     color: var(--cream);
@@ -405,3 +421,9 @@ li {
         background-color: var(--cream);
     }
 }
+
+#viewExtensionButton {
+    display: block; /* Makes the button a block element */
+    margin: 10px auto; /* Centers it horizontally */
+  }
+  

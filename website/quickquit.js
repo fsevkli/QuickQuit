@@ -22,6 +22,11 @@ $(document).ready(function () {
         window.open("https://chromewebstore.google.com/detail/session-buddy/edacconmaakjimmfgnblocblbcdcpbko", "_blank");
     });
 
+    // view github function
+    $("#viewGitHubButton").click(function () {
+        window.open("https://github.com/fsevkli/getMeOut", "_blank");
+    });
+
     // Get values from checkboxes for replacing content
     $("#replaceButton").click(function (){
         var checked = $('input[type="checkbox"]:checked');

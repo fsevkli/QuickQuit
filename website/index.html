@@ -40,12 +40,27 @@
               aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
+
+
       <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
         <div class="navbar-nav">
           <a class="nav-link" href="https://www.quickquit.app/howItWorks.html">How It Works</a>
           <a class="nav-link" href="https://www.quickquit.app/aboutUs.html">About Us</a>
         </div>
+
+        <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+          <button class="btn btn-primary" type="button" id="viewGitHubButton">Visit our GitHub Repository</button>
+        </ul>
+        
+        <script>
+          document.getElementById("viewGitHubButton").addEventListener("click", function() {
+            window.location.href = "https://github.com/fsevkli/getMeOut";
+          });
+        </script>
+        
       </div>
+    </div>
+
     </div>
   </nav>
 
@@ -54,7 +69,7 @@
     <div class="row">
       <div class="col">
         <h1>QuickQuit is a free Chrome Extension made by students at Miami University</h1>
-        <button type="button" id="viewExtensionButton">View Extension in Chrome Web Store</button>
+        <button type="button" id="viewExtensionButton" class="btn btn-primary">View Extension in Chrome Web Store</button>
       </div>
       <div class="col">
         <img src="src/exampleChromeExtension.png" class="img-fluid" alt="Screenshot of the QuickQuit extension in the Chrome Web Store">
@@ -77,6 +92,13 @@
       It is especially valuable for individuals in precarious situations, where accessing certain websites could put their safety or privacy at risk.
       Whether someone is seeking critical resources online but needs to protect their digital footprint, QuickQuit ensures that they can exit the site quickly while making it nearly impossible for anyone to discover their online activity.
     </p>
+  </section>
+
+  <section id="hidden-functionality" class="container py-5">
+    <h1>Hidden Functionality</h1>
+    <p>QuickQuit implements hidden functionality, making the extension appear to be an app that closes background
+      apps to save memory. This feature is designed to provide a cover for the extension's primary purpose, allowing
+      for inconspicuous use in sensitive situations.</p>   
   </section>
 
   <!-- Bootstrap JS (for interactivity) -->
