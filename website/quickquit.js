@@ -41,6 +41,7 @@ $(document).ready(function () {
 
     // Update Code Function
     const safeContentCheckboxes = document.querySelectorAll('.safeContent');
+    const codeBlock = document.getElementById('copyableCode');
     function updateCode() {
         const selectedSafeContent = Array.from(safeContentCheckboxes)
             .filter(checkbox => checkbox.checked)

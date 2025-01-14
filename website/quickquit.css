@@ -523,7 +523,7 @@ li {
       right: 0px;
       bottom: 0px;
       left: 0px;
-      opacity: 0.5;
+      opacity: 0.45;
       content: "";
    }
    
@@ -532,6 +532,7 @@ li {
    
    #background-image {
       position: relative;
+      width: 100vw;
       height: 50vh;
    }
    
