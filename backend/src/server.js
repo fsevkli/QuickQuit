@@ -25,6 +25,11 @@ app.get('/aboutUs', (req, res) => {
     res.sendFile(path.join(__dirname, '../../website/aboutUs.html'));
 });
 
+// Route for "Button Demo" page
+app.get('/demo', (req, res) => {
+    res.sendFile(path.join(__dirname, '../../website/demo.html'));
+});
+
 // 404 handler for undefined routes
 app.use((req, res) => {
     res.status(404).send('Page not found');
