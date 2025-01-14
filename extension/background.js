@@ -56,9 +56,9 @@ function generateSafeUrls(contentTypes, count) {
             "https://www.youtube.com/watch?v=FfJOz5UX0sk"
         ],
         sports: [
-            "https://www.espn.com",
-            "https://www.sports.yahoo.com",
-            "https://www.foxsports.com"
+            "https://www.espn.com/nfl",
+            "https://www.cricbuzz.com/cricket-match/live-scores",
+            "https://www.livescore.com"
         ],
         recipes: [
             "https://www.allrecipes.com/",
