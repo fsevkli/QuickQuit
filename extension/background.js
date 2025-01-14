@@ -71,9 +71,9 @@ function generateSafeUrls(contentTypes, count) {
             "https://www.wunderground.com"
         ],
         shows: [
-            "https://www.netflix.com/",
-            "https://www.hulu.com/",
-            "https://www.hbomax.com/"
+            "https://www.netflix.com/browse/genre/89814",
+            "https://www.hulu.com/guides/category/featured",
+            "https://www.hbo.com/whats-new-whats-leaving"
         ],
         music: [
             "https://www.spotify.com/",
