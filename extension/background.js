@@ -61,9 +61,9 @@ function generateSafeUrls(contentTypes, count) {
             "https://www.livescore.com"
         ],
         recipes: [
-            "https://www.allrecipes.com/",
-            "https://www.foodnetwork.com/",
-            "https://www.tasteofhome.com/"
+            "https://www.allrecipes.com/recipe/17481/simple-white-cake",
+            "https://www.bbcgoodfood.com/recipes/lentil-soup",
+            "https://www.loveandlemons.com/brownies-recipe"
         ],
         weather: [
             "https://www.weather.com/",
