@@ -1,12 +1,16 @@
 $(document).ready(function () {
     document.querySelectorAll('.navbar a').forEach((link) => {
         link.addEventListener('click', (event) => {
-            if (window.location.pathname === event.target.getAttribute('href')) {
+            const currentPath = window.location.pathname + window.location.search; // Include query params if any
+            const targetPath = new URL(event.target.href).pathname;
+
+            if (currentPath === targetPath) {
                 event.preventDefault(); // Prevent page reload
                 window.scrollTo({ top: 0, behavior: 'smooth' }); // Smooth scroll to the top
             }
         });
     });
+
 
     // copy to clipboard function
     $("#copyButton").click(function () {
