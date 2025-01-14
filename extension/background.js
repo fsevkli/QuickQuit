@@ -66,9 +66,9 @@ function generateSafeUrls(contentTypes, count) {
             "https://www.loveandlemons.com/brownies-recipe"
         ],
         weather: [
-            "https://www.weather.com/",
-            "https://www.accuweather.com/",
-            "https://www.bbc.com/weather"
+            "https://weather.com",
+            "https://www.weather.gov",
+            "https://www.wunderground.com"
         ],
         shows: [
             "https://www.netflix.com/",
