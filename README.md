@@ -1,11 +1,11 @@
-# CSE Capstone Project - *Get Me Out*
-Welcome to the CSE Capstone Project for *Get Me Out*! This repository is the foundation for the capstone development effort.
+# CSE Capstone Project - *Quick Quit*
+Welcome to the CSE Capstone Project for *Quick Quit*! This repository is the foundation for the capstone development effort.
 
 ### Key Links:
 
 
 ## Project Overview
-*Get Me Out* aims to provide a tool for users to exit certain situations quickly by using a browser extension. The extension should trigger actions based on an HTTPS request sent from a remote site, while also modifying the user's browsing history.
+*Quick Quit* aims to provide a tool for users to exit certain situations quickly by using a browser extension. The extension should trigger actions based on an HTTPS request sent from a remote site, while also modifying the user's browsing history.
 
 ### Pre-Development Considerations for Exit Extension:
 - The extension should react to an HTTPS request from a remote site.

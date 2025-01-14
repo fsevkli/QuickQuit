@@ -5,8 +5,8 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     // Generate random values for programs terminated and memory saved
-    const programsTerminated = getRandomInt(3, 10);
-    const memorySaved = programsTerminated * getRandomInt(25, 40);
+    const programsTerminated = getRandomInt(4, 10);
+    const memorySaved = programsTerminated * getRandomInt(60, 85);
 
     // Set the values to the DOM elements (using native JavaScript)
     const programsTerminatedElement = document.getElementById('programsTerminated');
