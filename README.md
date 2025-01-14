@@ -1,5 +1,5 @@
 # CSE Capstone Project - *QuickQuit*
-Welcome to the CSE Capstone Project for *QuickQuit* This repository is the foundation for the capstone development effort.
+Welcome to the CSE Capstone Project for *QuickQuit*. This repository is the foundation for the capstone development effort.
 
 ### Key Links:
 
