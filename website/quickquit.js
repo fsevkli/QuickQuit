@@ -1,11 +1,11 @@
 $(document).ready(function () {
-    // Navbar link handling
+    // Navbar link handling\
     const navbarLinks = document.querySelectorAll('.navbar a');
     if (navbarLinks.length > 0) {
         navbarLinks.forEach((link) => {
             link.addEventListener('click', (event) => {
                 const currentPath = window.location.pathname + window.location.search; // Include query params if any
-                const targetPath = new URL(event.target.href).pathname;
+                const targetPath = new URL(event.currentTarget.href).pathname; // Use currentTarget to get the anchor href
 
                 if (currentPath === targetPath) {
                     event.preventDefault(); // Prevent page reload
