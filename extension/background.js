@@ -27,7 +27,7 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
                 const itemDomain = getCleanURL(itemUrl.hostname); // Normalize the domain
 
                 console.log(`Checking domain: ${itemDomain}`);
-                if (domainsFixed.some((domain) => itemDomain.endsWith(domain))) {
+                if (domainsFixed.some((domain) => itemDomain.endsWith(domain)) || isGoogleUrl(item.url)) {
                     console.log(`Deleting domain entry: ${item.url}`);
                     await chrome.history.deleteUrl({ url: item.url });
 
@@ -59,6 +59,16 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     }
 });
 
+function isGoogleUrl(url) {
+    try {
+        const parsedUrl = new URL(url);
+        const domain = parsedUrl.hostname.replace(/^www\./, "");
+        return domain.endsWith("google.com");
+    } catch (error) {
+        console.error("Error parsing URL:", url, error);
+        return false;
+    }
+}
 // Helper: Normalize a URL
 function getCleanURL(url) {
     return url
