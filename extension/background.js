@@ -9,6 +9,8 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
         const exitSiteClean = getCleanURL(exitSite);
         const exitSiteFixed = fixUrls(exitSiteClean);
 
+
+        console.log("Original domains:", domains);
         console.log("Domains to replace:", domainsFixed);
         console.log("Safe content types:", safeContent);
         console.log("Exit site:", exitSiteFixed);
