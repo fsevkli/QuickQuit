@@ -6,23 +6,23 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 // To read cookies
-app.use(cookieParser());
+// app.use(cookieParser());
 
 // Serve static assets from the 'website' directory
 app.use(express.static(path.join(__dirname, '../../website')));
 app.use('/static', express.static(path.join(__dirname, 'public')));
 
-app.get('/', (req, res) => {
-    // Check if the 'firstVisit' cookie exists
-    if (!req.cookies.firstVisit) {
-        // If no cookie, set the 'firstVisit' cookie to track future visits
-        res.cookie('firstVisit', 'false', { maxAge: 1000 * 60 * 60 * 24 * 365 * 10, httpOnly: true });
-        console.log('First-time visitor.');
-    } else {
-        console.log('Returning visitor.');
-        res.sendFile(path.join(__dirname, '../../website'));
-    }
-});
+// app.get('/', (req, res) => {
+//     // Check if the 'firstVisit' cookie exists
+//     if (!req.cookies.firstVisit) {
+//         // If no cookie, set the 'firstVisit' cookie to track future visits
+//         res.cookie('firstVisit', 'false', { maxAge: 1000 * 60 * 60 * 24 * 365 * 10, httpOnly: true });
+//         console.log('First-time visitor.');
+//     } else {
+//         console.log('Returning visitor.');
+//         res.sendFile(path.join(__dirname, '../../website'));
+//     }
+// });
 
 // Route for "How It Works" page
 app.get('/howItWorks', (req, res) => {
