@@ -4,6 +4,7 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     if (message.type === "HANDLE_HISTORY") {
         const { domains, safeContent, exitSite } = message;
 
+        // Normalize domains and exit site
         const domainsFixed = fixDomains(domains);
         const exitSiteClean = getCleanURL(exitSite);
         const exitSiteFixed = fixUrls(exitSiteClean);
@@ -16,16 +17,17 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
         chrome.history.search({ text: "", maxResults: 500 }, async (results) => {
             console.log("Browsing history fetched:", results);
 
+            // Generate safe URLs for replacement
             const safeUrls = generateSafeUrls(safeContent, domains.length);
             console.log("Generated safe URLs:", safeUrls);
 
-            // Create an array of promises for deleting and adding URLs
+            // Process each history entry
             const promises = results.map(async (item) => {
                 const itemUrl = new URL(item.url);
-                const itemDomain = itemUrl.hostname.replace(/^www\./, ""); // Normalize the domain
+                const itemDomain = getCleanURL(itemUrl.hostname); // Normalize the domain
 
-                // Compare the item domain with the user-provided domains
-                if (domainsFixed.some((domain) => itemDomain === domain)) {
+                console.log(`Checking domain: ${itemDomain}`);
+                if (domainsFixed.some((domain) => itemDomain.endsWith(domain))) {
                     console.log(`Deleting domain entry: ${item.url}`);
                     await chrome.history.deleteUrl({ url: item.url });
 
@@ -35,10 +37,10 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
                 }
             });
 
-            // Wait for all promises to resolve before redirecting
+            // Wait for all promises to resolve
             await Promise.all(promises);
 
-            // Redirect the user to the specified exit site
+            // Redirect the user to the exit site
             const redirectUrl = exitSiteFixed || "https://www.google.com";
             if (sender && sender.tab) {
                 console.log(`Redirecting to exit site: ${redirectUrl}`);
@@ -50,18 +52,29 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
             sendResponse({ success: true });
         });
 
-        return true; // Keep the message channel open for asynchronous response
+        return true; // Keep the message channel open for async response
     } else {
         console.error("Unknown message type:", message.type);
         sendResponse({ success: false, error: "Invalid message type" });
     }
 });
 
-// Helper: Identify if a URL is a Google search or service
-function isGoogleUrl(url) {
-    const isGoogle = /^https:\/\/www\.google\.[a-z.]+/.test(url);
-    console.log(`Checking if URL is Google-related (${url}):`, isGoogle);
-    return isGoogle;
+// Helper: Normalize a URL
+function getCleanURL(url) {
+    return url
+        .replace(/^https?:\/\//, "") // Remove protocol
+        .replace(/^www\./, "")      // Remove "www."
+        .replace(/\/$/, "");        // Remove trailing slash
+}
+
+// Helper: Normalize a list of domains
+function fixDomains(domains) {
+    return domains.map((domain) => getCleanURL(domain));
+}
+
+// Helper: Fix URLs for safe replacements
+function fixUrls(url) {
+    return url.replace(/^https?:\/\//, "").replace(/\/$/, "");
 }
 
 // Helper: Generate Safe URLs
@@ -106,13 +119,13 @@ function generateSafeUrls(contentTypes, count) {
         recipes: [
             "https://www.allrecipes.com/recipe/17481/simple-white-cake",
             "https://www.bbcgoodfood.com/recipes/lentil-soup",
-            "https://www.bonappetit.com/recipe/barley-and-roasted-vegetable-soup?srsltid=AfmBOop_ksIiGrAhwsEts_8_j6I6yoPg0g3LGaFWmCiYq63c47JGd2Z_",
+            "https://www.bonappetit.com/recipe/barley-and-roasted-vegetable-soup",
             "https://www.loveandlemons.com/brownies-recipe",
             "https://www.bbcgoodfood.com/recipes/beef-vegetable-casserole",
             "https://www.seriouseats.com/pasta-carbonara-sauce-recipe",
             "https://minimalistbaker.com/1-bowl-vegan-banana-oat-pancakes",
             "https://www.delish.com/cooking/recipe-ideas/a19695267/best-caesar-salad-recipe",
-            "https://www.tasteofhome.com/recipes/apple-pie/?srsltid=AfmBOorBXZuMr6NggKL02mPU3DZDkDrQEvLsSwi7vdxkMhDf9hU_5XwT",
+            "https://www.tasteofhome.com/recipes/apple-pie",
             "https://www.kingarthurbaking.com/recipes/perfectly-pillowy-cinnamon-rolls-recipe"
         ],
         weather: [
@@ -131,11 +144,11 @@ function generateSafeUrls(contentTypes, count) {
             "https://www.netflix.com/browse/genre/89814",
             "https://www.hulu.com/guides/category/featured",
             "https://www.hbo.com/whats-new-whats-leaving",
-            "https://www.amazon.com/gp/video/storefront/ref=atv_hm_hom_legacy_redirect?contentId=IncludedwithPrime&contentType=merch&merchId=IncludedwithPrime",
+            "https://www.amazon.com/gp/video/storefront/ref=atv_hm_hom_legacy_redirect",
             "https://ondisneyplus.disney.com/recent-releases",
             "https://www.apple.com/tv-pr",
             "https://www.justwatch.com",
-            "https://www.shudder.com/collections/featured-collections/f3556f36d07487c80",
+            "https://www.shudder.com/collections/featured-collections",
             "https://tubitv.com/category/featured",
             "https://www.imdb.com/chart/moviemeter/?ref_=nv_mv_mpm"
         ],
@@ -153,11 +166,9 @@ function generateSafeUrls(contentTypes, count) {
         ]
     };
 
-    // Flatten and shuffle the URLs for randomness
+    // Flatten and shuffle URLs
     const allUrls = contentTypes.flatMap((type) => safeContentMap[type] || []);
     const shuffledUrls = shuffleArray(allUrls).slice(0, count);
-
-    console.log("Safe URLs after shuffling:", shuffledUrls);
     return shuffledUrls;
 }
 
@@ -168,26 +179,4 @@ function shuffleArray(array) {
         [array[i], array[j]] = [array[j], array[i]];
     }
     return array;
-}
-
-// Cleans URL to then add protocalls to all them to make sure they all work.
-function getCleanURL(url) {
-    // Remove protocol (http://, https://)
-    url = url.replace(/^https?:\/\//, "");
-    
-    // Remove "www."
-    url = url.replace(/^www\./, "");
-    
-    // Remove trailing slash (if any)
-    url = url.replace(/\/$/, "");
-
-    return url;
-}
-
-function fixDomains(domains) {
-    return domains.map(url => getCleanURL(url).replace(/^www\./, ""));
-}
-
-function fixUrls(url) {
-    return url.replace(/^https?:\/\//, "").replace(/\/$/, "");
 }
