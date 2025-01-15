@@ -5,6 +5,11 @@ const path = require('path');
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+// Serve static assets from the 'website' directory
+app.use(express.static(path.join(__dirname, '../../website')));
+
+app.use('/static', express.static(path.join(__dirname, 'public')));
+
 // Route for "How It Works" page
 app.get('/howItWorks', (req, res) => {
     res.sendFile(path.join(__dirname, '../../website/howItWorks.html'));
