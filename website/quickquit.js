@@ -57,7 +57,7 @@ $(document).ready(function () {
     // Updates codeblock based off user input
     function updateCode() {
         // Choses default value or user input if there is any
-        const domainGet = domainText.value || 'justlife.org.uk,lifeshare.org.uk';
+        const domainGet = domainText.value || 'https://quickquit.app';
         // Removes spaces incase user puts them (scenario like google.com, yahoo.com, etc)
         // doesnt work rn
         const domains =  domainGet.replace(/\s+/g, "");
