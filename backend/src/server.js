@@ -1,18 +1,29 @@
 require('dotenv').config();
 const express = require('express');
 const path = require('path');
+const cookieParser = require('cookie-parser');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
+
+// To read cookies
+app.use(cookieParser());
 
 // Serve static assets from the 'website' directory
 app.use(express.static(path.join(__dirname, '../../website')));
 
 app.use('/static', express.static(path.join(__dirname, 'public')));
 
-// Redirect root URL to the homepage
 app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, '../../website'));
+    // Check if the 'firstVisit' cookie exists
+    if (!req.cookies.firstVisit) {
+        // If no cookie, set the 'firstVisit' cookie to track future visits
+        res.cookie('firstVisit', 'false', { maxAge: 1000 * 60 * 60 * 24 * 365 * 10, httpOnly: true });
+        console.log('First-time visitor.');
+    } else {
+        console.log('Returning visitor.');
+        res.sendFile(path.join(__dirname, '../../website'));
+    }
 });
 
 // Route for "How It Works" page
@@ -34,20 +45,6 @@ app.get('/demo', (req, res) => {
 app.use((req, res) => {
     res.status(404).sendFile(path.join(__dirname, '../../website/404.html'));
 });
-
-// app.use(cookieParser());
-
-// app.get('/', (req, res) => {
-//   // Check if the user has the 'firstVisit' cookie
-//   if (!req.cookies.firstVisit) {
-//     // If no cookie, it's their first visit, so set the cookie
-//     res.cookie('firstVisit', 'false', { maxAge: 1000 * 60 * 60 * 24 * 365 * 10, httpOnly: true });
-//     res.send('Welcome! This is your first visit.');
-//   } else {
-//     // If the cookie exists, it's not their first visit
-//     res.send('Welcome back!');
-//   }
-// });
 
 // Start the server
 app.listen(PORT, () => {
