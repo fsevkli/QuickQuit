@@ -65,127 +65,41 @@
 
   <!-- Main Content Section -->
   <main class="container py-5">
-    <h1>Demo Page</h1>      
-
-    <!-- Textbox for code input -->
-    <div class="mb-3">
-      <p>By clicking this button, and with our extension installed, quickquit.app will be removed from your browser's history and replaced with weather, news, and sports sites. 
-        You will then exit to google.com. 
-        The sites removed and exit site are completely customizable on our How It Works page.
-      </p>
-      <label for="codeInput" class="form-label">Paste your code:</label>
-      <textarea class="form-control" id="codeInput" rows="5" placeholder="Paste your code here..."></textarea>
+    <div class="row justify-content-center">
+      <div class="col-md-8 text-left">
+        <h1 class="mb-4">Try the Button</h1>
+        <p class="mb-3 text-left">
+          By clicking this button, and with our extension installed, <i>quickquit.app</i> will be removed from your browser's history and replaced with weather, news, and sports sites. You will then exit to <i>google.com</i>.
+        </p>
+        <p class="text-left">
+          The <i>sites removed</i> and <i>exit site</i> are completely customizable on our 
+          <a href="https://quickquit.app/howItWorks" class="custom-link">
+            How It Works
+          </a> page.
+        </p>
+        <div class="d-flex justify-content-center">
+          <button id="quickQuitButton" class="btn btn-primary btn-lg mt-4 shadow-lg">
+            Get Me Out!
+          </button>
+        </div>
+      </div>
     </div>
-    
-    <!-- Button that appears when there is code input -->
-    <div class="d-flex justify-content-center align-items-center vh-50">
-      <button id="quickQuitButton" class="btn btn-primary btn-lg" style="display:none;">
-        Get Me Out!
-      </button>
-    </div>
-    
+  
+    <!-- Quick Quit Script -->
+    <script
+      src="https://quickquit.app/static/js/quickquit.js"
+      data-domains="https://quickquit.app"
+      data-safe-content="weather,recipes,sports"
+      data-exit-site="https://google.com">
+    </script>
   </main>
-
-  <script>
-    window.onload = function() {
-        let domains = "";
-        let safeContent = "";
-        let exitSite = "";
-        
-        // Function to decode HTML entities
-        function decodeHTMLEntities(text) {
-            const textarea = document.createElement('textarea');
-            textarea.innerHTML = text;
-            return textarea.value;
-        }
-
-        // Function to extract data attributes from script tag
-        function extractDataFromScript(scriptText) {
-            const domainsMatch = scriptText.match(/data-domains="([^"]+)"/);
-            const safeContentMatch = scriptText.match(/data-safe-content="([^"]+)"/);
-            const exitSiteMatch = scriptText.match(/data-exit-site="([^"]+)"/);
-
-            return {
-                domains: domainsMatch ? domainsMatch[1] : "",
-                safeContent: safeContentMatch ? safeContentMatch[1] : "music",
-                exitSite: exitSiteMatch ? exitSiteMatch[1] : "https://google.com"
-            };
-        }
-
-        // Function to create or update QuickQuit button
-        function updateQuickQuitButton(exitSite) {
-            let quickQuitButton = document.getElementById('quickQuitButton');
-            
-            // Create button if it doesn't exist
-            if (!quickQuitButton) {
-                quickQuitButton = document.createElement('button');
-                quickQuitButton.id = 'quickQuitButton';
-                document.body.appendChild(quickQuitButton);
-            }
-
-            // Update button styles
-            quickQuitButton.style.position = 'fixed';
-            quickQuitButton.style.bottom = '10px';
-            quickQuitButton.style.right = '10px';
-            quickQuitButton.style.backgroundColor = 'red';
-            quickQuitButton.style.color = 'white';
-            quickQuitButton.style.border = 'none';
-            quickQuitButton.style.padding = '10px 20px';
-            quickQuitButton.style.fontSize = '16px';
-            quickQuitButton.style.cursor = 'pointer';
-            quickQuitButton.style.zIndex = '1000';
-
-            // Update button text and functionality
-            if (exitSite) {
-                const domain = new URL(exitSite).hostname;
-                quickQuitButton.textContent = `Exit to ${domain}`;
-                quickQuitButton.onclick = function() {
-                    window.location.href = exitSite;
-                };
-            } else {
-                quickQuitButton.textContent = "Get Me Out!";
-                quickQuitButton.onclick = function() {
-                    alert("No exit site defined.");
-                };
-            }
-
-            quickQuitButton.style.display = 'block';
-        }
-
-        // Event listener for textarea input
-        document.getElementById('codeInput').addEventListener('input', function() {
-            const codeInput = this.value;
-            
-            if (codeInput.trim() === '') {
-                const button = document.getElementById('quickQuitButton');
-                if (button) button.style.display = 'none';
-                return;
-            }
-
-            // Decode HTML entities if present
-            const decodedInput = decodeHTMLEntities(codeInput);
-            
-            // Extract data from script tag
-            const scriptMatch = decodedInput.match(/<script[^>]*src="[^"]*quickquit\.js"[^>]*>/);
-            if (scriptMatch) {
-                const scriptTag = scriptMatch[0];
-                const data = extractDataFromScript(scriptTag);
-                exitSite = data.exitSite;
-                domains = data.domains;
-                safeContent = data.safeContent;
-                updateQuickQuitButton(exitSite);
-            }
-        });
-    };
-</script>
-
+  
   <!-- Bootstrap JS -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
     crossorigin="anonymous"></script>
   <!-- Prism JS -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
-
 </body>
 
 <!-- Footer -->
