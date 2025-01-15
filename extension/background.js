@@ -132,7 +132,14 @@ function generateSafeUrls(contentTypes, count) {
         shows: [
             "https://www.netflix.com/browse/genre/89814",
             "https://www.hulu.com/guides/category/featured",
-            "https://www.hbo.com/whats-new-whats-leaving"
+            "https://www.hbo.com/whats-new-whats-leaving",
+            "https://www.amazon.com/gp/video/storefront/ref=atv_hm_hom_legacy_redirect?contentId=IncludedwithPrime&contentType=merch&merchId=IncludedwithPrime",
+            "https://ondisneyplus.disney.com/recent-releases",
+            "https://www.apple.com/tv-pr",
+            "https://www.justwatch.com",
+            "https://www.shudder.com/collections/featured-collections/f3556f36d07487c80",
+            "https://tubitv.com/category/featured",
+            "https://www.imdb.com/chart/moviemeter/?ref_=nv_mv_mpm"
         ],
         music: [
             "https://open.spotify.com/track/4fGEj1YkKvY4KZiK8isuSg",
