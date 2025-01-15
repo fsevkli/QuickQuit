@@ -1,15 +1,18 @@
 $(document).ready(function () {
-    document.querySelectorAll('.navbar a').forEach((link) => {
-        link.addEventListener('click', (event) => {
+    const navbarLinks = document.querySelectorAll('.navbar a');
+    if (navbarLinks.length > 0) {
+        navbarLinks.forEach((link) => {
+            link.addEventListener('click', (event) => {
             const currentPath = window.location.pathname + window.location.search; // Include query params if any
             const targetPath = new URL(event.target.href).pathname;
 
-            if (currentPath === targetPath) {
+                if (currentPath === targetPath) {
                 event.preventDefault(); // Prevent page reload
                 window.scrollTo({ top: 0, behavior: 'smooth' }); // Smooth scroll to the top
-            }
+                }
+            });
         });
-    });
+    }
 
 
     // copy to clipboard function
