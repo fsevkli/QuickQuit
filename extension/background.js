@@ -46,7 +46,7 @@ function isGoogleUrl(url) {
 function generateSafeUrls(contentTypes, count) {
     const safeContentMap = {
         news: [
-            "https://www.bbc.co.uk/news/world",
+            "https://www.bbc.com/live/news",
             "https://edition.cnn.com/world",
             "https://www.nytimes.com/section/world"
         ],
