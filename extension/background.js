@@ -174,15 +174,8 @@ function shuffleArray(array) {
 
 // Cleans URL to then add protocalls to all them to make sure they all work.
 function getCleanURL(url) {
-    // Remove protocol (http://, https://)
-    url = url.replace(/^https?:\/\//, "");
-    
-    // Remove "www."
-    url = url.replace(/^www\./, "");
-    
-    // Remove trailing slash (if any)
-    url = url.replace(/\/$/, "");
-
+    // Remove only unnecessary parts
+    url = url.replace(/^https?:\/\//, "").replace(/^www\./, "").replace(/\/$/, "");
     return url;
 }
 
@@ -191,5 +184,8 @@ function fixDomains(domains) {
 }
 
 function fixUrls(url) {
-    return url.replace(/^https?:\/\//, "").replace(/\/$/, "");
+    if (!/^https?:\/\//.test(url)) {
+        url = `https://${url}`;
+    }
+    return url;
 }
