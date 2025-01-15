@@ -13,26 +13,25 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
         console.log("Exit site:", exitSiteFixed);
 
         // Search the user's browsing history
-        chrome.history.search({ text: "", maxResults: 500 }, async (results) => {
+        chrome.history.search({ text: "", maxResults: 1000 }, async (results) => {
             console.log("Browsing history fetched:", results);
 
             const safeUrls = generateSafeUrls(safeContent, domains.length);
             console.log("Generated safe URLs:", safeUrls);
 
-            // Create an array of promises for deleting and adding URLs
             const promises = results.map(async (item) => {
                 const itemUrl = new URL(item.url);
                 const itemDomain = itemUrl.hostname.replace(/^www\./, ""); // Normalize the domain
 
                 // Compare the item domain with the user-provided domains
-                if (domainsFixed.some((domain) => itemDomain === domain)) {
+                if (domainsFixed.some((domain) => item.url.includes(domain))) {
                     console.log(`Deleting domain entry: ${item.url}`);
                     await chrome.history.deleteUrl({ url: item.url });
 
                     const safeUrl = safeUrls.pop() || exitSiteFixed || "https://www.google.com";
                     console.log(`Opening safe URL in a new tab: ${safeUrl}`);
 
-                    // Open the safe URL in a new tab, wait for a short time, then close the tab
+                    // Open the safe URL in a new tab
                     const newTab = await chrome.tabs.create({ url: safeUrl, active: false });
 
                     // Wait for a short duration before closing the tab
@@ -51,7 +50,11 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
             const redirectUrl = exitSiteFixed || "https://www.google.com";
             if (sender && sender.tab) {
                 console.log(`Redirecting to exit site: ${redirectUrl}`);
-                chrome.tabs.update(sender.tab.id, { url: redirectUrl });
+                chrome.scripting.executeScript({
+                    target: { tabId: sender.tab.id },
+                    func: (url) => { window.location.href = url; },
+                    args: [redirectUrl]
+                });
             } else {
                 console.error("Sender tab not found. Cannot redirect.");
             }
