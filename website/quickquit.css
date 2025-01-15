@@ -22,7 +22,7 @@ body {
 /* Navbar styling */
 .navbar {
     background-color: var(--cream) !important;
-    padding: 0;
+    padding: .5;
     border-bottom: 1px solid var(--border-color);
     box-shadow: 0 2px 4px rgba(74, 36, 69, 0.05);
 }
@@ -34,7 +34,10 @@ body {
 .navbar .navbar-brand {
     font-weight: bold;
     color: var(--text-color) !important;
-    padding: 1rem 0;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
     position: relative;
 }
 
@@ -55,7 +58,10 @@ body {
 }
 
 .navbar .navbar-nav .nav-link {
-    padding: 1rem 1.5rem;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
     color: var(--text-color) !important;
     position: relative;
     transition: color 0.3s ease;
@@ -73,7 +79,19 @@ body {
     transition: transform 0.3s ease;
 }
 
-.navbar .navbar-nav .nav-link:hover::after {
+#viewGitHubButton::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%; 
+    height: 3px;
+    background-color: var(--green);
+    transform: scaleX(0);
+    transition: transform 0.3s ease;
+}
+
+.navbar .navbar-nav .nav-link:hover::after, #viewGitHubButton:hover::after {
     transform: scaleX(1);
 }
 
@@ -496,3 +514,35 @@ li {
 .left-aligned-text {
     text-align: left;
 }
+
+#background-image::before {
+    background-image: url('images/fullClass.JPG');
+      background-size: cover;
+      position: absolute;
+      top: 0px;
+      right: 0px;
+      bottom: 0px;
+      left: 0px;
+      opacity: 0.45;
+      content: "";
+   }
+   
+   
+   
+   
+   #background-image {
+      position: relative;
+      width: 100vw;
+      height: 50vh;
+   }
+   
+   
+   #background-image-text {
+      color: var(--heading-color);
+      text-align: center;
+      position: relative;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+   }
+   
