@@ -427,7 +427,18 @@ li {
     font-size: 0.875rem;
     text-align: center;
 }
+/* Link Styling */
+.custom-link {
+    color: var(--text-color);           /* Default color */
+    text-decoration: none;        /* Remove underline */
+    font-weight: bold;            /* Make the link stand out */
+    transition: color 0.3s ease;  /* Smooth transition on hover */
+}
 
+.custom-link:hover {
+    color: var(--gold);           /* Accent color on hover */
+    text-decoration: underline;   /* Add underline for hover */
+}
 
 /* Responsive styles */
 @media (max-width: 767px) {

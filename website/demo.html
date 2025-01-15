@@ -65,29 +65,35 @@
 
   <!-- Main Content Section -->
   <main class="container py-5">
-    <h1>Demo Page</h1>
+    <div class="row justify-content-center">
+      <div class="col-md-8 text-left">
+        <h1 class="mb-4">Try the Button</h1>
+        <p class="mb-3 text-left">
+          By clicking this button, and with our extension installed, quickquit.app will be removed from your browser's history and replaced with weather, news, and sports sites. You will then exit to google.com.
+        </p>
+        <p class="text-left">
+          The sites removed and exit site are completely customizable on our 
+          <a href="https://quickquit.app/howItWorks" class="custom-link">
+            How It Works
+          </a> page.
+        </p>
+        <div class="d-flex justify-content-center">
+          <button id="quickQuitButton" class="btn btn-primary btn-lg mt-4 shadow-lg">
+            Get Me Out!
+          </button>
+        </div>
+      </div>
+    </div>
+  
+    <!-- Quick Quit Script -->
+    <script
+      src="https://quickquit.app/static/js/quickquit.js"
+      data-domains="https://quickquit.app"
+      data-safe-content="weather,recipes,sports"
+      data-exit-site="https://google.com">
+    </script>
   </main>
-  <!-- Quick Quit Button -->
-<!-- Below ID for Custom Styling -->        
-<button id="quickQuitButton" style="
-position: fixed;
-bottom: 10px;
-right: 10px;
-background-color: red;
-color: white;
-border: none;
-padding: 10px 20px;
-font-size: 16px;
-cursor: pointer;
-z-index: 1000;">Get Me Out!</button>
-
-<!-- Quick Quit Script -->
-<script
-src="https://quickquit.app/static/js/quickquit.js"
-data-domains="https://www.justlife.org.uk/, https://www.lifeshare.org.uk/"
-data-safe-content="weather,recipes,sports"
-data-exit-site="https://google.com">
-</script>
+  
   <!-- Bootstrap JS -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
