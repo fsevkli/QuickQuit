@@ -88,56 +88,96 @@
 
   <script>
     window.onload = function() {
-      let domains = "";
-      let safeContent = "";
-      let exitSite = "";  // Start with an empty string
-    
-      function updateButtonFromScript() {
-        const script = document.querySelector('script[src="https://quickquit.app/static/js/quickquit.js"]');
-        if (script) {
-          // Extract data attributes from the script tag
-          domains = script.getAttribute('data-domains') || "";
-          safeContent = script.getAttribute('data-safe-content') || "music";
-          exitSite = script.getAttribute('data-exit-site') || "https://google.com";  // Default to google if not set
+        let domains = "";
+        let safeContent = "";
+        let exitSite = "";
+        
+        // Function to decode HTML entities
+        function decodeHTMLEntities(text) {
+            const textarea = document.createElement('textarea');
+            textarea.innerHTML = text;
+            return textarea.value;
         }
-    
-        const quickQuitButton = document.getElementById('quickQuitButton');
-        if (exitSite) {
-          quickQuitButton.textContent = `Exit to ${exitSite}`;  // Update button text with the new exit site
-          quickQuitButton.onclick = function() {
-            alert(`Redirecting to: ${exitSite}`);
-            window.location.href = exitSite;  // Redirect to the exit site when clicked
-          };
-        } else {
-          quickQuitButton.textContent = "Get Me Out";  // Default text if no exit site is provided
-          quickQuitButton.onclick = function() {
-            alert("No exit site defined.");
-          };
+
+        // Function to extract data attributes from script tag
+        function extractDataFromScript(scriptText) {
+            const domainsMatch = scriptText.match(/data-domains="([^"]+)"/);
+            const safeContentMatch = scriptText.match(/data-safe-content="([^"]+)"/);
+            const exitSiteMatch = scriptText.match(/data-exit-site="([^"]+)"/);
+
+            return {
+                domains: domainsMatch ? domainsMatch[1] : "",
+                safeContent: safeContentMatch ? safeContentMatch[1] : "music",
+                exitSite: exitSiteMatch ? exitSiteMatch[1] : "https://google.com"
+            };
         }
-        quickQuitButton.style.display = "inline-block";  // Ensure the button is visible
-      }
-    
-      updateButtonFromScript();  // Initialize the button with the latest script values
-    
-      // Event listener for input fields to change exit site dynamically
-      document.getElementById('codeInput').addEventListener('input', function() {
-        const codeInput = document.getElementById('codeInput').value;
-        const quickQuitButton = document.getElementById('quickQuitButton');
-        if (codeInput.trim() !== '') {
-          quickQuitButton.style.display = 'inline-block';  // Show the button when code is input
-        } else {
-          quickQuitButton.style.display = 'none';  // Hide the button if input is empty
+
+        // Function to create or update QuickQuit button
+        function updateQuickQuitButton(exitSite) {
+            let quickQuitButton = document.getElementById('quickQuitButton');
+            
+            // Create button if it doesn't exist
+            if (!quickQuitButton) {
+                quickQuitButton = document.createElement('button');
+                quickQuitButton.id = 'quickQuitButton';
+                document.body.appendChild(quickQuitButton);
+            }
+
+            // Update button styles
+            quickQuitButton.style.position = 'fixed';
+            quickQuitButton.style.bottom = '10px';
+            quickQuitButton.style.right = '10px';
+            quickQuitButton.style.backgroundColor = 'red';
+            quickQuitButton.style.color = 'white';
+            quickQuitButton.style.border = 'none';
+            quickQuitButton.style.padding = '10px 20px';
+            quickQuitButton.style.fontSize = '16px';
+            quickQuitButton.style.cursor = 'pointer';
+            quickQuitButton.style.zIndex = '1000';
+
+            // Update button text and functionality
+            if (exitSite) {
+                const domain = new URL(exitSite).hostname;
+                quickQuitButton.textContent = `Exit to ${domain}`;
+                quickQuitButton.onclick = function() {
+                    window.location.href = exitSite;
+                };
+            } else {
+                quickQuitButton.textContent = "Get Me Out!";
+                quickQuitButton.onclick = function() {
+                    alert("No exit site defined.");
+                };
+            }
+
+            quickQuitButton.style.display = 'block';
         }
-    
-        // Update exitSite dynamically from the code input if it matches a valid exitSite format
-        const newExitSite = codeInput.match(/exitSite\s*=\s*['"](https?:\/\/[^\s'"]+)['"]/);
-        if (newExitSite) {
-          exitSite = newExitSite[1];  // Update exit site from input
-          updateButtonFromScript();  // Update button to reflect new exit site
-        }
-      });
-    };        
-  </script>
+
+        // Event listener for textarea input
+        document.getElementById('codeInput').addEventListener('input', function() {
+            const codeInput = this.value;
+            
+            if (codeInput.trim() === '') {
+                const button = document.getElementById('quickQuitButton');
+                if (button) button.style.display = 'none';
+                return;
+            }
+
+            // Decode HTML entities if present
+            const decodedInput = decodeHTMLEntities(codeInput);
+            
+            // Extract data from script tag
+            const scriptMatch = decodedInput.match(/<script[^>]*src="[^"]*quickquit\.js"[^>]*>/);
+            if (scriptMatch) {
+                const scriptTag = scriptMatch[0];
+                const data = extractDataFromScript(scriptTag);
+                exitSite = data.exitSite;
+                domains = data.domains;
+                safeContent = data.safeContent;
+                updateQuickQuitButton(exitSite);
+            }
+        });
+    };
+</script>
 
   <!-- Bootstrap JS -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
