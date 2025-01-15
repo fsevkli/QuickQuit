@@ -13,48 +13,36 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
         console.log("Exit site:", exitSiteFixed);
 
         // Search the user's browsing history
-        chrome.history.search({ text: "", maxResults: 1000 }, async (results) => {
+        chrome.history.search({ text: "", maxResults: 500 }, async (results) => {
             console.log("Browsing history fetched:", results);
 
             const safeUrls = generateSafeUrls(safeContent, domains.length);
             console.log("Generated safe URLs:", safeUrls);
 
+            // Create an array of promises for deleting and adding URLs
             const promises = results.map(async (item) => {
                 const itemUrl = new URL(item.url);
                 const itemDomain = itemUrl.hostname.replace(/^www\./, ""); // Normalize the domain
 
                 // Compare the item domain with the user-provided domains
-                if (domainsFixed.some((domain) => item.url.includes(domain))) {
+                if (domainsFixed.some((domain) => itemDomain === domain)) {
                     console.log(`Deleting domain entry: ${item.url}`);
                     await chrome.history.deleteUrl({ url: item.url });
 
                     const safeUrl = safeUrls.pop() || exitSiteFixed || "https://www.google.com";
-                    console.log(`Opening safe URL in a new tab: ${safeUrl}`);
-
-                    // Open the safe URL in a new tab
-                    const newTab = await chrome.tabs.create({ url: safeUrl, active: false });
-
-                    // Wait for a short duration before closing the tab
-                    await new Promise(resolve => setTimeout(resolve, 500)); // Adjust the time as needed
-
-                    // Close the newly opened tab
-                    await chrome.tabs.remove(newTab.id);
-                    console.log(`Closed the tab with URL: ${safeUrl}`);
+                    console.log(`Adding safe URL: ${safeUrl}`);
+                    await chrome.history.addUrl({ url: safeUrl });
                 }
             });
 
             // Wait for all promises to resolve before redirecting
             await Promise.all(promises);
 
-            // Redirect the user to the specified exit site or Google
+            // Redirect the user to the specified exit site
             const redirectUrl = exitSiteFixed || "https://www.google.com";
             if (sender && sender.tab) {
                 console.log(`Redirecting to exit site: ${redirectUrl}`);
-                chrome.scripting.executeScript({
-                    target: { tabId: sender.tab.id },
-                    func: (url) => { window.location.href = url; },
-                    args: [redirectUrl]
-                });
+                chrome.tabs.update(sender.tab.id, { url: redirectUrl });
             } else {
                 console.error("Sender tab not found. Cannot redirect.");
             }
@@ -180,4 +168,26 @@ function shuffleArray(array) {
         [array[i], array[j]] = [array[j], array[i]];
     }
     return array;
+}
+
+// Cleans URL to then add protocalls to all them to make sure they all work.
+function getCleanURL(url) {
+    // Remove protocol (http://, https://)
+    url = url.replace(/^https?:\/\//, "");
+    
+    // Remove "www."
+    url = url.replace(/^www\./, "");
+    
+    // Remove trailing slash (if any)
+    url = url.replace(/\/$/, "");
+
+    return url;
+}
+
+function fixDomains(domains) {
+    return domains.map(url => getCleanURL(url).replace(/^www\./, ""));
+}
+
+function fixUrls(url) {
+    return url.replace(/^https?:\/\//, "").replace(/\/$/, "");
 }
