@@ -42,8 +42,8 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
             // Redirect the user to the specified exit site
             const redirectUrl = exitSiteFixed || "https://www.google.com";
             if (sender && sender.tab) {
-                console.log(`Redirecting tab ${sender.tab.id} to: ${redirectUrl}`);
-                chrome.tabs.update(sender.tab.id, { url: redirectUrl });
+                console.log(`Redirecting to google tab22222 ${sender.tab.id} to: ${redirectUrl}`);
+                chrome.tabs.update(sender.tab.id, { url: "https://www.youtube.com" });
             } else {
                 console.error("Sender tab not found. Cannot redirect.");
             }
