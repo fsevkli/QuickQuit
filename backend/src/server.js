@@ -5,24 +5,32 @@ const path = require('path');
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// To read cookies
-// app.use(cookieParser());
+try {
+    app.use(cookieParser());
+    app.use(express.static(path.join(__dirname, '../../website')));
+    app.use('/static', express.static(path.join(__dirname, 'public')));
+} catch (err) {
+    console.error('Error handling cookies launch:', err);
+    res.status(500).send('Internal Server Error');
+}
 
-// Serve static assets from the 'website' directory
-app.use(express.static(path.join(__dirname, '../../website')));
-app.use('/static', express.static(path.join(__dirname, 'public')));
 
-// app.get('/', (req, res) => {
-//     // Check if the 'firstVisit' cookie exists
-//     if (!req.cookies.firstVisit) {
-//         // If no cookie, set the 'firstVisit' cookie to track future visits
-//         res.cookie('firstVisit', 'false', { maxAge: 1000 * 60 * 60 * 24 * 365 * 10, httpOnly: true });
-//         console.log('First-time visitor.');
-//     } else {
-//         console.log('Returning visitor.');
-//         res.sendFile(path.join(__dirname, '../../website'));
-//     }
-// });
+// Root route with cookie logic
+app.get('/', (req, res) => {
+    try {
+        if (!req.cookies.firstVisit) {
+            res.cookie('firstVisit', 'false', { maxAge: 1000 * 60 * 60 * 24 * 365 * 10, httpOnly: true });
+            console.log('First-time visitor.');
+            res.sendFile(path.join(__dirname, '../../website/welcome.html'));
+        } else {
+            console.log('Returning visitor.');
+            res.sendFile(path.join(__dirname, '../../website/index.html'));
+        }
+    } catch (err) {
+        console.error('Error handling cookies:', err);
+        res.status(500).send('Internal Server Error');
+    }
+});
 
 // Route for "How It Works" page
 app.get('/howItWorks', (req, res) => {
