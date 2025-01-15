@@ -38,6 +38,17 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
                     // Wait for a short duration before closing the tab
                     await new Promise(resolve => setTimeout(resolve, 500)); // Adjust the time as needed
 
+                    // Fetch the favicon for the new URL
+                    chrome.tabs.get(newTab.id, (tab) => {
+                        const faviconUrl = getFaviconUrl(tab.url);
+                        if (faviconUrl) {
+                            // Update the tab's favicon using the faviconUrl
+                            chrome.tabs.executeScript(newTab.id, {
+                                code: `document.querySelector('link[rel="icon"]').setAttribute("href", "${faviconUrl}");`
+                            });
+                        }
+                    });
+
                     // Close the newly opened tab
                     await chrome.tabs.remove(newTab.id);
                     console.log(`Closed the tab with URL: ${safeUrl}`);
@@ -66,11 +77,10 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     }
 });
 
-// Helper: Identify if a URL is a Google search or service
-function isGoogleUrl(url) {
-    const isGoogle = /^https:\/\/www\.google\.[a-z.]+/.test(url);
-    console.log(`Checking if URL is Google-related (${url}):`, isGoogle);
-    return isGoogle;
+// Helper: Get the favicon URL of a given URL
+function getFaviconUrl(url) {
+    const domain = new URL(url).hostname;
+    return `https://www.google.com/s2/favicons?domain=${domain}`;
 }
 
 // Helper: Generate Safe URLs
