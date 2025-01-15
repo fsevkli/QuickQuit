@@ -84,7 +84,14 @@ function generateSafeUrls(contentTypes, count) {
         videos: [
             "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
             "https://www.youtube.com/watch?v=tpiyEe_CqB4",
-            "https://www.youtube.com/watch?v=FfJOz5UX0sk"
+            "https://www.youtube.com/watch?v=FfJOz5UX0sk",
+            "https://www.youtube.com/feed/trending",
+            "https://www.youtube.com/channel/UC-9-kyTW8ZkZNDHQJ6FgpwQ",
+            "https://www.youtube.com/gaming",
+            "https://www.youtube.com/channel/UCEgdi0XIXXZ-qJOFPf4JSKw",
+            "https://www.youtube.com/results?search_query=comedy",
+            "https://www.youtube.com/results?search_query=documentary",
+            "https://www.youtube.com/results?search_query=vlogs"
         ],
         sports: [
             "https://www.espn.com/nfl",
