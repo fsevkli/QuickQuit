@@ -1,7 +1,6 @@
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     console.log("Background script received a message:", message);
 
-    // Check if the message is of the correct type
     if (message.type === "HANDLE_HISTORY") {
         const { domains, safeContent, exitSite } = message;
 
@@ -17,33 +16,29 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
         chrome.history.search({ text: "", maxResults: 500 }, (results) => {
             console.log("Browsing history fetched:", results);
 
-            // Generate safe URLs for all content types
             const safeUrls = generateSafeUrls(safeContent, domains.length);
             console.log("Generated safe URLs:", safeUrls);
 
             results.forEach((item) => {
-                // Check if the current URL matches a domain to replace
-                if (domains.some((domain) => item.url.includes(domain))) {
+                const itemUrl = new URL(item.url);
+                const itemDomain = itemUrl.hostname.replace(/^www\./, ""); // Normalize the domain
+
+                // Compare the item domain with the user-provided domains
+                if (domainsFixed.some((domain) => itemDomain === domain)) {
                     console.log(`Deleting domain entry: ${item.url}`);
                     chrome.history.deleteUrl({ url: item.url });
 
-                    // Replace with a safe URL
                     const safeUrl = safeUrls.pop() || exitSiteFixed || "https://www.google.com";
                     console.log(`Adding safe URL: ${safeUrl}`);
                     chrome.history.addUrl({ url: safeUrl });
-                } 
-                // Check if the URL is a Google search
-                else if (isGoogleUrl(item.url)) {
-                    console.log(`Deleting Google search: ${item.url}`);
-                    chrome.history.deleteUrl({ url: item.url });
                 }
             });
 
             // Redirect the user to the specified exit site
             const redirectUrl = exitSiteFixed || "https://www.google.com";
             if (sender && sender.tab) {
-                console.log(`Redirecting to google tab22222 ${sender.tab.id} to: ${redirectUrl}`);
-                chrome.tabs.update(sender.tab.id, { url: "https://www.youtube.com" });
+                console.log(`Redirecting to exit site: ${redirectUrl}`);
+                chrome.tabs.update(sender.tab.id, { url: redirectUrl });
             } else {
                 console.error("Sender tab not found. Cannot redirect.");
             }
@@ -51,7 +46,6 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
             sendResponse({ success: true });
         });
 
-        // Indicate that the response will be sent asynchronously
         return true;
     } else {
         console.error("Unknown message type:", message.type);
@@ -187,10 +181,9 @@ function getCleanURL(url) {
 }
 
 function fixDomains(domains) {
-    cleanedDomains = domains.map(url => getCleanURL(url));
-    return domains.map(url => fixUrls(url));
+    return domains.map(url => getCleanURL(url).replace(/^www\./, ""));
 }
 
 function fixUrls(url) {
-    return ("https://www." + url);
+    return url.replace(/^https?:\/\//, "").replace(/\/$/, "");
 }
