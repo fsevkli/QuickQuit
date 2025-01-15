@@ -120,7 +120,14 @@ function generateSafeUrls(contentTypes, count) {
         weather: [
             "https://weather.com",
             "https://www.weather.gov",
-            "https://www.wunderground.com"
+            "https://www.wunderground.com",
+            "https://www.accuweather.com",
+            "https://www.theweathernetwork.com",
+            "https://www.windy.com",
+            "https://www.nhc.noaa.gov",
+            "https://www.weatherbug.com",
+            "https://www.yahoo.com/news/weather",
+            "https://www.climate.gov"
         ],
         shows: [
             "https://www.netflix.com/browse/genre/89814",
