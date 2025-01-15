@@ -74,7 +74,11 @@ function fixDomains(domains) {
 
 // Helper: Fix URLs for safe replacements
 function fixUrls(url) {
-    return url.replace(/^https?:\/\//, "").replace(/\/$/, "");
+    // Ensure the URL has a protocol
+    if (!/^https?:\/\//.test(url)) {
+        return `https://${url}`;
+    }
+    return url;
 }
 
 // Helper: Generate Safe URLs
