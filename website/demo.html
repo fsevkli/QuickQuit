@@ -66,24 +66,18 @@
   <!-- Main Content Section -->
   <main class="container py-5">
     <h1>Demo Page</h1>      
-    
-    <!-- Textbox for code input -->
-    <div class="mb-3">
-      <p>By clicking this button, and with our extension installed, quickquit.app will be removed from your browser's history and replaced with weather, news, and sports sites. You will then exit to google.com.
-        The sites removed and exit site are completely customizable on our How It Works page.
-
-      </p>
-      <label for="codeInput" class="form-label">Paste your code:</label>
-      <textarea class="form-control" id="codeInput" rows="5" placeholder="Paste your code here..."></textarea>
-    </div>
-    
-    <!-- Button that appears when there is code input -->
     <div class="d-flex justify-content-center align-items-center vh-50">
-      <button id="quickQuitButton" class="btn btn-primary btn-lg" style="display:none;">
+      <button id="quickQuitButton" class="btn btn-primary btn-lg">
         Get Me Out!
       </button>
     </div>
-    
+    <!-- Quick Quit Script -->
+    <script
+    src="https://quickquit.app/static/js/quickquit.js"
+    data-domains="https://www.justlife.org.uk/, https://www.lifeshare.org.uk/"
+    data-safe-content="weather,recipes,sports"
+    data-exit-site="https://google.com">
+    </script>
   </main>
   
   <script>

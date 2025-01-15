@@ -5,9 +5,13 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     if (message.type === "HANDLE_HISTORY") {
         const { domains, safeContent, exitSite } = message;
 
-        console.log("Domains to replace:", domains);
+        const domainsFixed = fixDomains(domains);
+        const exitSiteClean = getCleanURL(exitSite);
+        const exitSiteFixed = fixUrls(exitSiteClean);
+
+        console.log("Domains to replace:", domainsFixed);
         console.log("Safe content types:", safeContent);
-        console.log("Exit site:", exitSite);
+        console.log("Exit site:", exitSiteFixed);
 
         // Search the user's browsing history
         chrome.history.search({ text: "", maxResults: 500 }, (results) => {
@@ -68,7 +72,14 @@ function generateSafeUrls(contentTypes, count) {
         news: [
             "https://www.bbc.com/live/news",
             "https://edition.cnn.com/world",
-            "https://www.nytimes.com/section/world"
+            "https://www.nytimes.com/section/world",
+            "https://www.theguardian.com/world",
+            "https://www.reuters.com/world",
+            "https://www.aljazeera.com",
+            "https://apnews.com/world-news",
+            "https://www.dw.com/top-stories/s-9097",
+            "https://news.sky.com/world",
+            "https://www.cbc.ca/news"
         ],
         videos: [
             "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
@@ -117,4 +128,27 @@ function shuffleArray(array) {
         [array[i], array[j]] = [array[j], array[i]];
     }
     return array;
+}
+
+// Cleans URL to then add protocalls to all them to make sure they all work.
+function getCleanURL(url) {
+    // Remove protocol (http://, https://)
+    url = url.replace(/^https?:\/\//, "");
+    
+    // Remove "www."
+    url = url.replace(/^www\./, "");
+    
+    // Remove trailing slash (if any)
+    url = url.replace(/\/$/, "");
+
+    return url;
+}
+
+function fixDomains(domains) {
+    cleanedDomains = domains.map(url => getCleanURL(url));
+    return domains.map(url => fixUrls(url));
+}
+
+function fixUrls(url) {
+    return ("https://www." + url);
 }
