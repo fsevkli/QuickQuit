@@ -90,49 +90,54 @@
     window.onload = function() {
       let domains = "";
       let safeContent = "";
-      let exitSite = "https://google.com";  // Empty string for exitSite
-  
+      let exitSite = "https://google.com";  // Default exit site
+    
       function updateButtonFromScript() {
-          const script = document.querySelector('script[src="https://quickquit.app/static/js/quickquit.js"]');
-          if (script) {
-              // Extracting data attributes set by quickquit.js
-              domains = script.getAttribute('data-domains') || "";
-              safeContent = script.getAttribute('data-safe-content') || "news,videos";
-              exitSite = script.getAttribute('data-exit-site') || "";  // Exit site is empty by default
-          }
-  
-          // Constructing dynamic button behavior
-          const quickQuitButton = document.getElementById('quickQuitButton');
-          
-          if (exitSite) {
-              quickQuitButton.textContent = `Exit to ${exitSite}`;  // Dynamic button text if exit site is provided
-              quickQuitButton.onclick = function() {
-                  alert(`Redirecting to: ${exitSite}`);
-                  window.location.href = exitSite;  // Redirect to the exit site when clicked
-              };
-          } else {
-              quickQuitButton.textContent = "Get Me Out";  // Default text if no exit site is provided
-              quickQuitButton.onclick = function() {
-                  alert("No exit site defined.");
-              };
-          }
-          
-          quickQuitButton.style.display = "inline-block";  // Ensure the button is visible
+        const script = document.querySelector('script[src="https://quickquit.app/static/js/quickquit.js"]');
+        if (script) {
+          // Extract data attributes set by quickquit.js
+          domains = script.getAttribute('data-domains') || "";
+          safeContent = script.getAttribute('data-safe-content') || "news,videos";
+          exitSite = script.getAttribute('data-exit-site') || "https://google.com";  // Default to google.com if empty
+        }
+    
+        const quickQuitButton = document.getElementById('quickQuitButton');
+        if (exitSite) {
+          quickQuitButton.textContent = `Exit to ${exitSite}`;  // Dynamic button text if exit site is provided
+          quickQuitButton.onclick = function() {
+            alert(`Redirecting to: ${exitSite}`);
+            window.location.href = exitSite;  // Redirect to the exit site when clicked
+          };
+        } else {
+          quickQuitButton.textContent = "Get Me Out";  // Default text if no exit site is provided
+          quickQuitButton.onclick = function() {
+            alert("No exit site defined.");
+          };
+        }
+        quickQuitButton.style.display = "inline-block";  // Ensure the button is visible
       }
-  
+    
       updateButtonFromScript();  // Initialize the button with the latest script values
-  
-      // Event listener for input fields
+    
+      // Event listener for input fields to change exit site dynamically
       document.getElementById('codeInput').addEventListener('input', function() {
-          const codeInput = document.getElementById('codeInput').value;
-          const quickQuitButton = document.getElementById('quickQuitButton');
-          if (codeInput.trim() !== '') {
-              quickQuitButton.style.display = 'inline-block';  // Show the button when code is input
-          } else {
-              quickQuitButton.style.display = 'none';  // Hide the button if input is empty
-          }
+        const codeInput = document.getElementById('codeInput').value;
+        const quickQuitButton = document.getElementById('quickQuitButton');
+        if (codeInput.trim() !== '') {
+          quickQuitButton.style.display = 'inline-block';  // Show the button when code is input
+        } else {
+          quickQuitButton.style.display = 'none';  // Hide the button if input is empty
+        }
+    
+        // Update exitSite dynamically from the code input
+        const newExitSite = codeInput.match(/exitSite\s*=\s*['"](https?:\/\/[^\s'"]+)['"]/);
+        if (newExitSite) {
+          exitSite = newExitSite[1];  // Update exit site from input
+          updateButtonFromScript();  // Update button to reflect new exit site
+        }
       });
-  };      
+    };
+        
   </script>
 
   <!-- Bootstrap JS -->
