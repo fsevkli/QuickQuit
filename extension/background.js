@@ -108,7 +108,14 @@ function generateSafeUrls(contentTypes, count) {
         recipes: [
             "https://www.allrecipes.com/recipe/17481/simple-white-cake",
             "https://www.bbcgoodfood.com/recipes/lentil-soup",
-            "https://www.loveandlemons.com/brownies-recipe"
+            "https://www.bonappetit.com/recipe/barley-and-roasted-vegetable-soup?srsltid=AfmBOop_ksIiGrAhwsEts_8_j6I6yoPg0g3LGaFWmCiYq63c47JGd2Z_",
+            "https://www.loveandlemons.com/brownies-recipe",
+            "https://www.bbcgoodfood.com/recipes/beef-vegetable-casserole",
+            "https://www.seriouseats.com/pasta-carbonara-sauce-recipe",
+            "https://minimalistbaker.com/1-bowl-vegan-banana-oat-pancakes",
+            "https://www.delish.com/cooking/recipe-ideas/a19695267/best-caesar-salad-recipe",
+            "https://www.tasteofhome.com/recipes/apple-pie/?srsltid=AfmBOorBXZuMr6NggKL02mPU3DZDkDrQEvLsSwi7vdxkMhDf9hU_5XwT",
+            "https://www.kingarthurbaking.com/recipes/perfectly-pillowy-cinnamon-rolls-recipe"
         ],
         weather: [
             "https://weather.com",
