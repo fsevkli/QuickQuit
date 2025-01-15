@@ -1,10 +1,21 @@
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
+    console.log("Background script received a message:", message);
+
+    // Check if the message is of the correct type
     if (message.type === "HANDLE_HISTORY") {
         const { domains, safeContent, exitSite } = message;
 
+        console.log("Domains to replace:", domains);
+        console.log("Safe content types:", safeContent);
+        console.log("Exit site:", exitSite);
+
+        // Search the user's browsing history
         chrome.history.search({ text: "", maxResults: 500 }, (results) => {
+            console.log("Browsing history fetched:", results);
+
             // Generate safe URLs for all content types
             const safeUrls = generateSafeUrls(safeContent, domains.length);
+            console.log("Generated safe URLs:", safeUrls);
 
             results.forEach((item) => {
                 // Check if the current URL matches a domain to replace
@@ -26,20 +37,29 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
 
             // Redirect the user to the specified exit site
             const redirectUrl = exitSite || "https://www.google.com";
-            if (sender.tab) {
+            if (sender && sender.tab) {
+                console.log(`Redirecting tab ${sender.tab.id} to: ${redirectUrl}`);
                 chrome.tabs.update(sender.tab.id, { url: redirectUrl });
+            } else {
+                console.error("Sender tab not found. Cannot redirect.");
             }
 
             sendResponse({ success: true });
         });
 
-        return true; // Indicate asynchronous response
+        // Indicate that the response will be sent asynchronously
+        return true;
+    } else {
+        console.error("Unknown message type:", message.type);
+        sendResponse({ success: false, error: "Invalid message type" });
     }
 });
 
 // Helper: Identify if a URL is a Google search or service
 function isGoogleUrl(url) {
-    return /^https:\/\/www\.google\.[a-z.]+/.test(url);
+    const isGoogle = /^https:\/\/www\.google\.[a-z.]+/.test(url);
+    console.log(`Checking if URL is Google-related (${url}):`, isGoogle);
+    return isGoogle;
 }
 
 // Helper: Generate Safe URLs
@@ -84,7 +104,10 @@ function generateSafeUrls(contentTypes, count) {
 
     // Flatten and shuffle the URLs for randomness
     const allUrls = contentTypes.flatMap((type) => safeContentMap[type] || []);
-    return shuffleArray(allUrls).slice(0, count);
+    const shuffledUrls = shuffleArray(allUrls).slice(0, count);
+
+    console.log("Safe URLs after shuffling:", shuffledUrls);
+    return shuffledUrls;
 }
 
 // Helper: Shuffle an array
