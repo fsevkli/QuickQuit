@@ -14,20 +14,25 @@ $(document).ready(function () {
 
     // copy to clipboard function
     $("#copyButton").click(function () {
-        console.log("Hello world!");
-        var copyText = document.getElementById("copyableCode").innerHTML;
-        console.log(copyText);
+        var html = document.querySelector('#copyableCode').innerHTML
+        html = unescape(html);
 
-        // Select the text field
-        // copyText.select();
-        // copyText.setSelectionRange(0, 99999); // For mobile devices
-
-        // Copy the text inside the text field
-        navigator.clipboard.writeText(copyText);
+        // var copyText = document.getElementById("copyableCode").innerHTML;
+        // console.log(copyText);
+        
+        // // Copy the text inside the text field
+        navigator.clipboard.writeText(html);
 
         //= Alert the copied text
         alert("Code copied sucessfully");
     });
+
+    function unescape(str){
+        return str.replace(/&lt;/g, "<")
+                  .replace(/&gt;/g, ">")
+                  .replace(/&quot;/g, '"')
+                  .replace(/&amp;/g, "&");
+    }
 
     // view extension on chrome web store function
     $("#viewExtensionButton").click(function () {
@@ -52,7 +57,7 @@ $(document).ready(function () {
     // Updates codeblock based off user input
     function updateCode() {
         // Choses default value or user input if there is any
-        let domains = domainText.value || 'justlife.org.uk,lifeshare.org.uk'; 
+        let domains = domainText.value || 'justlife.org.uk,lifeshare.org.uk';
         // Removes spaces incase user puts them (scenario like google.com, yahoo.com, etc)
         // doesnt work rn
         domains.replace(/\s+/g, "");
@@ -63,8 +68,8 @@ $(document).ready(function () {
             .map(checkbox => checkbox.value)
             .join(',');
 
-      // Updating displayed code
-      codeBlock.innerHTML = `&lt;!-- Quick Quit Button --&gt;
+        // Updating displayed code
+        codeBlock.innerHTML = `&lt;!-- Quick Quit Button --&gt;
 &lt;!-- Below ID for Custom Styling --&gt;        
 &lt;button id="quickQuitButton" style="
   position: fixed;
@@ -94,9 +99,9 @@ $(document).ready(function () {
     // All checkboxes
     safeContentCheckboxes.forEach(checkbox => {
         checkbox.addEventListener('change', updateCode);
-      });
-      // Domain text area
-      domainText.addEventListener('input', updateCode);
-      // Redirect text area
-      redirectText.addEventListener('input', updateCode);
+    });
+    // Domain text area
+    domainText.addEventListener('input', updateCode);
+    // Redirect text area
+    redirectText.addEventListener('input', updateCode);
 });
