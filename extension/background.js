@@ -144,7 +144,14 @@ function generateSafeUrls(contentTypes, count) {
         music: [
             "https://open.spotify.com/track/4fGEj1YkKvY4KZiK8isuSg",
             "https://music.apple.com/ca/curator/best-playlists-ever/1494209940",
-            "https://soundcloud.com/charts/top"
+            "https://soundcloud.com/charts/top",
+            "https://www.deezer.com/channels/new",
+            "https://music.amazon.com",
+            "https://bandcamp.com/discover",
+            "https://www.shazam.com/charts/top-200",
+            "https://audiomack.com/trending-now/songs",
+            "https://www.songkick.com/leaderboards/popular_artists",
+            "https://www.musixmatch.com/discover"
         ]
     };
 
