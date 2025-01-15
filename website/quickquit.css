@@ -261,7 +261,7 @@ li {
 }
 
 .card-text {
-    font-size: .9rem;
+    font-size: 1.1rem;
     text-align: left;
     color: var(--text-color);
     padding: 15px;
