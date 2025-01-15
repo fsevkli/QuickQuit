@@ -5,33 +5,6 @@ const path = require('path');
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-try {
-    app.use(cookieParser());
-    app.use(express.static(path.join(__dirname, '../../website')));
-    app.use('/static', express.static(path.join(__dirname, 'public')));
-} catch (err) {
-    console.error('Error handling cookies launch:', err);
-    res.status(500).send('Internal Server Error');
-}
-
-
-// Root route with cookie logic
-app.get('/', (req, res) => {
-    try {
-        if (!req.cookies.firstVisit) {
-            res.cookie('firstVisit', 'false', { maxAge: 1000 * 60 * 60 * 24 * 365 * 10, httpOnly: true });
-            console.log('First-time visitor.');
-            res.sendFile(path.join(__dirname, '../../website/welcome.html'));
-        } else {
-            console.log('Returning visitor.');
-            res.sendFile(path.join(__dirname, '../../website/index.html'));
-        }
-    } catch (err) {
-        console.error('Error handling cookies:', err);
-        res.status(500).send('Internal Server Error');
-    }
-});
-
 // Route for "How It Works" page
 app.get('/howItWorks', (req, res) => {
     res.sendFile(path.join(__dirname, '../../website/howItWorks.html'));
