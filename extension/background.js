@@ -96,7 +96,14 @@ function generateSafeUrls(contentTypes, count) {
         sports: [
             "https://www.espn.com/nfl",
             "https://www.cricbuzz.com/cricket-match/live-scores",
-            "https://www.livescore.com"
+            "https://www.livescore.com",
+            "https://sports.yahoo.com",
+            "https://www.bbc.com/sport",
+            "https://www.skysports.com/live-scores",
+            "https://www.foxsports.com/scores",
+            "https://www.si.com",
+            "https://bleacherreport.com/scores",
+            "https://www.goal.com/live-scores"
         ],
         recipes: [
             "https://www.allrecipes.com/recipe/17481/simple-white-cake",
