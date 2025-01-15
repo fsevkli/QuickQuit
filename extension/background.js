@@ -68,7 +68,14 @@ function generateSafeUrls(contentTypes, count) {
         news: [
             "https://www.bbc.com/live/news",
             "https://edition.cnn.com/world",
-            "https://www.nytimes.com/section/world"
+            "https://www.nytimes.com/section/world",
+            "https://www.theguardian.com/world",
+            "https://www.reuters.com/world",
+            "https://www.aljazeera.com",
+            "https://apnews.com/world-news",
+            "https://www.dw.com/top-stories/s-9097",
+            "https://news.sky.com/world",
+            "https://www.cbc.ca/news"
         ],
         videos: [
             "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
