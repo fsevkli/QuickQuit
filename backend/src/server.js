@@ -32,7 +32,7 @@ app.get('/demo', (req, res) => {
 
 // 404 handler for undefined routes
 app.use((req, res) => {
-    res.status(404).send('Page not found');
+    res.status(404).sendFile(path.join(__dirname, '../../website/404.html'));
 });
 
 // Start the server
