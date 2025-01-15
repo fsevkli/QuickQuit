@@ -14,7 +14,7 @@ $(document).ready(function () {
 
     // copy to clipboard function
     $("#copyButton").click(function () {
-        var html = document.querySelector('#copyableCode').innerHTML
+        var html = document.querySelector('#copyableCode').textContent;
         html = unescape(html);
 
         // var copyText = document.getElementById("copyableCode").innerHTML;
