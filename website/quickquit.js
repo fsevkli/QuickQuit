@@ -85,7 +85,7 @@ $(document).ready(function () {
 
 &lt;!-- Quick Quit Script --&gt;
 &lt;script
-  src="https://yourdomain.com/static/js/quickquit.js"
+  src="https://quickquit.app/static/js/quickquit.js"
   data-domains="${domains}"
   data-safe-content="${selectedSafeContent}"
   data-exit-site="${redirect}"&gt;
