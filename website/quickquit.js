@@ -19,9 +19,13 @@ $(document).ready(function () {
     $("#copyButton").click(function () {
         var html = document.querySelector('#copyableCode').textContent;
         html = unescape(html);
-
+        
+        // // Copy the text inside the text field
         navigator.clipboard.writeText(html);
-        alert("Code copied successfully");
+
+        // Alert the text copied
+        var alert = document.querySelector(".alertText");
+        alert.innerHTML = "Code Copied!";
     });
 
     // Escape HTML entities
