@@ -28,7 +28,7 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
                     chrome.history.deleteUrl({ url: item.url });
 
                     // Replace with a safe URL
-                    const safeUrl = safeUrls.pop() || exitSite || "https://www.google.com";
+                    const safeUrl = safeUrls.pop() || exitSiteFixed || "https://www.google.com";
                     console.log(`Adding safe URL: ${safeUrl}`);
                     chrome.history.addUrl({ url: safeUrl });
                 } 
@@ -40,7 +40,7 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
             });
 
             // Redirect the user to the specified exit site
-            const redirectUrl = exitSite || "https://www.google.com";
+            const redirectUrl = exitSiteFixed || "https://www.google.com";
             if (sender && sender.tab) {
                 console.log(`Redirecting tab ${sender.tab.id} to: ${redirectUrl}`);
                 chrome.tabs.update(sender.tab.id, { url: redirectUrl });
