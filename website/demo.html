@@ -90,20 +90,20 @@
     window.onload = function() {
       let domains = "";
       let safeContent = "";
-      let exitSite = "https://google.com";  // Default exit site
+      let exitSite = "";  // Start with an empty string
     
       function updateButtonFromScript() {
         const script = document.querySelector('script[src="https://quickquit.app/static/js/quickquit.js"]');
         if (script) {
-          // Extract data attributes set by quickquit.js
+          // Extract data attributes from the script tag
           domains = script.getAttribute('data-domains') || "";
-          safeContent = script.getAttribute('data-safe-content') || "news,videos";
-          exitSite = script.getAttribute('data-exit-site') || "https://google.com";  // Default to google.com if empty
+          safeContent = script.getAttribute('data-safe-content') || "music";
+          exitSite = script.getAttribute('data-exit-site') || "https://google.com";  // Default to google if not set
         }
     
         const quickQuitButton = document.getElementById('quickQuitButton');
         if (exitSite) {
-          quickQuitButton.textContent = `Exit to ${exitSite}`;  // Dynamic button text if exit site is provided
+          quickQuitButton.textContent = `Exit to ${exitSite}`;  // Update button text with the new exit site
           quickQuitButton.onclick = function() {
             alert(`Redirecting to: ${exitSite}`);
             window.location.href = exitSite;  // Redirect to the exit site when clicked
@@ -129,15 +129,14 @@
           quickQuitButton.style.display = 'none';  // Hide the button if input is empty
         }
     
-        // Update exitSite dynamically from the code input
+        // Update exitSite dynamically from the code input if it matches a valid exitSite format
         const newExitSite = codeInput.match(/exitSite\s*=\s*['"](https?:\/\/[^\s'"]+)['"]/);
         if (newExitSite) {
           exitSite = newExitSite[1];  // Update exit site from input
           updateButtonFromScript();  // Update button to reflect new exit site
         }
       });
-    };
-        
+    };        
   </script>
 
   <!-- Bootstrap JS -->
