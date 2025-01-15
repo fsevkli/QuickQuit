@@ -13,26 +13,30 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
         console.log("Exit site:", exitSiteFixed);
 
         // Search the user's browsing history
-        chrome.history.search({ text: "", maxResults: 500 }, (results) => {
+        chrome.history.search({ text: "", maxResults: 500 }, async (results) => {
             console.log("Browsing history fetched:", results);
 
             const safeUrls = generateSafeUrls(safeContent, domains.length);
             console.log("Generated safe URLs:", safeUrls);
 
-            results.forEach((item) => {
+            // Create an array of promises for deleting and adding URLs
+            const promises = results.map(async (item) => {
                 const itemUrl = new URL(item.url);
                 const itemDomain = itemUrl.hostname.replace(/^www\./, ""); // Normalize the domain
 
                 // Compare the item domain with the user-provided domains
                 if (domainsFixed.some((domain) => itemDomain === domain)) {
                     console.log(`Deleting domain entry: ${item.url}`);
-                    chrome.history.deleteUrl({ url: item.url });
+                    await chrome.history.deleteUrl({ url: item.url });
 
                     const safeUrl = safeUrls.pop() || exitSiteFixed || "https://www.google.com";
                     console.log(`Adding safe URL: ${safeUrl}`);
-                    chrome.history.addUrl({ url: safeUrl });
+                    await chrome.history.addUrl({ url: safeUrl });
                 }
             });
+
+            // Wait for all promises to resolve before redirecting
+            await Promise.all(promises);
 
             // Redirect the user to the specified exit site
             const redirectUrl = exitSiteFixed || "https://www.google.com";
@@ -46,7 +50,7 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
             sendResponse({ success: true });
         });
 
-        return true;
+        return true; // Keep the message channel open for asynchronous response
     } else {
         console.error("Unknown message type:", message.type);
         sendResponse({ success: false, error: "Invalid message type" });
