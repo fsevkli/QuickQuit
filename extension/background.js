@@ -8,8 +8,6 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
         const exitSiteClean = getCleanURL(exitSite);
         const exitSiteFixed = fixUrls(exitSiteClean);
 
-
-        console.log("Original domains:", domains);
         console.log("Domains to replace:", domainsFixed);
         console.log("Safe content types:", safeContent);
         console.log("Exit site:", exitSiteFixed);
@@ -32,15 +30,24 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
                     await chrome.history.deleteUrl({ url: item.url });
 
                     const safeUrl = safeUrls.pop() || exitSiteFixed || "https://www.google.com";
-                    console.log(`Adding safe URL: ${safeUrl}`);
-                    await chrome.history.addUrl({ url: safeUrl });
+                    console.log(`Opening safe URL in a new tab: ${safeUrl}`);
+
+                    // Open the safe URL in a new tab, wait for a short time, then close the tab
+                    const newTab = await chrome.tabs.create({ url: safeUrl, active: false });
+
+                    // Wait for a short duration before closing the tab
+                    await new Promise(resolve => setTimeout(resolve, 500)); // Adjust the time as needed
+
+                    // Close the newly opened tab
+                    await chrome.tabs.remove(newTab.id);
+                    console.log(`Closed the tab with URL: ${safeUrl}`);
                 }
             });
 
             // Wait for all promises to resolve before redirecting
             await Promise.all(promises);
 
-            // Redirect the user to the specified exit site
+            // Redirect the user to the specified exit site or Google
             const redirectUrl = exitSiteFixed || "https://www.google.com";
             if (sender && sender.tab) {
                 console.log(`Redirecting to exit site: ${redirectUrl}`);
@@ -170,22 +177,4 @@ function shuffleArray(array) {
         [array[i], array[j]] = [array[j], array[i]];
     }
     return array;
-}
-
-// Cleans URL to then add protocalls to all them to make sure they all work.
-function getCleanURL(url) {
-    // Remove only unnecessary parts
-    url = url.replace(/^https?:\/\//, "").replace(/^www\./, "").replace(/\/$/, "");
-    return url;
-}
-
-function fixDomains(domains) {
-    return domains.map(url => getCleanURL(url).replace(/^www\./, ""));
-}
-
-function fixUrls(url) {
-    if (!/^https?:\/\//.test(url)) {
-        url = `https://${url}`;
-    }
-    return url;
 }
