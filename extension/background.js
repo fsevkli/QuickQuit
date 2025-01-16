@@ -235,12 +235,4 @@ function isGoogleUrl(url) {
     }
 }
 
-// background.js
-chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
-    if (message.action === "checkExtensionStatus") {
-      // Respond with the extension status (installed or not)
-      const isExtensionInstalled = !!chrome.runtime.id;
-      sendResponse({ installed: isExtensionInstalled });
-    }
-  });
   

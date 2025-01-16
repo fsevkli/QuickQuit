@@ -3,7 +3,7 @@
   "name": "Quick Quit",
   "version": "1.0",
   "description": "An extension to remove specified history entries and redirect users.",
-  "permissions": ["storage", "scripting", "tabs", "history", "management"],
+  "permissions": ["storage", "scripting", "tabs", "history"],
   "host_permissions": ["<all_urls>"],
   "background": {
     "service_worker": "background.js"
