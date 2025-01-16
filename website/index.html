@@ -222,6 +222,21 @@
   </script>
 
   <script>
+    window.onload = function() {
+      if (!localStorage.getItem("extensionId")) {
+          localStorage.setItem("extensionId", "your-extension-id");
+      }
+    }
+
+    // Function to retrieve the extension ID dynamically from the localStorage or config
+    function getExtensionId() {
+      // You can store the extension ID in localStorage or use an external config
+      const extensionId = localStorage.getItem("extensionId") || "defaultExtensionId";
+      
+      // Ensure you replace 'defaultExtensionId' with a default or fallback ID
+      return extensionId;
+    }
+  
     // Cookie management functions
     function setCookie(name, value, days) {
       const date = new Date();
@@ -242,9 +257,33 @@
       return null;
     }
   
+    // Ask for cookie consent and permissions
+    function askForCookiesConsent() {
+      if (!getCookie("cookiesConsent")) {
+        const consentPopup = document.createElement("div");
+        consentPopup.classList.add("cookies-consent");
+        consentPopup.innerHTML = `
+          <p>This website uses cookies to improve your experience. Do you accept?</p>
+          <button onclick="acceptCookiesConsent()">Accept</button>
+          <button onclick="declineCookiesConsent()">Decline</button>
+        `;
+        document.body.appendChild(consentPopup);
+      }
+    }
+  
+    function acceptCookiesConsent() {
+      setCookie("cookiesConsent", "accepted", 365);
+      document.querySelector(".cookies-consent").remove();
+    }
+  
+    function declineCookiesConsent() {
+      setCookie("cookiesConsent", "declined", 365);
+      document.querySelector(".cookies-consent").remove();
+    }
+  
     // Check extension and verify permissions
     function checkExtension() {
-      const extensionId = "jkopnadgemphpbajoidaabeabomfakdm";
+      const extensionId = getExtensionId(); // Dynamically get the extension ID
       
       if (typeof chrome !== 'undefined' && chrome.runtime && chrome.runtime.sendMessage) {
           try {
@@ -281,8 +320,9 @@
           handleExtensionNotInstalled();
       }
     }
+  
     function requestPermissions() {
-      const extensionId = "jkopnadgemphpbajoidaabeabomfakdm";
+      const extensionId = getExtensionId(); // Dynamically get the extension ID
       chrome.runtime.sendMessage(extensionId, { 
           type: "HANDLE_PERMISSIONS",
           action: "request" 
@@ -308,43 +348,36 @@
         popup.style.display = "block";
       }
     }
-
+  
     function showPermissionPopup() {
       const popup = document.getElementById("extensionPopup");
       if (popup) {
           // Modify popup content for permissions
           popup.querySelector('h2').textContent = "QuickQuit Needs Permissions";
           popup.querySelector('p').textContent = 
-              "QuickQuit requires certain permissions to protect your privacy. Please grant the necessary permissions to continue.";
-          popup.querySelector('.install-button').textContent = "Grant Permissions";
-          popup.querySelector('.install-button').onclick = requestPermissions;
+              "QuickQuit requires certain permissions to protect your privacy. Please grant the necessary permissions.";
+          const installButton = popup.querySelector(".install-button");
+          installButton.textContent = "Grant Permissions";
+          installButton.onclick = requestPermissions;
           popup.style.display = "block";
       }
     }
   
     function dismissInstallPrompt() {
-      setCookie("dismissedInstallPrompt", "true", 7);
+      setCookie("dismissedInstallPrompt", "true", 365);
       const popup = document.getElementById("extensionPopup");
       if (popup) {
-        popup.style.display = "none";
+          popup.style.display = "none";
       }
     }
   
-    function installExtension() {
-      window.open("https://chrome.google.com/webstore/detail/jkopnadgemphpbajoidaabeabomfakdm", "_blank");
-      dismissInstallPrompt();
-    }
-  
-    // Event listener for Extension button
-    document.getElementById("viewExtensionButton").addEventListener("click", function() {
-      window.open("https://chrome.google.com/webstore/detail/jkopnadgemphpbajoidaabeabomfakdm", "_blank");
-    });
-  
-    // Run on page load
-    document.addEventListener("DOMContentLoaded", function() {
+    // Initialize consent prompt and check extension
+    document.addEventListener("DOMContentLoaded", function () {
+      askForCookiesConsent();
       checkExtension();
     });
   </script>
+  
 </body>
 
 </html>
