@@ -79,10 +79,6 @@ body {
     transition: transform 0.3s ease;
 }
 
-#viewGitHubButton {
-    top: 12px;
-}
-
 #viewGitHubButton::after {
     content: '';
     position: absolute;
@@ -584,34 +580,10 @@ li {
     }
   }
 
-  /* Copy code alert */
-  .alertText {
-    position: absolute;
-    top: -60px;
-    background-color: var(--text-color);
-    color: var(--cream);
-    border-radius: 5px;
-    font-size: 12px;
-    padding: 8px 12px;
-    font-weight: 600;
-    box-shadow: 0px 10px 10px rgba(0, 0, 0, 0.105);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    opacity: 0;
-    transition: all 0.5s;
-  }
-  .alertText::before {
-    position: absolute;
-    width: 10px;
-    height: 10px;
-    transform: rotate(45deg);
-    content: "";
-    background-color: var(--text-color);
-    bottom: -10%;
-  }
-  #copyButton:hover .alertText {
-    opacity: 1;
+  /* copy code tooltip from how it works page */
+  .custom-tooltip {
+    --bs-tooltip-bg: var(--text-color);
+    --bs-tooltip-color: var(--cream);
   }
 
   #footer-list {

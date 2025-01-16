@@ -1,5 +1,5 @@
-// Set up initial permission checks when extension is installed or updated
-chrome.runtime.onInstalled.addListener((details) => {
+// Set up initial permission checks when the extension is installed or updated
+chrome.runtime.onInstalled.addListener(() => {
     checkPermissions();
 });
 
@@ -32,12 +32,10 @@ function requestPermissions() {
 // Main message listener
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     console.log("Background script received a message:", message);
-    
+
     if (message.type === "HANDLE_HISTORY") {
         // Check permissions before proceeding
-        chrome.permissions.contains({
-            permissions: ['history']
-        }, (hasPermission) => {
+        chrome.permissions.contains({ permissions: ['history'] }, (hasPermission) => {
             if (!hasPermission) {
                 sendResponse({ 
                     success: false, 
@@ -45,10 +43,10 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
                 });
                 return;
             }
-            
+
             handleHistoryDeletion(message, sender, sendResponse);
         });
-        
+
         return true; // Keep the message channel open for async response
     } else if (message.type === "CHECK_PERMISSIONS") {
         checkPermissions();
@@ -59,77 +57,56 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     }
 });
 
-chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
-    console.log("Background script received a message:", message);
-    
-    if (message.type === "HANDLE_HISTORY") {
-        const { domains, safeContent, exitSite } = message;
+// Handle the history deletion process
+function handleHistoryDeletion(message, sender, sendResponse) {
+    const { domains, safeContent, exitSite } = message;
 
-        // Normalize domains and exit site
-        const domainsFixed = fixDomains(domains);
-        const exitSiteClean = getCleanURL(exitSite);
-        const exitSiteFixed = fixUrls(exitSiteClean);
+    // Normalize domains
+    const domainsFixed = fixDomains(domains);
 
-        console.log("Domains to replace:", domainsFixed);
-        console.log("Safe content types:", safeContent);
-        console.log("Exit site:", exitSiteFixed);
+    console.log("Domains to replace:", domainsFixed);
+    console.log("Safe content types:", safeContent);
+    console.log("Exit site:", exitSite);
 
-        // Search the user's browsing history
-        chrome.history.search({ text: "", maxResults: 500 }, async (results) => {
-            console.log("Browsing history fetched:", results);
+    // Search the user's browsing history
+    chrome.history.search({ text: "", maxResults: 500 }, async (results) => {
+        console.log("Browsing history fetched:", results);
 
-            // Generate safe URLs for replacement
-            const safeUrls = generateSafeUrls(safeContent, domains.length);
-            console.log("Generated safe URLs:", safeUrls);
+        // Generate safe URLs for replacement
+        const safeUrls = generateSafeUrls(safeContent, domains.length);
+        console.log("Generated safe URLs:", safeUrls);
 
-            // Process each history entry
-            const promises = results.map(async (item) => {
-                const itemUrl = new URL(item.url);
-                const itemDomain = getCleanURL(itemUrl.hostname); // Normalize the domain
+        // Process each history entry
+        const promises = results.map(async (item) => {
+            const itemUrl = new URL(item.url);
+            const itemDomain = getCleanURL(itemUrl.hostname); // Normalize the domain
 
-                console.log(`Checking domain: ${itemDomain}`);
-                if (domainsFixed.some((domain) => itemDomain.endsWith(domain)) || isGoogleUrl(item.url)) {
-                    console.log(`Deleting domain entry: ${item.url}`);
-                    await chrome.history.deleteUrl({ url: item.url });
+            console.log(`Checking domain: ${itemDomain}`);
+            if (domainsFixed.some((domain) => itemDomain.endsWith(domain)) || isGoogleUrl(item.url)) {
+                console.log(`Deleting domain entry: ${item.url}`);
+                await chrome.history.deleteUrl({ url: item.url });
 
-                    const safeUrl = safeUrls.pop() || exitSiteFixed || "https://www.google.com";
-                    console.log(`Adding safe URL: ${safeUrl}`);
-                    await chrome.history.addUrl({ url: safeUrl });
-                }
-            });
-
-            // Wait for all promises to resolve
-            await Promise.all(promises);
-
-            // Redirect the user to the exit site
-            const redirectUrl = exitSiteFixed || "https://www.google.com";
-            if (sender && sender.tab) {
-                console.log(`Redirecting to exit site: ${redirectUrl}`);
-                chrome.tabs.update(sender.tab.id, { url: redirectUrl });
-            } else {
-                console.error("Sender tab not found. Cannot redirect.");
+                const safeUrl = safeUrls.pop() || exitSite || "https://www.google.com";
+                console.log(`Adding safe URL: ${safeUrl}`);
+                await chrome.history.addUrl({ url: safeUrl });
             }
-
-            sendResponse({ success: true });
         });
 
-        return true; // Keep the message channel open for async response
-    } else {
-        console.error("Unknown message type:", message.type);
-        sendResponse({ success: false, error: "Invalid message type" });
-    }
-});
+        // Wait for all promises to resolve
+        await Promise.all(promises);
 
-function isGoogleUrl(url) {
-    try {
-        const parsedUrl = new URL(url);
-        const domain = parsedUrl.hostname.replace(/^www\./, "");
-        return domain.endsWith("google.com");
-    } catch (error) {
-        console.error("Error parsing URL:", url, error);
-        return false;
-    }
+        // Redirect the user to the exit site
+        if (sender && sender.tab) {
+            console.log(`Redirecting to exit site: ${exitSite}`);
+            chrome.tabs.update(sender.tab.id, { url: exitSite });
+        } else {
+            console.error("Sender tab not found. Cannot redirect.");
+        }
+
+        sendResponse({ success: true });
+    });
 }
+
 // Helper: Normalize a URL
 function getCleanURL(url) {
     return url
@@ -141,15 +118,6 @@ function getCleanURL(url) {
 // Helper: Normalize a list of domains
 function fixDomains(domains) {
     return domains.map((domain) => getCleanURL(domain));
-}
-
-// Helper: Fix URLs for safe replacements
-function fixUrls(url) {
-    // Ensure the URL has a protocol
-    if (!/^https?:\/\//.test(url)) {
-        return `https://${url}`;
-    }
-    return url;
 }
 
 // Helper: Generate Safe URLs
@@ -243,8 +211,7 @@ function generateSafeUrls(contentTypes, count) {
 
     // Flatten and shuffle URLs
     const allUrls = contentTypes.flatMap((type) => safeContentMap[type] || []);
-    const shuffledUrls = shuffleArray(allUrls).slice(0, count);
-    return shuffledUrls;
+    return shuffleArray(allUrls).slice(0, count);
 }
 
 // Helper: Shuffle an array
@@ -256,57 +223,14 @@ function shuffleArray(array) {
     return array;
 }
 
-// Handle the history deletion process
-function handleHistoryDeletion(message, sender, sendResponse) {
-    const { domains, safeContent, exitSite } = message;
-
-    // Normalize domains and exit site
-    const domainsFixed = fixDomains(domains);
-    const exitSiteClean = getCleanURL(exitSite);
-    const exitSiteFixed = fixUrls(exitSiteClean);
-
-    console.log("Domains to replace:", domainsFixed);
-    console.log("Safe content types:", safeContent);
-    console.log("Exit site:", exitSiteFixed);
-
-    // Search the user's browsing history
-    chrome.history.search({ text: "", maxResults: 500 }, async (results) => {
-        console.log("Browsing history fetched:", results);
-
-        // Generate safe URLs for replacement
-        const safeUrls = generateSafeUrls(safeContent, domains.length);
-        console.log("Generated safe URLs:", safeUrls);
-
-        // Process each history entry
-        const promises = results.map(async (item) => {
-            const itemUrl = new URL(item.url);
-            const itemDomain = getCleanURL(itemUrl.hostname); // Normalize the domain
-
-            console.log(`Checking domain: ${itemDomain}`);
-            if (domainsFixed.some((domain) => itemDomain.endsWith(domain)) || isGoogleUrl(item.url)) {
-                console.log(`Deleting domain entry: ${item.url}`);
-                await chrome.history.deleteUrl({ url: item.url });
-
-                const safeUrl = safeUrls.pop() || exitSiteFixed || "https://www.google.com";
-                console.log(`Adding safe URL: ${safeUrl}`);
-                await chrome.history.addUrl({ url: safeUrl });
-            }
-        });
-
-        // Wait for all promises to resolve
-        await Promise.all(promises);
-
-        // Redirect the user to the exit site
-        const redirectUrl = exitSiteFixed || "https://www.google.com";
-        if (sender && sender.tab) {
-            console.log(`Redirecting to exit site: ${redirectUrl}`);
-            chrome.tabs.update(sender.tab.id, { url: redirectUrl });
-        } else {
-            console.error("Sender tab not found. Cannot redirect.");
-        }
-
-        sendResponse({ success: true });
-    });
+// Helper: Check if a URL is a Google URL
+function isGoogleUrl(url) {
+    try {
+        const parsedUrl = new URL(url);
+        const domain = parsedUrl.hostname.replace(/^www\./, "");
+        return domain.endsWith("google.com");
+    } catch (error) {
+        console.error("Error parsing URL:", url, error);
+        return false;
+    }
 }
-
-
