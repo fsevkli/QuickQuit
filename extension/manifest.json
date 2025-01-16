@@ -19,12 +19,14 @@
     "default_icon": {
       "16": "qqLogo16.png",
       "48": "qqLogo48.png",
-      "128": "qqLogo128.png"
+      "128": "qqLogo128.png",
+      "256": "qqLogo128.png"
     }
   },
   "icons": {
     "16": "qqLogo16.png",
     "48": "qqLogo48.png",
-    "128": "qqLogo128.png"
+    "128": "qqLogo128.png",
+    "256": "qqLogo128.png"
   }
 }
