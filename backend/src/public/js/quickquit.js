@@ -21,13 +21,10 @@
 
     // Function to check if the extension is installed
     function checkExtensionInstalled(callback) {
-        if (typeof chrome !== "undefined" && chrome.runtime && chrome.runtime.sendMessage) {
-            chrome.runtime.sendMessage(EXTENSION_ID, { type: "CHECK_INSTALLED" }, (response) => {
-                callback(response && response.installed);
-            });
+        if (window.__QUICK_QUIT_EXTENSION_INSTALLED__) {
+            console.log("The extension is installed!");
         } else {
-            console.log("Extension not found");
-            callback(false);
+            console.log("The extension is not detected.");
         }
     }
 
