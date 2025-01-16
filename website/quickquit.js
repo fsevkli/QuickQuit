@@ -10,6 +10,8 @@ $(document).ready(function () {
             link.addEventListener('click', (event) => {
                 const currentPath = window.location.pathname + window.location.search; // Include query params if any
                 const targetPath = new URL(event.currentTarget.href).pathname; // Use currentTarget to get the anchor href
+                console.log("Current Path: ", currentPath);
+                console.log("Target Path: ", targetPath);
 
                 if (currentPath === targetPath) {
                     event.preventDefault(); // Prevent page reload
