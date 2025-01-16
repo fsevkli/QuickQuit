@@ -21,10 +21,10 @@
 
     // Function to check if the extension is installed
     function checkExtensionInstalled(callback) {
-        if (window.__QUICK_QUIT_EXTENSION_INSTALLED__) {
-            console.log("The extension is installed!");
+        if (document.getElementById("__quick_quit_extension_marker__")) {
+            console.log("QuickQuit extension detected!");
         } else {
-            console.log("The extension is not detected.");
+            console.log("QuickQuit extension not detected.");
         }
     }
 

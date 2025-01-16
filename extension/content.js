@@ -1,9 +1,10 @@
-// Inject a script into the page's context
-const script = document.createElement("script");
-// Global variable to provide detection for the extension
-script.textContent = "window.__QUICK_QUIT_EXTENSION_INSTALLED__ = true;";
-(document.head || document.documentElement).appendChild(script);
-script.remove();  // Remove script to avoid bloat and conflict
+// Add a custom element to signal extension presence
+const extensionMarker = document.createElement("div");
+extensionMarker.id = "__quick_quit_extension_marker__";
+extensionMarker.style.display = "none"; // Hidden to avoid UI impact
+document.documentElement.appendChild(extensionMarker);
+
+console.log("QuickQuit extension marker added to DOM.");
 
 // Listen for messages from the page
 window.addEventListener("message", (event) => {
