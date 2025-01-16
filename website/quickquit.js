@@ -96,27 +96,21 @@ $(document).ready(function () {
 const extensionId = 'jkopnadgemphpbajoidaabeabomfakdm'; // Quick Quit extension ID
 const cookieName = "extensionInstalled";
 
-// Check if cookies are allowed
-function areCookiesAllowed() {
-    try {
-        // Attempt to set a test cookie
-        document.cookie = "testCookie=true; path=/";
-        // Check if the test cookie was set
-        return document.cookie.indexOf("testCookie=true") !== -1;
-    } catch (e) {
-        console.log("Error checking cookies:", e);
-        return false;
+// Ask the user if they allow cookies
+function askIfAllowCookies() {
+    const userConsent = confirm("Do you allow cookies to be used for the Quick Quit extension?");
+
+    if (!userConsent) {
+        console.log("User declined cookie usage.");
+        return; // Stop execution if cookies are not allowed
     }
+
+    // Proceed with checking the extension installation if cookies are allowed
+    checkExtensionInstalled();
 }
 
 // Check if Quick Quit is installed by looking through the list of installed extensions
 function checkExtensionInstalled() {
-    // Check if cookies are allowed
-    if (!areCookiesAllowed()) {
-        console.log("Cookies are not enabled. Please enable cookies for proper functionality.");
-        return; // Stop further execution if cookies are not allowed
-    }
-
     // First, check if we already have a cookie indicating the extension installation
     const isExtensionInstalled = getCookie(cookieName);
 
@@ -171,6 +165,7 @@ function setCookie(name, value, days) {
     document.cookie = `${name}=${value}; ${expires}; path=/`;
 }
 
-// Check the Quick Quit extension status when the page loads
-checkExtensionInstalled();
+// Ask the user if they allow cookies when the page loads
+askIfAllowCookies();
+
 
