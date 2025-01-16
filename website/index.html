@@ -222,110 +222,63 @@
   </script>
 
   <script>
-    window.onload = function() {
-      if (!localStorage.getItem("extensionId")) {
-          localStorage.setItem("extensionId", "your-extension-id");
+    document.addEventListener("DOMContentLoaded", function() {
+      // Check if the extension ID is stored in localStorage
+      let extensionId = localStorage.getItem("extensionId");
+  
+      if (!extensionId) {
+          // Extension ID is not present, ask the user to install the extension
+          showInstallPrompt();
+      } else {
+          // Extension ID is present, check for permissions
+          checkPermissions(extensionId);
       }
-    }
-
-    // Function to retrieve the extension ID dynamically from the localStorage or config
-    function getExtensionId() {
-      // You can store the extension ID in localStorage or use an external config
-      const extensionId = localStorage.getItem("extensionId") || "defaultExtensionId";
-      
-      // Ensure you replace 'defaultExtensionId' with a default or fallback ID
-      return extensionId;
-    }
+  });
   
-    // Cookie management functions
-    function setCookie(name, value, days) {
-      const date = new Date();
-      date.setTime(date.getTime() + days * 24 * 60 * 60 * 1000);
-      const expires = "expires=" + date.toUTCString();
-      document.cookie = name + "=" + value + ";" + expires + ";path=/";
-    }
-  
-    function getCookie(name) {
-      const decodedCookie = decodeURIComponent(document.cookie);
-      const cookies = decodedCookie.split(';');
-      for (let i = 0; i < cookies.length; i++) {
-        const cookie = cookies[i].trim();
-        if (cookie.indexOf(name + "=") === 0) {
-          return cookie.substring(name.length + 1, cookie.length);
-        }
+  // Function to show install prompt if extension is not in localStorage
+  function showInstallPrompt() {
+      const popup = document.getElementById("extensionPopup");
+      if (popup) {
+          popup.querySelector('h2').textContent = "QuickQuit Extension Not Found";
+          popup.querySelector('p').textContent = 
+              "It looks like you don't have the QuickQuit extension installed. Please install it to continue.";
+          popup.querySelector('.install-button').textContent = "Install Now";
+          popup.querySelector('.install-button').onclick = function() {
+              window.open("https://chrome.google.com/webstore/detail/jkopnadgemphpbajoidaabeabomfakdm", "_blank");
+          };
+          popup.style.display = "block";
       }
-      return null;
-    }
+  }
   
-    // Ask for cookie consent and permissions
-    function askForCookiesConsent() {
-      if (!getCookie("cookiesConsent")) {
-        const consentPopup = document.createElement("div");
-        consentPopup.classList.add("cookies-consent");
-        consentPopup.innerHTML = `
-          <p>This website uses cookies to improve your experience. Do you accept?</p>
-          <button onclick="acceptCookiesConsent()">Accept</button>
-          <button onclick="declineCookiesConsent()">Decline</button>
-        `;
-        document.body.appendChild(consentPopup);
-      }
-    }
-  
-    function acceptCookiesConsent() {
-      setCookie("cookiesConsent", "accepted", 365);
-      document.querySelector(".cookies-consent").remove();
-    }
-  
-    function declineCookiesConsent() {
-      setCookie("cookiesConsent", "declined", 365);
-      document.querySelector(".cookies-consent").remove();
-    }
-  
-    // Check extension and verify permissions
-    function checkExtension() {
-      const extensionId = getExtensionId(); // Dynamically get the extension ID
-      
+  // Function to check permissions for the installed extension
+  function checkPermissions(extensionId) {
       if (typeof chrome !== 'undefined' && chrome.runtime && chrome.runtime.sendMessage) {
           try {
-              // First check if extension is installed
-              chrome.runtime.sendMessage(extensionId, { type: "CHECK_PERMISSIONS" }, function(response) {
-                  if (chrome.runtime.lastError) {
-                      // Extension not installed
-                      handleExtensionNotInstalled();
-                  } else if (response && response.success) {
-                      // Extension installed and permissions check successful
-                      chrome.runtime.sendMessage(extensionId, { action: "checkPermissions" }, function(permResponse) {
-                          if (permResponse && permResponse.hasPermissions) {
-                              setCookie("quickquitPermissions", "granted", 365);
-                              console.log("Extension installed and permissions granted");
-                          } else {
-                              setCookie("quickquitPermissions", "denied", 365);
-                              console.log("Extension installed but permissions denied");
-                              // Show permission request popup
-                              showPermissionPopup();
-                          }
-                      });
+              // Send a message to the extension to check permissions
+              chrome.runtime.sendMessage(extensionId, { action: "checkPermissions" }, function(response) {
+                  if (response && response.hasPermissions) {
+                      // Permissions granted
+                      setCookie("quickquitPermissions", "granted", 365);
+                      console.log("Permissions granted for the extension");
                   } else {
-                      // Permission check failed
+                      // Permissions denied or not available
                       setCookie("quickquitPermissions", "denied", 365);
-                      console.log("Permission check failed");
-                      handleExtensionNotInstalled();
+                      console.log("Permissions denied or unavailable");
+                      showPermissionPopup(extensionId);
                   }
               });
           } catch (error) {
-              console.error("Error checking extension:", error);
-              handleExtensionNotInstalled();
+              console.error("Error checking permissions:", error);
           }
       } else {
-          handleExtensionNotInstalled();
+          console.error("Extension not available.");
       }
-    }
+  }
   
-    function requestPermissions() {
-      const extensionId = getExtensionId(); // Dynamically get the extension ID
+  // Function to request permissions if denied
+  function requestPermissions(extensionId) {
       chrome.runtime.sendMessage(extensionId, { 
-          type: "HANDLE_PERMISSIONS",
-          action: "request" 
+          action: "requestPermissions" 
       }, function(response) {
           if (response && response.success) {
               setCookie("quickquitPermissions", "granted", 365);
@@ -334,48 +287,39 @@
               console.warn("Permission request failed");
           }
       });
-    }
+  }
   
-    function handleExtensionNotInstalled() {
-      if (!getCookie("dismissedInstallPrompt")) {
-        showExtensionPopup();
-      }
-    }
-  
-    function showExtensionPopup() {
+  // Function to show permission request popup if permissions are not granted
+  function showPermissionPopup(extensionId) {
       const popup = document.getElementById("extensionPopup");
       if (popup) {
-        popup.style.display = "block";
-      }
-    }
-  
-    function showPermissionPopup() {
-      const popup = document.getElementById("extensionPopup");
-      if (popup) {
-          // Modify popup content for permissions
           popup.querySelector('h2').textContent = "QuickQuit Needs Permissions";
           popup.querySelector('p').textContent = 
-              "QuickQuit requires certain permissions to protect your privacy. Please grant the necessary permissions.";
-          const installButton = popup.querySelector(".install-button");
-          installButton.textContent = "Grant Permissions";
-          installButton.onclick = requestPermissions;
+              "QuickQuit requires certain permissions to protect your privacy. Please grant the necessary permissions to continue.";
+          popup.querySelector('.install-button').textContent = "Grant Permissions";
+          popup.querySelector('.install-button').onclick = function() {
+              requestPermissions(extensionId);
+          };
           popup.style.display = "block";
       }
-    }
+  }
   
-    function dismissInstallPrompt() {
-      setCookie("dismissedInstallPrompt", "true", 365);
+  // Function to dismiss the prompt
+  function dismissInstallPrompt() {
+      setCookie("dismissedInstallPrompt", "true", 7);
       const popup = document.getElementById("extensionPopup");
       if (popup) {
           popup.style.display = "none";
       }
-    }
+  }
   
-    // Initialize consent prompt and check extension
-    document.addEventListener("DOMContentLoaded", function () {
-      askForCookiesConsent();
-      checkExtension();
-    });
+  // Function to set a cookie (used for dismissal of prompts)
+  function setCookie(name, value, days) {
+      const date = new Date();
+      date.setTime(date.getTime() + days * 24 * 60 * 60 * 1000);
+      const expires = "expires=" + date.toUTCString();
+      document.cookie = name + "=" + value + ";" + expires + ";path=/";
+  }  
   </script>
   
 </body>
