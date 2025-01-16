@@ -609,4 +609,8 @@ li {
   #copyButton:hover .alertText {
     opacity: 1;
   }
+
+  #footer-list {
+    padding-top: 40px;
+  }
   
