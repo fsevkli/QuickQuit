@@ -19,7 +19,7 @@
     // Normalize the exit site URL
     exitSite = fixUrls(exitSite);
 
-    const EXTENSION_ID = "bohobbkmlhibianbbejolcdncdigcchf"; // Replace with your Chrome extension ID
+    const EXTENSION_ID = "bohobbkmlhibianbbejolcdncdigcchf";
 
     // Function to check if the extension is installed
     function checkExtensionInstalled(callback) {
@@ -28,6 +28,7 @@
                 callback(response && response.installed);
             });
         } else {
+            console.log("Extension not found");
             callback(false);
         }
     }
