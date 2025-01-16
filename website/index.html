@@ -240,23 +240,25 @@
       return null;
     }
   
-    // Check extension and handle permissions
-    async function checkExtensionAndPermissions() {
+    // Check extension and verify permissions
+    function checkExtension() {
       const extensionId = "jkopnadgemphpbajoidaabeabomfakdm";
-      const permissionsCookie = getCookie("quickquitPermissions");
       
       if (typeof chrome !== 'undefined' && chrome.runtime && chrome.runtime.sendMessage) {
         try {
-          // Check if extension is installed
-          chrome.runtime.sendMessage(extensionId, { action: "checkInstalled" }, async function(response) {
+          // Check if extension is installed and verify permissions
+          chrome.runtime.sendMessage(extensionId, { action: "checkPermissions" }, function(response) {
             if (chrome.runtime.lastError) {
               // Extension not installed
               handleExtensionNotInstalled();
+            } else if (response && response.hasPermissions) {
+              // Extension installed and has permissions
+              setCookie("quickquitPermissions", "granted", 365);
+              console.log("Extension installed and permissions granted");
             } else {
-              // Extension is installed, check permissions
-              if (permissionsCookie !== "denied") {
-                requestExtensionPermissions();
-              }
+              // Extension installed but permissions issues
+              setCookie("quickquitPermissions", "denied", 365);
+              console.log("Extension installed but permissions denied");
             }
           });
         } catch (error) {
@@ -264,30 +266,6 @@
         }
       } else {
         handleExtensionNotInstalled();
-      }
-    }
-  
-    // Request necessary permissions
-    async function requestExtensionPermissions() {
-      try {
-        const permissions = {
-          permissions: ['history'],
-          origins: ['<all_urls>']
-        };
-  
-        chrome.permissions.request(permissions, function(granted) {
-          if (granted) {
-            // Permissions granted
-            setCookie("quickquitPermissions", "granted", 365); // Store for a year
-            console.log("Permissions granted and stored");
-          } else {
-            // Permissions denied
-            setCookie("quickquitPermissions", "denied", 365);
-            console.log("Permissions denied");
-          }
-        });
-      } catch (error) {
-        console.log("Error requesting permissions:", error);
       }
     }
   
@@ -305,7 +283,7 @@
     }
   
     function dismissInstallPrompt() {
-      setCookie("dismissedInstallPrompt", "true", 7); // Don't show for 7 days
+      setCookie("dismissedInstallPrompt", "true", 7);
       const popup = document.getElementById("extensionPopup");
       if (popup) {
         popup.style.display = "none";
@@ -324,7 +302,7 @@
   
     // Run on page load
     document.addEventListener("DOMContentLoaded", function() {
-      checkExtensionAndPermissions();
+      checkExtension();
     });
   </script>
 </body>

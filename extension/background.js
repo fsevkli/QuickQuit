@@ -1,5 +1,16 @@
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     console.log("Background script received a message:", message);
+    
+    if (message.action === "checkPermissions") {
+        // Check if we have all required permissions
+        chrome.permissions.contains({
+          permissions: ["history", "scripting", "tabs"],
+          origins: ["<all_urls>"]
+        }, (hasPermissions) => {
+          sendResponse({ hasPermissions: hasPermissions });
+        });
+        return true; // Keep the message channel open for async response
+    }
 
     if (message.type === "HANDLE_HISTORY") {
         const { domains, safeContent, exitSite } = message;
