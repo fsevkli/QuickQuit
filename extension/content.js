@@ -1,10 +1,7 @@
-// Add a custom element to signal extension presence
-const extensionMarker = document.createElement("div");
-extensionMarker.id = "__quick_quit_extension_marker__";
-extensionMarker.style.display = "none"; // Hidden to avoid UI impact
-document.documentElement.appendChild(extensionMarker);
+// Add a custom attribute to the <html> element to signal extension presence
+document.documentElement.setAttribute("data-quick-quit-extension", "true");
 
-console.log("QuickQuit extension marker added to DOM.");
+console.log("QuickQuit extension marker added as an attribute.");
 
 // Listen for messages from the page
 window.addEventListener("message", (event) => {
