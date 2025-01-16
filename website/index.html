@@ -20,6 +20,48 @@
   <!-- Custom Stylesheet -->
   <link rel="stylesheet" href="quickquit.css">
 
+  <style>
+    #extensionPopup {
+      display: none;
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background-color: white;
+      padding: 30px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      z-index: 1000;
+      border-radius: 8px;
+      text-align: center;
+      max-width: 400px;
+      width: 90%;
+    }
+  
+    .popup-buttons {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+    }
+  
+    .install-button, .dismiss-button {
+      padding: 10px 20px;
+      border: none;
+      cursor: pointer;
+      border-radius: 5px;
+    }
+  
+    .install-button {
+      background-color: #007BFF;
+      color: white;
+      font-weight: bold;
+    }
+  
+    .dismiss-button {
+      background-color: #6c757d;
+      color: white;
+    }
+  </style>
+
   <!-- jQuery -->
   <script src="https://code.jquery.com/jquery-3.6.3.min.js"
     integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
@@ -28,34 +70,6 @@
   <script src="quickquit.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous" defer></script>
   <script src="quickquit.js" defer></script>
-
-  <style>
-    #extensionPopup {
-        display: none;
-        position: fixed;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        background-color: white;
-        padding: 20px;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-        z-index: 1000;
-        border-radius: 8px;
-        text-align: center;
-    }
-    #extensionPopup button {
-        margin-top: 10px;
-        padding: 10px 20px;
-        background-color: #007BFF;
-        color: white;
-        border: none;
-        cursor: pointer;
-        border-radius: 5px;
-    }
-    #extensionPopup button:hover {
-        background-color: #0056b3;
-    }
-</style>
 
 </head>
 
@@ -104,6 +118,15 @@
       </div>
     </div>
   </section>
+
+  <div id="extensionPopup">
+    <h2>Install the QuickQuit Chrome Extension</h2>
+    <p>Enhance your browsing safety and privacy with the QuickQuit Chrome extension. It's free and easy to use!</p>
+    <div class="popup-buttons">
+      <button onclick="installExtension()" class="install-button">Install Now</button>
+      <button onclick="dismissInstallPrompt()" class="dismiss-button">Not Now</button>
+    </div>
+  </div>
 
   <!-- Section: What Does QuickQuit Do? -->
   <section id="what-does-quickquit-do" class="container py-5">
@@ -159,7 +182,7 @@
         <!-- Navigation Links -->
         <div class="col-md-4">
           <nav class="footer-nav">
-            <ul class="list-unstyled" id="footer-list">
+            <ul class="list-unstyled">
               <li><a href="https://quickquit.app">Home</a></li>
               <li><a href="https://quickquit.app/aboutUs">About Us</a></li>
               <li><a href="https://quickquit.app/howItWorks">How It Works</a></li>
@@ -196,9 +219,13 @@
     });
   </script>
 
-  <!-- Pop up notification -->
   <script>
-    // Function to set a cookie
+    // Add event listener for the extension button in the main content
+    document.getElementById("viewExtensionButton").addEventListener("click", function() {
+      window.open("https://chrome.google.com/webstore/detail/dlinmimmfmfecdgbkmjkmpacfbdfhbjg", "_blank");
+    });
+  
+    // Cookie management functions
     function setCookie(name, value, days) {
       const date = new Date();
       date.setTime(date.getTime() + days * 24 * 60 * 60 * 1000);
@@ -206,7 +233,6 @@
       document.cookie = name + "=" + value + ";" + expires + ";path=/";
     }
   
-    // Function to get a cookie
     function getCookie(name) {
       const decodedCookie = decodeURIComponent(document.cookie);
       const cookies = decodedCookie.split(';');
@@ -219,61 +245,52 @@
       return null;
     }
   
-    // Function to check if the extension is installed
-    function checkExtensionInstalled() {
-      const extensionId = "dlinmimmfmfecdgbkmjkmpacfbdfhbjg"; // Replace with your extension ID
+    // Extension management functions
+    function checkExtensionAndPermissions() {
+      const extensionId = "dlinmimmfmfecdgbkmjkmpacfbdfhbjg";
+      
       try {
-        chrome.runtime.sendMessage(extensionId, { type: "PING" }, (response) => {
+        chrome.runtime.sendMessage(extensionId, { type: "PING" }, function(response) {
           if (chrome.runtime.lastError || !response) {
-            console.log("Extension not installed");
-            showExtensionPopup();
+            if (!getCookie("dismissedInstallPrompt")) {
+              showExtensionPopup();
+            }
           } else {
-            console.log("Extension is installed");
+            initializeExtensionFeatures();
           }
         });
       } catch (error) {
-        console.log("Extension detection failed:", error);
-        showExtensionPopup();
+        console.log("Extension check failed:", error);
+        if (!getCookie("dismissedInstallPrompt")) {
+          showExtensionPopup();
+        }
       }
     }
   
-    // Function to show the extension installation popup
     function showExtensionPopup() {
-      const popup = document.getElementById("extensionPopup");
-      popup.style.display = "block";
+      document.getElementById("extensionPopup").style.display = "block";
+    }
+  
+    function dismissInstallPrompt() {
+      setCookie("dismissedInstallPrompt", "true", 7);
+      document.getElementById("extensionPopup").style.display = "none";
+    }
+  
+    function installExtension() {
+      window.open("https://chrome.google.com/webstore/detail/dlinmimmfmfecdgbkmjkmpacfbdfhbjg", "_blank");
+      document.getElementById("extensionPopup").style.display = "none";
+    }
+  
+    function initializeExtensionFeatures() {
+      console.log("Extension features initialized");
+      // Add any extension-specific initialization here
     }
   
     // Run on page load
-    document.addEventListener("DOMContentLoaded", () => {
-      // Check for extension and show popup if needed
-      checkExtensionInstalled();
-  
-      // Check or set a cookie for user preferences
-      const cookieName = "quickquitUser";
-      const userCookie = getCookie(cookieName);
-      if (!userCookie) {
-        console.log("Cookie not found. Setting default cookie.");
-        setCookie(cookieName, "defaultPreferences", 7); // Set cookie for 7 days
-      } else {
-        console.log("Cookie found:", userCookie);
-      }
+    document.addEventListener("DOMContentLoaded", function() {
+      checkExtensionAndPermissions();
     });
   </script>
-  <div id="extensionPopup" style="display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background-color: white; padding: 20px; border-radius: 8px; box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2); z-index: 1000;">
-    <h2>Install the QuickQuit Chrome Extension</h2>
-    <p>Enhance your browsing safety and privacy with the QuickQuit Chrome extension. It's free and easy to use!</p>
-    <button onclick="installExtension()" style="margin-top: 10px; padding: 10px 20px; background-color: #007BFF; color: white; border: none; cursor: pointer; border-radius: 5px;">
-      Install Now
-    </button>
-  </div>
-  <script>
-    // Function to redirect to the Chrome Web Store
-    function installExtension() {
-      window.open("https://chrome.google.com/webstore/detail/dlinmimmfmfecdgbkmjkmpacfbdfhbjg", "_blank");
-    }
-  </script>
-  
-  
 </body>
 
 </html>
