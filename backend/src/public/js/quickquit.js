@@ -47,10 +47,10 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                   </div>
                   <div class="modal-body">
-                    Install the QuickQuit Chrome extension to enable enhanced security benefits. Would you like to install it now?
+                    Install the QuickQuit Chrome extension to remove sensitive searches from your browsing history when the exit button is pressed. Would you like to install it now?
                   </div>
                   <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No, thanks</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Don't Ask Again</button>
                     <a id="installExtensionButton" class="btn btn-primary" href="https://chrome.google.com/webstore/detail/bohobbkmlhibianbbejolcdncdigcchf" target="_blank">Install Now</a>
                   </div>
                 </div>
