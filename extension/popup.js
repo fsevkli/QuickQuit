@@ -21,18 +21,4 @@ document.addEventListener("DOMContentLoaded", function () {
 
 });
 
-document.getElementById("request-permissions").addEventListener("click", () => {
-    chrome.permissions.request(
-      { permissions: ["history"] },
-      (granted) => {
-        if (granted) {
-          console.log("History permission granted.");
-          // Proceed with functionality
-        } else {
-          console.log("History permission denied. Extension cannot function.");
-          alert("This extension requires access to browser history to work.");
-        }
-      }
-    );
-  });
   

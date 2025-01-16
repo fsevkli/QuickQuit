@@ -195,22 +195,3 @@ function shuffleArray(array) {
     return array;
 }
 
-chrome.action.onClicked.addListener(() => {
-    chrome.permissions.contains(
-      { permissions: ["history"] },
-      (result) => {
-        if (result) {
-          // User already granted permission, proceed
-          console.log("Permission already granted.");
-        } else {
-          console.log("History permission not granted.");
-          chrome.notifications.create({
-            type: "basic",
-            iconUrl: "qqLogo128.png",
-            title: "Permission Needed",
-            message: "Grant history access for full functionality."
-          });
-        }
-      }
-    );
-  });
