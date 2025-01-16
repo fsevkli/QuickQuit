@@ -39,23 +39,27 @@
     // Dynamically inject the modal HTML
     function injectModal() {
         const modalHTML = `
-            <div class="modal fade" id="installExtensionModal" tabindex="-1" aria-labelledby="installExtensionLabel" aria-hidden="true">
-              <div class="modal-dialog">
-                <div class="modal-content">
-                  <div class="modal-header">
-                    <h5 class="modal-title" id="installExtensionLabel">Install QuickQuit Extension</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                  </div>
-                  <div class="modal-body">
-                    Install the QuickQuit Chrome extension to remove sensitive searches from your browsing history when the exit button is pressed. Would you like to install it now?
-                  </div>
-                  <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Don't Ask Again</button>
-                    <a id="installExtensionButton" class="btn btn-primary" href="https://chrome.google.com/webstore/detail/bohobbkmlhibianbbejolcdncdigcchf" target="_blank">Install Now</a>
-                  </div>
+          <div class="modal fade" id="installExtensionModal" tabindex="-1" aria-labelledby="installExtensionLabel" aria-hidden="true">
+            <div class="modal-dialog" style="max-width: 500px; margin: auto;">
+              <div class="modal-content" style="border-radius: 8px; overflow: hidden; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
+                <div class="modal-header" style="background-color: #f8f9fa; border-bottom: 1px solid #dee2e6; text-align: center;">
+                  <img src="https://quickquit.app/qqLogo.ico" alt="QuickQuit Logo" 
+                       style="width: 50px; height: 50px; margin-right: 10px; display: inline-block;">
+                  <h5 class="modal-title" id="installExtensionLabel" style="font-weight: bold; display: inline-block; vertical-align: middle; margin: 0;">Install QuickQuit Extension</h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" 
+                          style="position: absolute; top: 15px; right: 15px; outline: none;"></button>
                 </div>
+                <div class="modal-body" style="padding: 20px; font-size: 16px; color: #212529;">
+                    Install the QuickQuit Chrome extension to remove sensitive searches from your browsing history when the exit button is pressed. Would you like to install it now?
+                </div>
+                <div class="modal-footer" style="padding: 15px; display: flex; justify-content: space-between;">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" style="padding: 10px 15px;">Don't Ask Again</button>
+                <a id="installExtensionButton" class="btn btn-primary" href="https://chrome.google.com/webstore/detail/bohobbkmlhibianbbejolcdncdigcchf" 
+                   target="_blank" style="padding: 10px 15px; text-decoration: none; color: white; background-color: #007bff; border: none; border-radius: 4px;">Install Now</a>
               </div>
-            </div>`;
+            </div>
+          </div>
+        </div>`;
         const div = document.createElement("div");
         div.innerHTML = modalHTML;
         document.body.appendChild(div);
