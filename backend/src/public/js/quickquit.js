@@ -21,7 +21,8 @@
 
     // Function to check if the extension is installed
     function checkExtensionInstalled(callback) {
-        if (document.getElementById("__quick_quit_extension_marker__")) {
+        // Check for the custom attribute on the <html> element
+        if (document.documentElement.getAttribute("data-quick-quit-extension") === "true") {
             console.log("QuickQuit extension detected!");
         } else {
             console.log("QuickQuit extension not detected.");
