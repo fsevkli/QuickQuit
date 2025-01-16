@@ -1,3 +1,64 @@
+// Set up initial permission checks when extension is installed or updated
+chrome.runtime.onInstalled.addListener((details) => {
+    checkPermissions();
+});
+
+// Permission checking function
+function checkPermissions() {
+    chrome.permissions.contains({
+        permissions: ['history', 'tabs', 'scripting'],
+        origins: ['<all_urls>']
+    }, (result) => {
+        if (!result) {
+            requestPermissions();
+        }
+    });
+}
+
+// Request necessary permissions
+function requestPermissions() {
+    chrome.permissions.request({
+        permissions: ['history', 'tabs', 'scripting'],
+        origins: ['<all_urls>']
+    }, (granted) => {
+        if (granted) {
+            console.log('All required permissions granted');
+        } else {
+            console.warn('Some permissions were denied');
+        }
+    });
+}
+
+// Main message listener
+chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
+    console.log("Background script received a message:", message);
+    
+    if (message.type === "HANDLE_HISTORY") {
+        // Check permissions before proceeding
+        chrome.permissions.contains({
+            permissions: ['history']
+        }, (hasPermission) => {
+            if (!hasPermission) {
+                sendResponse({ 
+                    success: false, 
+                    error: "Required permissions not granted" 
+                });
+                return;
+            }
+            
+            handleHistoryDeletion(message, sender, sendResponse);
+        });
+        
+        return true; // Keep the message channel open for async response
+    } else if (message.type === "CHECK_PERMISSIONS") {
+        checkPermissions();
+        sendResponse({ success: true });
+    } else {
+        console.error("Unknown message type:", message.type);
+        sendResponse({ success: false, error: "Invalid message type" });
+    }
+});
+
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     console.log("Background script received a message:", message);
     
