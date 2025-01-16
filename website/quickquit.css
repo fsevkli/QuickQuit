@@ -367,6 +367,7 @@ li {
 .footer {
     background-color: var(--cream);
     color: var(--text-color);
+    position: fixed;
     padding: 2rem 0 0 0;
     border-top: 1px solid var(--border-color);
 }
@@ -534,9 +535,10 @@ li {
 }
 
 #background-image::before {
-    background-image: url('images/fullClass.JPG');
+      background-image: url('images/fullClass.JPG');
       background-size: cover;
       position: absolute;
+      margin: 0px !important;
       top: 0px;
       right: 0px;
       bottom: 0px;
