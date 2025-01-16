@@ -93,10 +93,10 @@ $(document).ready(function () {
     }
 });
 
-const extensionId = 'jkopnadgemphpbajoidaabeabomfakdm'; // The extension ID for Quick Quit
+const extensionId = 'jkopnadgemphpbajoidaabeabomfakdm'; // Quick Quit extension ID
 const cookieName = "extensionInstalled";
 
-// Check if the Quick Quit extension is installed by trying to get a runtime message from it
+// Check if Quick Quit is installed by looking through the list of installed extensions
 function checkExtensionInstalled() {
     // First, check if we already have a cookie indicating the extension installation
     const isExtensionInstalled = getCookie(cookieName);
@@ -107,20 +107,20 @@ function checkExtensionInstalled() {
         return;
     }
 
-    // Try to send a message to the extension, if it is installed, we get a response
-    try {
-        chrome.runtime.sendMessage(extensionId, { action: 'check' }, function(response) {
-            if (response && response.status === "installed") {
+    // Try using chrome.management.getAll() to find the extension
+    if (chrome.management) {
+        chrome.management.getAll(function(extensions) {
+            const extension = extensions.find(ext => ext.id === extensionId);
+            if (extension) {
                 console.log("Quick Quit extension is installed.");
                 setCookie(cookieName, "true", 365); // Mark the extension as installed in the cookie
-                // Optionally, check permissions or do any additional logic here
             } else {
                 console.log("Quick Quit extension not installed.");
                 promptInstallExtension();
             }
         });
-    } catch (error) {
-        console.log("Error checking Quick Quit extension installation: ", error);
+    } else {
+        console.log("Chrome management API is not available.");
         promptInstallExtension();
     }
 }
@@ -154,5 +154,6 @@ function setCookie(name, value, days) {
 
 // Check the Quick Quit extension status when the page loads
 checkExtensionInstalled();
+
 
 
