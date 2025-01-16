@@ -19,6 +19,49 @@
     // Normalize the exit site URL
     exitSite = fixUrls(exitSite);
 
+    const EXTENSION_ID = "bohobbkmlhibianbbejolcdncdigcchf";
+
+    // Function to check if the extension is installed
+    function checkExtensionInstalled(callback) {
+        if (typeof chrome !== "undefined" && chrome.runtime && chrome.runtime.sendMessage) {
+            chrome.runtime.sendMessage(EXTENSION_ID, { type: "CHECK_INSTALLED" }, (response) => {
+                callback(response && response.installed);
+            });
+        } else {
+            console.log("Extension not found");
+            callback(false);
+        }
+    }
+
+    // Function to show the install prompt
+    function showInstallPrompt() {
+        const userChoice = confirm(
+            "Install the QuickQuit Chrome extension to receive enhanced security benefits. Would you like to install it now?"
+        );
+
+        if (userChoice) {
+            window.open(
+                "https://chrome.google.com/webstore/detail/" + EXTENSION_ID,
+                "_blank"
+            ); // Open the Chrome Web Store link
+        } else {
+            localStorage.setItem("quickquitDismissed", "true");
+        }
+    }
+
+    // Check whether to show the pop-up
+    window.addEventListener("load", () => {
+        const dismissed = localStorage.getItem("quickquitDismissed") === "true";
+
+        if (!dismissed) {
+            checkExtensionInstalled((isInstalled) => {
+                if (!isInstalled) {
+                    showInstallPrompt();
+                }
+            });
+        }
+    });
+
     // Attach event listener to the button
     const button = document.getElementById("quickQuitButton");
     if (!button) {
