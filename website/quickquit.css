@@ -17,6 +17,9 @@ body {
     padding: 0;
     background-color: var(--cream);
     color: var(--text-color);
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
 }
 
 /* Navbar styling */
@@ -369,6 +372,7 @@ li {
     color: var(--text-color);
     padding: 2rem 0 0 0;
     border-top: 1px solid var(--border-color);
+    margin-top: auto;
 }
 
 .footer h5 {
@@ -590,4 +594,5 @@ li {
   #footer-list {
     padding-top: 37px;
   }
+
   
