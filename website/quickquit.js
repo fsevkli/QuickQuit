@@ -92,3 +92,40 @@ $(document).ready(function () {
         redirectText.addEventListener('input', updateCode);
     }
 });
+
+const extensionId = 'jkopnadgemphpbajoidaabeabomfakdm'; // The extension's ID
+
+// Function to check if the extension is installed
+function checkExtensionInstalled() {
+    try {
+        // Send a message to the extension to check its status
+        chrome.runtime.sendMessage(extensionId, { action: 'check' }, function (response) {
+            if (response) {
+                console.log("Extension is installed.");
+                // Continue with your logic if installed
+            } else {
+                console.log("Extension is not installed.");
+                // Prompt user to install the extension
+                promptInstallExtension();
+            }
+        });
+    } catch (error) {
+        console.log("Extension is not installed.");
+        promptInstallExtension();
+    }
+}
+
+// Function to prompt the user to install the extension
+function promptInstallExtension() {
+    const userChoice = confirm("The extension is not installed. Would you like to go to the Chrome Web Store to install it?");
+    if (userChoice) {
+        // Redirect to Chrome Web Store for the extension
+        window.open("https://chrome.google.com/webstore/detail/Quick-Quit/jkopnadgemphpbajoidaabeabomfakdm");
+    } else {
+        console.log("User declined to install the extension.");
+    }
+}
+
+// Call this function when the page loads
+checkExtensionInstalled();
+
