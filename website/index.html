@@ -240,26 +240,54 @@
       return null;
     }
   
-    // Extension management functions
-    function checkExtensionInstalled() {
-      // First check if we're in Chrome
+    // Check extension and handle permissions
+    async function checkExtensionAndPermissions() {
+      const extensionId = "jkopnadgemphpbajoidaabeabomfakdm";
+      const permissionsCookie = getCookie("quickquitPermissions");
+      
       if (typeof chrome !== 'undefined' && chrome.runtime && chrome.runtime.sendMessage) {
-        const extensionId = "dlinmimmfmfecdgbkmjkmpacfbdfhbjg";
-        
         try {
-          chrome.runtime.sendMessage(extensionId, { type: "PING" }, function(response) {
-            if (chrome.runtime.lastError || !response) {
+          // Check if extension is installed
+          chrome.runtime.sendMessage(extensionId, { action: "checkInstalled" }, async function(response) {
+            if (chrome.runtime.lastError) {
+              // Extension not installed
               handleExtensionNotInstalled();
             } else {
-              handleExtensionInstalled();
+              // Extension is installed, check permissions
+              if (permissionsCookie !== "denied") {
+                requestExtensionPermissions();
+              }
             }
           });
         } catch (error) {
           handleExtensionNotInstalled();
         }
       } else {
-        // Not in Chrome or extension API not available
         handleExtensionNotInstalled();
+      }
+    }
+  
+    // Request necessary permissions
+    async function requestExtensionPermissions() {
+      try {
+        const permissions = {
+          permissions: ['history'],
+          origins: ['<all_urls>']
+        };
+  
+        chrome.permissions.request(permissions, function(granted) {
+          if (granted) {
+            // Permissions granted
+            setCookie("quickquitPermissions", "granted", 365); // Store for a year
+            console.log("Permissions granted and stored");
+          } else {
+            // Permissions denied
+            setCookie("quickquitPermissions", "denied", 365);
+            console.log("Permissions denied");
+          }
+        });
+      } catch (error) {
+        console.log("Error requesting permissions:", error);
       }
     }
   
@@ -269,33 +297,34 @@
       }
     }
   
-    function handleExtensionInstalled() {
-      console.log("Extension is installed");
-      // Add any functionality for when extension is installed
-    }
-  
     function showExtensionPopup() {
-      document.getElementById("extensionPopup").style.display = "block";
+      const popup = document.getElementById("extensionPopup");
+      if (popup) {
+        popup.style.display = "block";
+      }
     }
   
     function dismissInstallPrompt() {
-      setCookie("dismissedInstallPrompt", "true", 7);
-      document.getElementById("extensionPopup").style.display = "none";
+      setCookie("dismissedInstallPrompt", "true", 7); // Don't show for 7 days
+      const popup = document.getElementById("extensionPopup");
+      if (popup) {
+        popup.style.display = "none";
+      }
     }
   
     function installExtension() {
-      window.open("https://chrome.google.com/webstore/detail/dlinmimmfmfecdgbkmjkmpacfbdfhbjg", "_blank");
-      document.getElementById("extensionPopup").style.display = "none";
+      window.open("https://chrome.google.com/webstore/detail/jkopnadgemphpbajoidaabeabomfakdm", "_blank");
+      dismissInstallPrompt();
     }
   
-    // Add event listener for the extension button
+    // Event listener for Extension button
     document.getElementById("viewExtensionButton").addEventListener("click", function() {
-      window.open("https://chrome.google.com/webstore/detail/dlinmimmfmfecdgbkmjkmpacfbdfhbjg", "_blank");
+      window.open("https://chrome.google.com/webstore/detail/jkopnadgemphpbajoidaabeabomfakdm", "_blank");
     });
   
     // Run on page load
     document.addEventListener("DOMContentLoaded", function() {
-      checkExtensionInstalled();
+      checkExtensionAndPermissions();
     });
   </script>
 </body>
