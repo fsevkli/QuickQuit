@@ -95,3 +95,14 @@ $(document).ready(function () {
     }
 });
 
+// Check if a particular extension is installed by checking its background page
+const extensionId = "jkopnadgemphpbajoidaabeabomfakdm"; // Replace with the extension's ID
+chrome.runtime.sendMessage(extensionId, { message: "ping" }, function(response) {
+  if (chrome.runtime.lastError) {
+    console.log("Extension is not installed or not responding.");
+  } else {
+    console.log("Extension is installed.");
+  }
+});
+
+
