@@ -163,7 +163,8 @@
     crossorigin="anonymous"></script>
 
   <script>
-    console.log("My extension ID is:", chrome.runtime.id);
+    const extensionId = chrome.i18n.getMessage("@@extension_id");
+    console.log("My extension ID is:", extensionId);
   </script> 
 </body>
 
