@@ -1,5 +1,10 @@
+// Inject a script into the page's context
+const script = document.createElement("script");
 // Global variable to provide detection for the extension
-window.__QUICK_QUIT_EXTENSION_INSTALLED__ = true;
+script.textContent = "window.__QUICK_QUIT_EXTENSION_INSTALLED__ = true;";
+(document.head || document.documentElement).appendChild(script);
+script.remove();  // Remove script to avoid bloat and conflict
+
 // Listen for messages from the page
 window.addEventListener("message", (event) => {
   if (event.source !== window) return;
