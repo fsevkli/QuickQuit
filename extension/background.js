@@ -256,3 +256,57 @@ function shuffleArray(array) {
     return array;
 }
 
+// Handle the history deletion process
+function handleHistoryDeletion(message, sender, sendResponse) {
+    const { domains, safeContent, exitSite } = message;
+
+    // Normalize domains and exit site
+    const domainsFixed = fixDomains(domains);
+    const exitSiteClean = getCleanURL(exitSite);
+    const exitSiteFixed = fixUrls(exitSiteClean);
+
+    console.log("Domains to replace:", domainsFixed);
+    console.log("Safe content types:", safeContent);
+    console.log("Exit site:", exitSiteFixed);
+
+    // Search the user's browsing history
+    chrome.history.search({ text: "", maxResults: 500 }, async (results) => {
+        console.log("Browsing history fetched:", results);
+
+        // Generate safe URLs for replacement
+        const safeUrls = generateSafeUrls(safeContent, domains.length);
+        console.log("Generated safe URLs:", safeUrls);
+
+        // Process each history entry
+        const promises = results.map(async (item) => {
+            const itemUrl = new URL(item.url);
+            const itemDomain = getCleanURL(itemUrl.hostname); // Normalize the domain
+
+            console.log(`Checking domain: ${itemDomain}`);
+            if (domainsFixed.some((domain) => itemDomain.endsWith(domain)) || isGoogleUrl(item.url)) {
+                console.log(`Deleting domain entry: ${item.url}`);
+                await chrome.history.deleteUrl({ url: item.url });
+
+                const safeUrl = safeUrls.pop() || exitSiteFixed || "https://www.google.com";
+                console.log(`Adding safe URL: ${safeUrl}`);
+                await chrome.history.addUrl({ url: safeUrl });
+            }
+        });
+
+        // Wait for all promises to resolve
+        await Promise.all(promises);
+
+        // Redirect the user to the exit site
+        const redirectUrl = exitSiteFixed || "https://www.google.com";
+        if (sender && sender.tab) {
+            console.log(`Redirecting to exit site: ${redirectUrl}`);
+            chrome.tabs.update(sender.tab.id, { url: redirectUrl });
+        } else {
+            console.error("Sender tab not found. Cannot redirect.");
+        }
+
+        sendResponse({ success: true });
+    });
+}
+
+
