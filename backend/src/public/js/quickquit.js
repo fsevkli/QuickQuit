@@ -20,13 +20,9 @@
     exitSite = fixUrls(exitSite);
 
     // Function to check if the extension is installed
-    function checkExtensionInstalled(callback) {
+    function checkExtensionInstalled() {
         // Check for the custom attribute on the <html> element
-        if (document.documentElement.getAttribute("data-quick-quit-extension") === "true") {
-            console.log("QuickQuit extension detected!");
-        } else {
-            console.log("QuickQuit extension not detected.");
-        }
+        return document.documentElement.getAttribute("data-quick-quit-extension") === "true";
     }
 
     // Function to show the install prompt
@@ -37,24 +33,26 @@
 
         if (userChoice) {
             window.open(
-                "https://chrome.google.com/webstore/detail/" + EXTENSION_ID,
+                "https://chrome.google.com/webstore/detail/bohobbkmlhibianbbejolcdncdigcchf", // Example chrome store link
                 "_blank"
-            ); // Open the Chrome Web Store link
+            );
         } else {
-            localStorage.setItem("quickquitDismissed", "true");
+            localStorage.setItem("quickquitDismissed", "true"); // Save user choice in local storage
         }
     }
 
-    // Check whether to show the pop-up
+    // Check whether to show the popup
     window.addEventListener("load", () => {
-        const dismissed = localStorage.getItem("quickquitDismissed") === "true";
+        const dismissed = localStorage.getItem("quickquitDismissed") === "true"; // Check if the popup was previously dismissed
 
         if (!dismissed) {
-            checkExtensionInstalled((isInstalled) => {
-                if (!isInstalled) {
-                    showInstallPrompt();
-                }
-            });
+            if (!checkExtensionInstalled()) {
+                showInstallPrompt(); // Prompt the user if the extension is not installed
+            } else {
+                console.log("QuickQuit extension detected. No need for popup.");
+            }
+        } else {
+            console.log("User has dismissed the QuickQuit popup. No action needed.");
         }
     });
 
