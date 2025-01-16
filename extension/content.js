@@ -26,30 +26,3 @@ window.addEventListener("message", (event) => {
 });
 
 console.log("Content script loaded!");
-
-
-chrome.runtime.sendMessage(
-  { action: "checkExtensionStatus" },
-  function (response) {
-    if (response && response.installed) {
-      console.log("Quick Quit extension is installed.");
-    } else {
-      console.log("Quick Quit extension is NOT installed.");
-      promptInstallExtension();
-    }
-  }
-);
-
-function promptInstallExtension() {
-  const userChoice = confirm(
-    "The Quick Quit extension is not installed. Would you like to go to the Chrome Web Store to install it?"
-  );
-  if (userChoice) {
-    // Redirect to Chrome Web Store for the Quick Quit extension
-    window.open(
-      "https://chrome.google.com/webstore/detail/Quick-Quit/jkopnadgemphpbajoidaabeabomfakdm"
-    );
-  } else {
-    console.log("User declined to install the Quick Quit extension.");
-  }
-}
