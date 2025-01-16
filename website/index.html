@@ -163,72 +163,7 @@
     crossorigin="anonymous"></script>
 
   <script>
-          // background.js
-      const extensionId = "jkopnadgemphpbajoidaabeabomfakdm";
-
-      // Helper function to check if we're in a Chrome extension context
-      function isExtensionContext() {
-        return typeof chrome !== 'undefined' && 
-              chrome.runtime &&
-              chrome.runtime.sendMessage;
-      }
-
-      // Function to handle GitHub button click
-      function setupGitHubButton() {
-        const button = document.getElementById("viewGitHubButton");
-        if (button) {
-          button.addEventListener("click", function () {
-            window.location.href = "https://github.com/fsevkli/getMeOut";
-          });
-        }
-      }
-
-      // Function to check if extension is installed
-      function checkExtensionInstallation() {
-        if (!isExtensionContext()) {
-          console.warn("Chrome extension API not available");
-          return;
-        }
-
-        try {
-          chrome.runtime.sendMessage(extensionId, { message: "ping" }, function(response) {
-            if (chrome.runtime.lastError) {
-              console.log("Extension is not installed or not responding:", chrome.runtime.lastError.message);
-              return;
-            }
-            console.log("Extension is installed, response:", response);
-          });
-        } catch (error) {
-          console.error("Error checking extension installation:", error);
-        }
-      }
-
-      // Function to send installation message
-      function sendInstallMessage() {
-        if (!isExtensionContext()) {
-          console.warn("Chrome extension API not available");
-          return;
-        }
-
-        try {
-          chrome.runtime.sendMessage({ message: "Install Extension" }, function(response) {
-            if (chrome.runtime.lastError) {
-              console.error("Error sending installation message:", chrome.runtime.lastError.message);
-              return;
-            }
-            console.log("Installation message response:", response);
-          });
-        } catch (error) {
-          console.error("Error sending installation message:", error);
-        }
-      }
-
-      // Initialize everything when the DOM is ready
-      document.addEventListener('DOMContentLoaded', function() {
-        setupGitHubButton();
-        checkExtensionInstallation();
-        sendInstallMessage();
-      });
+          
   </script> 
 </body>
 
