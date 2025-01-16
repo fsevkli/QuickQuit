@@ -1,3 +1,16 @@
+// background.js
+
+const extensionId = "jkopnadgemphpbajoidaabeabomfakdm"; // Replace with the extension's ID
+
+chrome.runtime.sendMessage(extensionId, { message: "ping" }, function(response) {
+  if (chrome.runtime.lastError) {
+    console.log("Extension is not installed or not responding.");
+  } else {
+    console.log("Extension is installed.");
+  }
+});
+
+
 // Set up initial permission checks when the extension is installed or updated
 chrome.runtime.onInstalled.addListener(() => {
     checkPermissions();
