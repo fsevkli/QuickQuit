@@ -5,7 +5,8 @@
   <!-- Meta Tags -->
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="QuickQuit is a free Chrome extension designed to enhance online safety and privacy. Instantly replace sensitive browsing history and exit websites discreetly with just one click. Perfect for vulnerable users seeking protection online.">
+  <meta name="description"
+    content="QuickQuit is a free Chrome extension designed to enhance online safety and privacy. Instantly replace sensitive browsing history and exit websites discreetly with just one click. Perfect for vulnerable users seeking protection online.">
   <!-- Page Title -->
   <title>QuickQuit - Free Chrome Extension for Safety</title>
 
@@ -19,56 +20,15 @@
     integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
   <!-- Custom Stylesheet -->
   <link rel="stylesheet" href="quickquit.css">
-
-  <style>
-    #extensionPopup {
-      display: none;
-      position: fixed;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      background-color: white;
-      padding: 30px;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-      z-index: 1000;
-      border-radius: 8px;
-      text-align: center;
-      max-width: 400px;
-      width: 90%;
-    }
-  
-    .popup-buttons {
-      display: flex;
-      justify-content: center;
-      gap: 10px;
-    }
-  
-    .install-button, .dismiss-button {
-      padding: 10px 20px;
-      border: none;
-      cursor: pointer;
-      border-radius: 5px;
-    }
-  
-    .install-button {
-      background-color: #007BFF;
-      color: white;
-      font-weight: bold;
-    }
-  
-    .dismiss-button {
-      background-color: #6c757d;
-      color: white;
-    }
-  </style>
-
   <!-- jQuery -->
   <script src="https://code.jquery.com/jquery-3.6.3.min.js"
     integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
 
   <!-- Custom JavaScript -->
   <script src="quickquit.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"
+    defer></script>
   <script src="quickquit.js" defer></script>
 
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
@@ -81,25 +41,25 @@
     <div class="container-fluid">
       <img src="src/qqLogoTransparent.svg" alt="QuickQuit Logo" style="width: 50px;">
       <a class="navbar-brand" href="/"">QuickQuit</a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+      <button class=" navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
         aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
-      </button>
+        </button>
 
-      <div class="collapse navbar-collapse" id="navbarNav">
-        <div class="navbar-nav">
-          <a class="nav-link" href="/howItWorks">How It Works</a>
-          <a class="nav-link" href="/demo">Button Demo</a>
-          <a class="nav-link" href="/aboutUs">About Us</a>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <div class="navbar-nav">
+            <a class="nav-link" href="/howItWorks">How It Works</a>
+            <a class="nav-link" href="/demo">Button Demo</a>
+            <a class="nav-link" href="/aboutUs">About Us</a>
+          </div>
+          <ul class="navbar-nav ms-auto">
+            <li class="nav-item">
+              <a class="nav-link github-link" href="#" id="viewGitHubButton">
+                <img src="src/github-mark.png" alt="GitHub Logo" height="50" width="50">
+              </a>
+            </li>
+          </ul>
         </div>
-        <ul class="navbar-nav ms-auto">
-          <li class="nav-item">
-            <a class="nav-link github-link" href="#" id="viewGitHubButton">
-              <img src="src/github-mark.png" alt="GitHub Logo" height="50" width="50">
-            </a>
-          </li>
-        </ul>
-      </div>
     </div>
   </nav>
 
@@ -121,37 +81,29 @@
     </div>
   </section>
 
-  <div id="extensionPopup">
-    <h2>Install the QuickQuit Chrome Extension</h2>
-    <p>Enhance your browsing safety and privacy with the QuickQuit Chrome extension. It's free and easy to use!</p>
-    <div class="popup-buttons">
-      <button onclick="installExtension()" class="install-button">Install Now</button>
-      <button onclick="dismissInstallPrompt()" class="dismiss-button">Not Now</button>
-    </div>
-  </div>
-
   <!-- Section: What Does QuickQuit Do? -->
   <section id="what-does-quickquit-do" class="container py-5">
-    <div class="container">
-      <div class="row">
-        <div class="col">
-          <img src="src/LaptopDeisgn.svg" alt="Picture of a laptop with an example website using the button" width="600px">
-        </div>
-        <div class="col">
-          <h2 class="display-5">What Does QuickQuit Do?</h2>
-          <p class="lead">
-            QuickQuit is a free, intuitive Chrome extension designed to help users swiftly exit websites with resources that
-            assist those facing domestic violence.
-            With a single click, QuickQuit redirects the user to an unrelated website, masking their original browsing history
-            to protect their privacy and safety.
-          </p>
-          <p class="lead">
-            Whether you're seeking critical resources online or need to protect your digital footprint, QuickQuit allows you
-            to exit the site quickly while ensuring that your online activity remains hidden.
-          </p>
-        </div>
+    <div class="row">
+      <div class="col-lg-6">
+        <img src="src/LaptopDeisgn.svg" alt="Picture of a laptop with an example website using the button" width="600px"
+          class="img-fluid">
       </div>
-    </div>
+      <div class="col-lg-6">
+        <h2 class="display-5">What Does QuickQuit Do?</h2>
+        <p class="lead">
+          QuickQuit is a free, intuitive Chrome extension designed to help users swiftly exit websites with resources
+          that
+          assist those facing domestic violence.
+          With a single click, QuickQuit redirects the user to an unrelated website, masking their original browsing
+          history
+          to protect their privacy and safety.
+        </p>
+        <p class="lead">
+          Whether you're seeking critical resources online or need to protect your digital footprint, QuickQuit allows
+          you
+          to exit the site quickly while ensuring that your online activity remains hidden.
+        </p>
+      </div>
   </section>
 
   <!-- Section: Hidden Functionality -->
@@ -198,7 +150,7 @@
         <div class="col-md-4 text-end footer-logo">
           <a href="https://miamioh.edu/index.html" target="_blank" class="logo-link">
             <img src="src/miamiULogo.png" alt="Miami University Logo" class="logo-img">
-          </a>        
+          </a>
         </div>
       </div>
     </div>
@@ -214,170 +166,13 @@
   <!-- Scripts -->
   <!-- Bootstrap JS -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
-    integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+    integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+    crossorigin="anonymous"></script>
   <script>
     document.getElementById("viewGitHubButton").addEventListener("click", function () {
       window.location.href = "https://github.com/fsevkli/getMeOut";
     });
-  </script>
-
-  <script>
-    window.onload = function() {
-      if (!localStorage.getItem("extensionId")) {
-          localStorage.setItem("extensionId", "your-extension-id");
-      }
-    }
-
-    // Function to retrieve the extension ID dynamically from the localStorage or config
-    function getExtensionId() {
-      // You can store the extension ID in localStorage or use an external config
-      const extensionId = localStorage.getItem("extensionId") || "defaultExtensionId";
-      
-      // Ensure you replace 'defaultExtensionId' with a default or fallback ID
-      return extensionId;
-    }
-  
-    // Cookie management functions
-    function setCookie(name, value, days) {
-      const date = new Date();
-      date.setTime(date.getTime() + days * 24 * 60 * 60 * 1000);
-      const expires = "expires=" + date.toUTCString();
-      document.cookie = name + "=" + value + ";" + expires + ";path=/";
-    }
-  
-    function getCookie(name) {
-      const decodedCookie = decodeURIComponent(document.cookie);
-      const cookies = decodedCookie.split(';');
-      for (let i = 0; i < cookies.length; i++) {
-        const cookie = cookies[i].trim();
-        if (cookie.indexOf(name + "=") === 0) {
-          return cookie.substring(name.length + 1, cookie.length);
-        }
-      }
-      return null;
-    }
-  
-    // Ask for cookie consent and permissions
-    function askForCookiesConsent() {
-      if (!getCookie("cookiesConsent")) {
-        const consentPopup = document.createElement("div");
-        consentPopup.classList.add("cookies-consent");
-        consentPopup.innerHTML = `
-          <p>This website uses cookies to improve your experience. Do you accept?</p>
-          <button onclick="acceptCookiesConsent()">Accept</button>
-          <button onclick="declineCookiesConsent()">Decline</button>
-        `;
-        document.body.appendChild(consentPopup);
-      }
-    }
-  
-    function acceptCookiesConsent() {
-      setCookie("cookiesConsent", "accepted", 365);
-      document.querySelector(".cookies-consent").remove();
-    }
-  
-    function declineCookiesConsent() {
-      setCookie("cookiesConsent", "declined", 365);
-      document.querySelector(".cookies-consent").remove();
-    }
-  
-    // Check extension and verify permissions
-    function checkExtension() {
-      const extensionId = getExtensionId(); // Dynamically get the extension ID
-      
-      if (typeof chrome !== 'undefined' && chrome.runtime && chrome.runtime.sendMessage) {
-          try {
-              // First check if extension is installed
-              chrome.runtime.sendMessage(extensionId, { type: "CHECK_PERMISSIONS" }, function(response) {
-                  if (chrome.runtime.lastError) {
-                      // Extension not installed
-                      handleExtensionNotInstalled();
-                  } else if (response && response.success) {
-                      // Extension installed and permissions check successful
-                      chrome.runtime.sendMessage(extensionId, { action: "checkPermissions" }, function(permResponse) {
-                          if (permResponse && permResponse.hasPermissions) {
-                              setCookie("quickquitPermissions", "granted", 365);
-                              console.log("Extension installed and permissions granted");
-                          } else {
-                              setCookie("quickquitPermissions", "denied", 365);
-                              console.log("Extension installed but permissions denied");
-                              // Show permission request popup
-                              showPermissionPopup();
-                          }
-                      });
-                  } else {
-                      // Permission check failed
-                      setCookie("quickquitPermissions", "denied", 365);
-                      console.log("Permission check failed");
-                      handleExtensionNotInstalled();
-                  }
-              });
-          } catch (error) {
-              console.error("Error checking extension:", error);
-              handleExtensionNotInstalled();
-          }
-      } else {
-          handleExtensionNotInstalled();
-      }
-    }
-  
-    function requestPermissions() {
-      const extensionId = getExtensionId(); // Dynamically get the extension ID
-      chrome.runtime.sendMessage(extensionId, { 
-          type: "HANDLE_PERMISSIONS",
-          action: "request" 
-      }, function(response) {
-          if (response && response.success) {
-              setCookie("quickquitPermissions", "granted", 365);
-              dismissInstallPrompt();
-          } else {
-              console.warn("Permission request failed");
-          }
-      });
-    }
-  
-    function handleExtensionNotInstalled() {
-      if (!getCookie("dismissedInstallPrompt")) {
-        showExtensionPopup();
-      }
-    }
-  
-    function showExtensionPopup() {
-      const popup = document.getElementById("extensionPopup");
-      if (popup) {
-        popup.style.display = "block";
-      }
-    }
-  
-    function showPermissionPopup() {
-      const popup = document.getElementById("extensionPopup");
-      if (popup) {
-          // Modify popup content for permissions
-          popup.querySelector('h2').textContent = "QuickQuit Needs Permissions";
-          popup.querySelector('p').textContent = 
-              "QuickQuit requires certain permissions to protect your privacy. Please grant the necessary permissions.";
-          const installButton = popup.querySelector(".install-button");
-          installButton.textContent = "Grant Permissions";
-          installButton.onclick = requestPermissions;
-          popup.style.display = "block";
-      }
-    }
-  
-    function dismissInstallPrompt() {
-      setCookie("dismissedInstallPrompt", "true", 365);
-      const popup = document.getElementById("extensionPopup");
-      if (popup) {
-          popup.style.display = "none";
-      }
-    }
-  
-    // Initialize consent prompt and check extension
-    document.addEventListener("DOMContentLoaded", function () {
-      askForCookiesConsent();
-      checkExtension();
-    });
-  </script>
-  
+  </script>  
 </body>
 
 </html>

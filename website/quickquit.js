@@ -92,3 +92,67 @@ $(document).ready(function () {
         redirectText.addEventListener('input', updateCode);
     }
 });
+
+const extensionId = 'jkopnadgemphpbajoidaabeabomfakdm'; // The extension ID for Quick Quit
+const cookieName = "extensionInstalled";
+
+// Check if the Quick Quit extension is installed by trying to get a runtime message from it
+function checkExtensionInstalled() {
+    // First, check if we already have a cookie indicating the extension installation
+    const isExtensionInstalled = getCookie(cookieName);
+
+    // If the extension is installed (from cookie), skip the prompt
+    if (isExtensionInstalled === "true") {
+        console.log("Quick Quit extension is installed, no need to prompt.");
+        return;
+    }
+
+    // Try to send a message to the extension, if it is installed, we get a response
+    try {
+        chrome.runtime.sendMessage(extensionId, { action: 'check' }, function(response) {
+            if (response && response.status === "installed") {
+                console.log("Quick Quit extension is installed.");
+                setCookie(cookieName, "true", 365); // Mark the extension as installed in the cookie
+                // Optionally, check permissions or do any additional logic here
+            } else {
+                console.log("Quick Quit extension not installed.");
+                promptInstallExtension();
+            }
+        });
+    } catch (error) {
+        console.log("Error checking Quick Quit extension installation: ", error);
+        promptInstallExtension();
+    }
+}
+
+// Prompt the user to install the Quick Quit extension from the Chrome Web Store
+function promptInstallExtension() {
+    const userChoice = confirm("The Quick Quit extension is not installed. Would you like to go to the Chrome Web Store to install it?");
+    if (userChoice) {
+        // Redirect to Chrome Web Store for the Quick Quit extension
+        window.open("https://chrome.google.com/webstore/detail/Quick-Quit/jkopnadgemphpbajoidaabeabomfakdm");
+    } else {
+        console.log("User declined to install the Quick Quit extension.");
+    }
+}
+
+// Get a cookie by name
+function getCookie(name) {
+    const value = `; ${document.cookie}`;
+    const parts = value.split(`; ${name}=`);
+    if (parts.length === 2) return parts.pop().split(';').shift();
+    return null;
+}
+
+// Set a cookie with a specific name, value, and expiration (in days)
+function setCookie(name, value, days) {
+    const date = new Date();
+    date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+    const expires = `expires=${date.toUTCString()}`;
+    document.cookie = `${name}=${value}; ${expires}; path=/`;
+}
+
+// Check the Quick Quit extension status when the page loads
+checkExtensionInstalled();
+
+
