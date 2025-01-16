@@ -19,14 +19,6 @@ body {
     color: var(--text-color);
 }
 
-html, body {
-    height: 100%;
-    width: 100%;
-}
-html {
-    overflow: auto;
-}
-
 /* Navbar styling */
 .navbar {
     background-color: var(--cream) !important;
