@@ -220,11 +220,6 @@
   </script>
 
   <script>
-    // Add event listener for the extension button in the main content
-    document.getElementById("viewExtensionButton").addEventListener("click", function() {
-      window.open("https://chrome.google.com/webstore/detail/dlinmimmfmfecdgbkmjkmpacfbdfhbjg", "_blank");
-    });
-  
     // Cookie management functions
     function setCookie(name, value, days) {
       const date = new Date();
@@ -246,25 +241,37 @@
     }
   
     // Extension management functions
-    function checkExtensionAndPermissions() {
-      const extensionId = "dlinmimmfmfecdgbkmjkmpacfbdfhbjg";
-      
-      try {
-        chrome.runtime.sendMessage(extensionId, { type: "PING" }, function(response) {
-          if (chrome.runtime.lastError || !response) {
-            if (!getCookie("dismissedInstallPrompt")) {
-              showExtensionPopup();
+    function checkExtensionInstalled() {
+      // First check if we're in Chrome
+      if (typeof chrome !== 'undefined' && chrome.runtime && chrome.runtime.sendMessage) {
+        const extensionId = "dlinmimmfmfecdgbkmjkmpacfbdfhbjg";
+        
+        try {
+          chrome.runtime.sendMessage(extensionId, { type: "PING" }, function(response) {
+            if (chrome.runtime.lastError || !response) {
+              handleExtensionNotInstalled();
+            } else {
+              handleExtensionInstalled();
             }
-          } else {
-            initializeExtensionFeatures();
-          }
-        });
-      } catch (error) {
-        console.log("Extension check failed:", error);
-        if (!getCookie("dismissedInstallPrompt")) {
-          showExtensionPopup();
+          });
+        } catch (error) {
+          handleExtensionNotInstalled();
         }
+      } else {
+        // Not in Chrome or extension API not available
+        handleExtensionNotInstalled();
       }
+    }
+  
+    function handleExtensionNotInstalled() {
+      if (!getCookie("dismissedInstallPrompt")) {
+        showExtensionPopup();
+      }
+    }
+  
+    function handleExtensionInstalled() {
+      console.log("Extension is installed");
+      // Add any functionality for when extension is installed
     }
   
     function showExtensionPopup() {
@@ -281,14 +288,14 @@
       document.getElementById("extensionPopup").style.display = "none";
     }
   
-    function initializeExtensionFeatures() {
-      console.log("Extension features initialized");
-      // Add any extension-specific initialization here
-    }
+    // Add event listener for the extension button
+    document.getElementById("viewExtensionButton").addEventListener("click", function() {
+      window.open("https://chrome.google.com/webstore/detail/dlinmimmfmfecdgbkmjkmpacfbdfhbjg", "_blank");
+    });
   
     // Run on page load
     document.addEventListener("DOMContentLoaded", function() {
-      checkExtensionAndPermissions();
+      checkExtensionInstalled();
     });
   </script>
 </body>
