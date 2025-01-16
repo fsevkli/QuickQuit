@@ -534,9 +534,10 @@ li {
 }
 
 #background-image::before {
-    background-image: url('images/fullClass.JPG');
+      background-image: url('images/fullClass.JPG');
       background-size: cover;
       position: absolute;
+      margin: 0px !important;
       top: 0px;
       right: 0px;
       bottom: 0px;
