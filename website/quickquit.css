@@ -79,6 +79,10 @@ body {
     transition: transform 0.3s ease;
 }
 
+#viewGitHubButton {
+    top: 12px;
+}
+
 #viewGitHubButton::after {
     content: '';
     position: absolute;
