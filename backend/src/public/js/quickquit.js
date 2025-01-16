@@ -19,41 +19,82 @@
     // Normalize the exit site URL
     exitSite = fixUrls(exitSite);
 
-    // Function to check if the extension is installed
-    function checkExtensionInstalled() {
-        // Check for the custom attribute on the <html> element
-        return document.documentElement.getAttribute("data-quick-quit-extension") === "true";
-    }
+    // Dynamically inject Bootstrap CSS and JS if not already present
+    function injectBootstrap() {
+        if (!document.querySelector('link[href*="bootstrap"]')) {
+            const link = document.createElement("link");
+            link.href = "https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css";
+            link.rel = "stylesheet";
+            document.head.appendChild(link);
+        }
 
-    // Function to show the install prompt
-    function showInstallPrompt() {
-        const userChoice = confirm(
-            "Install the QuickQuit Chrome extension to receive enhanced security benefits. Would you like to install it now?"
-        );
-
-        if (userChoice) {
-            window.open(
-                "https://chrome.google.com/webstore/detail/bohobbkmlhibianbbejolcdncdigcchf", // Example chrome store link
-                "_blank"
-            );
-        } else {
-            localStorage.setItem("quickquitDismissed", "true"); // Save user choice in local storage
+        if (!document.querySelector('script[src*="bootstrap.bundle.min.js"]')) {
+            const script = document.createElement("script");
+            script.src = "https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js";
+            script.defer = true;
+            document.body.appendChild(script);
         }
     }
 
-    // Check whether to show the popup
-    window.addEventListener("load", () => {
-        const dismissed = localStorage.getItem("quickquitDismissed") === "true"; // Check if the popup was previously dismissed
+    // Dynamically inject the modal HTML
+    function injectModal() {
+        const modalHTML = `
+            <div class="modal fade" id="installExtensionModal" tabindex="-1" aria-labelledby="installExtensionLabel" aria-hidden="true">
+              <div class="modal-dialog">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="installExtensionLabel">Install QuickQuit Extension</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                  </div>
+                  <div class="modal-body">
+                    Install the QuickQuit Chrome extension to enable enhanced security benefits. Would you like to install it now?
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No, thanks</button>
+                    <a id="installExtensionButton" class="btn btn-primary" href="https://chrome.google.com/webstore/detail/bohobbkmlhibianbbejolcdncdigcchf" target="_blank">Install Now</a>
+                  </div>
+                </div>
+              </div>
+            </div>`;
+        const div = document.createElement("div");
+        div.innerHTML = modalHTML;
+        document.body.appendChild(div);
+    }
+
+    // Function to show the modal if needed
+    function showInstallPrompt() {
+        const dismissed = localStorage.getItem("quickquitDismissed") === "true";
+        const modal = new bootstrap.Modal(document.getElementById("installExtensionModal"));
 
         if (!dismissed) {
-            if (!checkExtensionInstalled()) {
-                showInstallPrompt(); // Prompt the user if the extension is not installed
-            } else {
-                console.log("QuickQuit extension detected. No need for popup.");
-            }
-        } else {
-            console.log("User has dismissed the QuickQuit popup. No action needed.");
+            modal.show();
+            document.querySelector(".modal .btn-secondary").addEventListener("click", () => {
+                localStorage.setItem("quickquitDismissed", "true");
+            });
         }
+    }
+
+    // Check for extension detection
+    function checkExtensionInstalled() {
+        if (document.documentElement.getAttribute("data-quick-quit-extension") === "true") {
+            console.log("QuickQuit extension detected!");
+            return true;
+        }
+        console.log("QuickQuit extension not detected.");
+        return false;
+    }
+
+    // Initialize everything on page load
+    window.addEventListener("load", () => {
+        injectBootstrap();
+        injectModal();
+
+        // Delay to ensure Bootstrap scripts are loaded
+        setTimeout(() => {
+            if (!checkExtensionInstalled()) {
+                showInstallPrompt();
+            }
+        }, 500);
     });
 
     // Attach event listener to the button
