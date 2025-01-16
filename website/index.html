@@ -29,6 +29,34 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous" defer></script>
   <script src="quickquit.js" defer></script>
 
+  <style>
+    #extensionPopup {
+        display: none;
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background-color: white;
+        padding: 20px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        z-index: 1000;
+        border-radius: 8px;
+        text-align: center;
+    }
+    #extensionPopup button {
+        margin-top: 10px;
+        padding: 10px 20px;
+        background-color: #007BFF;
+        color: white;
+        border: none;
+        cursor: pointer;
+        border-radius: 5px;
+    }
+    #extensionPopup button:hover {
+        background-color: #0056b3;
+    }
+</style>
+
 </head>
 
 <body>
@@ -167,6 +195,85 @@
       window.location.href = "https://github.com/fsevkli/getMeOut";
     });
   </script>
+
+  <!-- Pop up notification -->
+  <script>
+    // Function to set a cookie
+    function setCookie(name, value, days) {
+      const date = new Date();
+      date.setTime(date.getTime() + days * 24 * 60 * 60 * 1000);
+      const expires = "expires=" + date.toUTCString();
+      document.cookie = name + "=" + value + ";" + expires + ";path=/";
+    }
+  
+    // Function to get a cookie
+    function getCookie(name) {
+      const decodedCookie = decodeURIComponent(document.cookie);
+      const cookies = decodedCookie.split(';');
+      for (let i = 0; i < cookies.length; i++) {
+        const cookie = cookies[i].trim();
+        if (cookie.indexOf(name + "=") === 0) {
+          return cookie.substring(name.length + 1, cookie.length);
+        }
+      }
+      return null;
+    }
+  
+    // Function to check if the extension is installed
+    function checkExtensionInstalled() {
+      const extensionId = "dlinmimmfmfecdgbkmjkmpacfbdfhbjg"; // Replace with your extension ID
+      try {
+        chrome.runtime.sendMessage(extensionId, { type: "PING" }, (response) => {
+          if (chrome.runtime.lastError || !response) {
+            console.log("Extension not installed");
+            showExtensionPopup();
+          } else {
+            console.log("Extension is installed");
+          }
+        });
+      } catch (error) {
+        console.log("Extension detection failed:", error);
+        showExtensionPopup();
+      }
+    }
+  
+    // Function to show the extension installation popup
+    function showExtensionPopup() {
+      const popup = document.getElementById("extensionPopup");
+      popup.style.display = "block";
+    }
+  
+    // Run on page load
+    document.addEventListener("DOMContentLoaded", () => {
+      // Check for extension and show popup if needed
+      checkExtensionInstalled();
+  
+      // Check or set a cookie for user preferences
+      const cookieName = "quickquitUser";
+      const userCookie = getCookie(cookieName);
+      if (!userCookie) {
+        console.log("Cookie not found. Setting default cookie.");
+        setCookie(cookieName, "defaultPreferences", 7); // Set cookie for 7 days
+      } else {
+        console.log("Cookie found:", userCookie);
+      }
+    });
+  </script>
+  <div id="extensionPopup" style="display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background-color: white; padding: 20px; border-radius: 8px; box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2); z-index: 1000;">
+    <h2>Install the QuickQuit Chrome Extension</h2>
+    <p>Enhance your browsing safety and privacy with the QuickQuit Chrome extension. It's free and easy to use!</p>
+    <button onclick="installExtension()" style="margin-top: 10px; padding: 10px 20px; background-color: #007BFF; color: white; border: none; cursor: pointer; border-radius: 5px;">
+      Install Now
+    </button>
+  </div>
+  <script>
+    // Function to redirect to the Chrome Web Store
+    function installExtension() {
+      window.open("https://chrome.google.com/webstore/detail/dlinmimmfmfecdgbkmjkmpacfbdfhbjg", "_blank");
+    }
+  </script>
+  
+  
 </body>
 
 </html>
