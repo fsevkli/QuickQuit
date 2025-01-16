@@ -188,6 +188,13 @@
         console.log("Extension is installed.");
       }
     });
+    if (typeof chrome !== 'undefined' && chrome.runtime && chrome.runtime.sendMessage) {
+      chrome.runtime.sendMessage({ message: "Install Extension" }, function(response) {
+          console.log(response);
+      });
+    } else {
+      console.error("Chrome extension not available.");
+    }
   </script> 
 </body>
 
