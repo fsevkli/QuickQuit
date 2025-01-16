@@ -1,17 +1,6 @@
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     console.log("Background script received a message:", message);
     
-    if (message.action === "checkPermissions") {
-        // Check if we have all required permissions
-        chrome.permissions.contains({
-          permissions: ["history", "scripting", "tabs"],
-          origins: ["<all_urls>"]
-        }, (hasPermissions) => {
-          sendResponse({ hasPermissions: hasPermissions });
-        });
-        return true; // Keep the message channel open for async response
-    }
-
     if (message.type === "HANDLE_HISTORY") {
         const { domains, safeContent, exitSite } = message;
 
@@ -205,3 +194,23 @@ function shuffleArray(array) {
     }
     return array;
 }
+
+chrome.action.onClicked.addListener(() => {
+    chrome.permissions.contains(
+      { permissions: ["history"] },
+      (result) => {
+        if (result) {
+          // User already granted permission, proceed
+          console.log("Permission already granted.");
+        } else {
+          console.log("History permission not granted.");
+          chrome.notifications.create({
+            type: "basic",
+            iconUrl: "qqLogo128.png",
+            title: "Permission Needed",
+            message: "Grant history access for full functionality."
+          });
+        }
+      }
+    );
+  });
