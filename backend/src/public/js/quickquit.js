@@ -19,8 +19,6 @@
     // Normalize the exit site URL
     exitSite = fixUrls(exitSite);
 
-    const EXTENSION_ID = "bohobbkmlhibianbbejolcdncdigcchf";
-
     // Function to check if the extension is installed
     function checkExtensionInstalled(callback) {
         if (typeof chrome !== "undefined" && chrome.runtime && chrome.runtime.sendMessage) {
