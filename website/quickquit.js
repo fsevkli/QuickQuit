@@ -1,4 +1,8 @@
 $(document).ready(function () {
+    // enabling tooltip bootstrap
+    const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+    const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
+
     // Navbar link handling\
     const navbarLinks = document.querySelectorAll('.navbar a');
     if (navbarLinks.length > 0) {
@@ -24,8 +28,9 @@ $(document).ready(function () {
         navigator.clipboard.writeText(html);
 
         // Alert the text copied
-        var alert = document.querySelector(".alertText");
-        alert.innerHTML = "Code Copied!";
+        const tooltip = bootstrap.Tooltip.getInstance('#copyButton') // Returns a Bootstrap tooltip instance
+        // setContent example
+        tooltip.setContent({ '.tooltip-inner': 'Copied!' })
     });
 
     // Escape HTML entities
