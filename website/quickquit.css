@@ -606,4 +606,11 @@ li {
     padding-top: 37px;
   }
 
+/* home page color block */
+  #what-does-quickquit-do {
+    background-color: var(--green);
+    color: var(--cream);
+    margin: 0;
+    padding-left: 70px;
+  }
   
