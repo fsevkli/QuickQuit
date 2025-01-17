@@ -69,9 +69,25 @@ $(document).ready(function () {
         // Updating displayed code
         codeBlock.innerHTML = `&lt;!-- Quick Quit Button --&gt;
 &lt;!-- Below ID for Custom Styling --&gt;        
-&lt;button id="quickQuitButton" style="position: fixed; bottom: 10px; right: 10px; background-color: red; color: white; border: none; padding: 10px 20px; font-size: 16px; cursor: pointer; z-index: 1000;"&gt;Get Me Out!&lt;/button&gt;
+&lt;button id="quickQuitButton" style="
+  position: fixed;
+  bottom: 10px;
+  right: 10px;
+  background-color: red;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  z-index: 1000;"&gt;Get Me Out!&lt;/button&gt;
+
 &lt;!-- Quick Quit Script --&gt;
-&lt;script src="https://quickquit.app/static/js/quickquit.js" data-domains="${domains}" data-safe-content="${selectedSafeContent}" data-exit-site="${redirect}"&gt;&lt;/script&gt;`;
+&lt;script
+  src="https://quickquit.app/static/js/quickquit.js"
+  data-domains="${domains}"
+  data-safe-content="${selectedSafeContent}"
+  data-exit-site="${redirect}"&gt;
+&lt;/script&gt;`;
 
         // Refreshes PrismJS to make code look good
         Prism.highlightAll();
