@@ -1,6 +1,6 @@
 # CSE Capstone Project - *QuickQuit*
 
-![QuickQuit Banner](images/quickquitbanner.png)
+![QuickQuit Banner](website/images/quickquitbanner.png)
 
 Welcome to the CSE Capstone Project for *QuickQuit*! This repository serves as the foundation for developing an innovative browser extension aimed at enhancing user safety and convenience.
 
