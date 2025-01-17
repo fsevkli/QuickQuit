@@ -1,37 +1,104 @@
 # CSE Capstone Project - *QuickQuit*
-Welcome to the CSE Capstone Project for *QuickQuit*. This repository is the foundation for the capstone development effort.
 
-### Key Links:
-
-
-## Project Overview
-*QuickQuit* aims to provide a tool for users to exit certain situations quickly by using a browser extension. The extension should trigger actions based on an HTTPS request sent from a remote site, while also modifying the user's browsing history.
-
-### Pre-Development Considerations for Exit Extension:
-- The extension should react to an HTTPS request from a remote site.
-- The extension should be able to modify the user's history to facilitate exiting or switching tasks efficiently.
+Welcome to the CSE Capstone Project for *QuickQuit*! This repository serves as the foundation for developing an innovative browser extension aimed at enhancing user safety and convenience.
 
 ---
 
-## Project Structure
+## 🚀 Project Overview
+*QuickQuit* is a browser extension designed to empower users by providing a quick exit tool for certain situations. It achieves this by:
+- Reacting to HTTPS requests from a remote site.
+- Modifying the user's browsing history to facilitate efficient task-switching or exit actions.
 
-### **Tech Stack:**
-The tech stack includes a modern web development stack, with a focus on clean design and functionality:
+The extension's mission aligns with creating a safer, more user-centric browsing experience.
 
-- **Web Server Options**:
-  - **Apache**: Popular and well-supported, but has higher memory usage.
-  - **Caddy**: Automatically handles HTTPS configuration and is lightweight, but lacks extensive documentation.
-  - **Nginx**: Efficient, handles concurrent requests well, and is highly scalable. We’ve chosen Nginx for its speed, efficiency, and strong online documentation.
+---
 
-- **Website Design**:
-  The goal is to create a clean, user-friendly website with a focus on user experience. We’re using a purple color palette to align with the cause of raising awareness for domestic violence, as purple is often used to represent this issue. This will establish a visual connection to the core mission of the project.
+## 📂 Project Structure
 
-  **Color Palette**: The color scheme was carefully selected to provide consistency and relevance to the cause:
-  - **Primary Color**: Purple (to represent domestic violence awareness)
-  - **Other Colors**: A well-defined set of complementary colors for design harmony. You can view the full palette and fonts [here](https://www.realtimecolors.com/?colors=24021c-fffbf6-BC67CB-F5B8C8-9533EB&fonts=Inter-Inter).
+### **Tech Stack**
+This project utilizes the following technologies for development:
 
-  **Typography**: The design prioritizes readability with a good balance of headings and body text.
+- **JavaScript**: Core functionality and extension scripting.
+- **HTML/CSS**: Structuring and styling the extension UI and related web components.
+- **Bash**: Scripts for automating development tasks and deployment processes.
 
-  **Responsive Design**: The website will be fully responsive to ensure it adapts seamlessly to different devices, providing a pleasant user experience.
+---
 
-- **Brochure Design**: To further promote the cause, the brochure design follows the same color palette as the website for consistency. You can view the brochure draft on [Canva](https://www.canva.com/design/DAGbzFq34lw/QMtO1t_80gh-UQH1swiK3A/edit?utm_content=DAGbzFq34lw&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton).
+## ✨ Features & Capabilities
+
+- **Quick Exit**: Instantly redirects users to a predefined "safe" site.
+- **Browsing History Management**: Deletes or modifies history entries to preserve user privacy.
+- **Responsive Design**: Ensures the extension UI works seamlessly across various devices.
+
+---
+
+## 🛠️ Development Considerations
+
+### **Pre-Development Requirements**
+- **Secure Communication**: Ensure all interactions are via HTTPS.
+- **Validation**: Implement strict validation for all user actions to prevent misuse.
+- **Performance Optimization**: Prioritize efficiency for a smooth user experience.
+
+---
+
+## 🏁 Getting Started
+
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/fsevkli/QuickQuit.git
+   ```
+
+2. Navigate to the project directory:
+   ```bash
+   cd QuickQuit
+   ```
+
+3. Run the extension in development mode:
+   - Load the extension into your browser:
+     - Open your browser's extensions page (e.g., `chrome://extensions/`).
+     - Enable "Developer Mode."
+     - Click "Load Unpacked" and select the project folder.
+
+---
+
+## 🎨 Design Principles
+
+### **Website Design**
+A clean, user-friendly design aligned with the project’s mission:
+
+1. **Color Palette**:
+   - **Primary Color**: Purple (to represent domestic violence awareness).
+   - **Complementary Colors**: Harmonized tones for a visually appealing design.  
+     View the full palette and fonts [here](https://www.realtimecolors.com/?colors=24021c-fffbf6-BC67CB-F5B8C8-9533EB&fonts=Inter-Inter).
+
+2. **Typography**:
+   - Readability-first with clear, consistent headings and body text.
+
+3. **Responsive Design**:
+   - Fully adaptable UI for various devices.
+
+4. **Brochure Design**:
+   - Maintains visual consistency with the website and extension.  
+     Preview the brochure on [Canva](https://www.canva.com/design/DAGbzFq34lw/QMtO1t_80gh-UQH1swiK3A/edit?utm_content=DAGbzFq34lw&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton).
+
+---
+
+## 🔗 Key Links
+
+- **Color Palette & Fonts**: [Realtime Colors](https://www.realtimecolors.com/?colors=24021c-fffbf6-BC67CB-F5B8C8-9533EB&fonts=Inter-Inter)  
+- **Brochure Draft**: [Canva](https://www.canva.com/design/DAGbzFq34lw/QMtO1t_80gh-UQH1swiK3A/edit?utm_content=DAGbzFq34lw&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton)  
+
+---
+
+## 📝 License
+This project is licensed under the [MIT License](LICENSE).
+
+---
+
+## 🤝 Contributors
+- **Team Name**: [Quick Quit Team]
+- **Members**: [Claire, Gunnar, Nathan, Neela, Ryan, Xyann, Yusuf, Zach]
+
+---
+
+Thank you for supporting *QuickQuit*! If you have any questions, suggestions, or feedback, feel free to open an issue or reach out to us at [info@quickquit.app](mailto:info@quickquit.app).
