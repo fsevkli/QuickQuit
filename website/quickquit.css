@@ -582,17 +582,40 @@ li {
     #copyableCode {
       font-size: 0.9rem;
     }
+
+    #background-image {
+        height: 40vh;
+    }
+    
   }
   
   @media (max-width: 768px) {
     #copyableCode {
       font-size: 0.8rem;
     }
+
+    #background-image {
+        height: 30vh;
+    }
+    
+    #background-image-text {
+        font-size: 1.5rem;
+        padding: 0.5rem;
+    }
   }
   
   @media (max-width: 576px) {
     #copyableCode {
       font-size: 0.7rem;
+    }
+
+    #background-image {
+        height: 20vh;
+    }
+    
+    #background-image-text {
+        font-size: 1px;
+        padding: 0.5rem;
     }
   }
 
