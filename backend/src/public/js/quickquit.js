@@ -50,7 +50,7 @@
                           style="margin-left: auto; outline: none;"></button>
                 </div>
                 <div class="modal-body" style="padding: 20px; font-size: 16px; color: #333;">
-                    Install the QuickQuit Chrome extension to remove sensitive searches from your browsing history when the "Get Me Out" button is pressed. 
+                    We highly recommend installing the QuickQuit Chrome extension to remove sensitive searches from your browsing history when the "Get Me Out" button is pressed. 
                     The extension is disguised as an app that improves the performance of your computer, acting as a cover in case it is found by the wrong person.
                     It is designed to keep you safe. Would you like to install it now?
                 </div>
