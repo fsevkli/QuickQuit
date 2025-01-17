@@ -430,7 +430,7 @@ li {
     transition: transform 0.3s ease-in-out; /* Smooth zoom effect */
 }
 
-.footer-logo a:hover img {
+.footer-logo:hover img {
     transform: scale(1.2); /* Zooms in the image on hover */
 }
 
