@@ -412,6 +412,17 @@ li {
     text-decoration: underline;
 }
 
+#footer-git:hover {
+    color: var(--teal);
+    text-decoration: underline;
+}
+
+#footer-git {
+    color: var(--text-color);
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
 /* Logo Image with Zoom Effect */
 .footer-logo img {
     max-width: 300px;
