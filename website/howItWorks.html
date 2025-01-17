@@ -76,56 +76,87 @@
     <section id="tutorial">
       <h2 class="display-5">How to Add the Button to Your Website</h2>
       <ol>
-        <!-- Step 1: Enter domains -->
-        <li class="lead">Please enter any domain names associated with your site. Any page under this domain will be removed from the
-          user's history.</li>
-        <div class="mb-3">
-          <textarea class="form-control"
-            placeholder="Enter domains here in comma separated values &#10(ex: google.com,bbc.co.uk)"
-            id="domainTextarea" rows="5"></textarea>
-        </div>
-        <!-- Step 2: Enter defualt safe website is user dosn't download extension -->
-        <li class="lead">Please enter safe website name used to replace current website if user chooses not to download the extension.</li>
-        <div class="mb-3">
-          <textarea class="form-control"
-            placeholder="Enter website name (ex: google.com)"
-            id="redirectTextarea" rows="1"></textarea>
-        </div>
-        <!-- Step 3: Choose content for replacement -->
-        <li class="lead">Please choose what kind of auto-generated content will replace the user's browser history.</li>
-        <div class="d-flex flex-wrap">
-          <!-- Content Type Checkboxes -->
-          <div class="me-3 py-1">
-            <input type="checkbox" class="btn-check safeContent" id="btncheck1" autocomplete="off" value="news">
-            <label class="btn btn-outline-primary" for="btncheck1">News Articles</label>
+        <div class="row">
+          <div class="col-lg-6">
+            <!-- Step 1: Enter domains -->
+            <li class="lead">Please enter any domain names associated with your site. Any page under this domain will be removed from the
+              user's history.</li>
+            <div class="mb-3">
+              <textarea class="form-control"
+                placeholder="Enter domains here in comma separated values &#10(ex: google.com,bbc.co.uk)"
+                id="domainTextarea" rows="5"></textarea>
+            </div>
           </div>
-          <div class="me-3 py-1">
-            <input type="checkbox" class="btn-check safeContent" id="btncheck2" autocomplete="off" value="youtube">
-            <label class="btn btn-outline-primary" for="btncheck2">Youtube Videos</label>
-          </div>
-          <div class="me-3 py-1">
-            <input type="checkbox" class="btn-check safeContent" id="btncheck3" autocomplete="off" value="weather">
-            <label class="btn btn-outline-primary" for="btncheck3">Weather</label>
-          </div>
-          <div class="me-3 py-1">
-            <input type="checkbox" class="btn-check safeContent" id="btncheck4" autocomplete="off" value="recipes">
-            <label class="btn btn-outline-primary" for="btncheck4">Recipes</label>
-          </div>
-          <div class="me-3 py-1">
-            <input type="checkbox" class="btn-check safeContent" id="btncheck5" autocomplete="off" value="sports">
-            <label class="btn btn-outline-primary" for="btncheck5">Sports</label>
-          </div>
-          <div class="me-3 py-1">
-            <input type="checkbox" class="btn-check safeContent" id="btncheck6" autocomplete="off" value="shows">
-            <label class="btn btn-outline-primary" for="btncheck6">Top Shows</label>
-          </div>
-          <div class="me-3 py-1">
-            <input type="checkbox" class="btn-check safeContent" id="btncheck7" autocomplete="off" value="music">
-            <label class="btn btn-outline-primary" for="btncheck7">Top Music</label>
+          
+          <div class="col-lg-6">
+
           </div>
         </div>
 
-        <!-- Step 4: Copyable Code -->
+
+        <div class="row">
+          <div class="col-lg-6">
+             <!-- Step 2: Enter defualt safe website is user dosn't download extension -->
+            <li class="lead">Please enter safe website name used to replace current website if user chooses not to download the extension.</li>
+            <div class="mb-3">
+            <textarea class="form-control"
+              placeholder="Enter website name (ex: google.com)"
+              id="redirectTextarea" rows="1"></textarea>
+        </div>
+          </div>
+          
+          <div class="col-lg-6">
+
+          </div>
+        </div>
+
+
+        <div class="row">
+          <div class="col-lg-6">
+            <!-- Step 3: Choose content for replacement -->
+            <li class="lead">Please choose what kind of auto-generated content will replace the user's browser history.</li>
+            <div class="d-flex flex-wrap">
+              <!-- Content Type Checkboxes -->
+              <div class="me-3 py-1">
+                <input type="checkbox" class="btn-check safeContent" id="btncheck1" autocomplete="off" value="news">
+                <label class="btn btn-outline-primary" for="btncheck1">News Articles</label>
+              </div>
+              <div class="me-3 py-1">
+                <input type="checkbox" class="btn-check safeContent" id="btncheck2" autocomplete="off" value="youtube">
+                <label class="btn btn-outline-primary" for="btncheck2">Youtube Videos</label>
+              </div>
+              <div class="me-3 py-1">
+                <input type="checkbox" class="btn-check safeContent" id="btncheck3" autocomplete="off" value="weather">
+                <label class="btn btn-outline-primary" for="btncheck3">Weather</label>
+              </div>
+              <div class="me-3 py-1">
+                <input type="checkbox" class="btn-check safeContent" id="btncheck4" autocomplete="off" value="recipes">
+                <label class="btn btn-outline-primary" for="btncheck4">Recipes</label>
+              </div>
+              <div class="me-3 py-1">
+                <input type="checkbox" class="btn-check safeContent" id="btncheck5" autocomplete="off" value="sports">
+                <label class="btn btn-outline-primary" for="btncheck5">Sports</label>
+              </div>
+              <div class="me-3 py-1">
+                <input type="checkbox" class="btn-check safeContent" id="btncheck6" autocomplete="off" value="shows">
+                <label class="btn btn-outline-primary" for="btncheck6">Top Shows</label>
+              </div>
+              <div class="me-3 py-1">
+                <input type="checkbox" class="btn-check safeContent" id="btncheck7" autocomplete="off" value="music">
+                <label class="btn btn-outline-primary" for="btncheck7">Top Music</label>
+              </div>
+            </div>
+          </div>
+          
+          <div class="col-lg-6">
+
+          </div>
+        </div>
+
+        
+        <div class="row">
+          <div class="col-lg-6">
+            <!-- Step 4: Copyable Code -->
         <li class="lead">Copy and paste this code into your website's HTML header.</li>
         <div class="card">
           <div class="card-header align-items-center h-100" id="copyCodeCardHeader">
@@ -165,10 +196,17 @@
 &lt;/script&gt;
 </code></pre>
           </div>
-          
         </div>
         </div>
+          </div>
+
+          <div class="col-lg-6">
+            
+          </div>
+        </div>
+
       </ol>
+  </div>
     </section>
 
   </main>
