@@ -59,7 +59,7 @@ This project utilizes the following technologies for development:
    - Load the extension into your browser:
      - Open your browser's extensions page (e.g., `chrome://extensions/`).
      - Enable "Developer Mode."
-     - Click "Load Unpacked" and select the project folder.
+     - Click "Load Unpacked" and select the extension folder.
 
 ---
 
