@@ -98,8 +98,8 @@ This project is licensed under the [MIT License](LICENSE).
 ---
 
 ## 🤝 Contributors
-- **Team Name**: [Quick Quit Team]
-- **Members**: [Claire, Gunnar, Nathan, Neela, Ryan, Xyann, Yusuf, Zach]
+- **Team Name**: Quick Quit Team
+- **Members**: Claire, Gunnar, Nathan, Neela, Ryan, Xyann, Yusuf, Zach
 
 ---
 
