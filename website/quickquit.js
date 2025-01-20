@@ -43,7 +43,7 @@ $(document).ready(function () {
 
     // Open Chrome extension page
     $("#viewExtensionButton").click(function () {
-        window.open("https://chromewebstore.google.com/detail/session-buddy/edacconmaakjimmfgnblocblbcdcpbko", "_blank");
+        window.open("https://chromewebstore.google.com", "_blank");
     });
 
     // Open GitHub repository

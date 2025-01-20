@@ -340,6 +340,12 @@ li {
     box-shadow: 0 4px 8px rgba(74, 36, 69, 0.1);
 }
 
+#viewExtensionButton:active{
+    background-color: var(--teal);
+    border-color: var(--teal);
+    color: var(--cream);
+}
+
 /* Checkbox button group */
 .d-flex {
     gap: 1rem;
