@@ -71,7 +71,7 @@ A clean, user-friendly design aligned with the project’s mission:
 1. **Color Palette**:
    - **Primary Color**: Purple (to represent domestic violence awareness).
    - **Complementary Colors**: Harmonized tones for a visually appealing design.  
-     View the full palette and fonts [here](https://www.realtimecolors.com/?colors=24021c-fffbf6-BC67CB-F5B8C8-9533EB&fonts=Inter-Inter).
+     View the full palette and fonts [here](https://www.realtimecolors.com/?colors=22021b-fffbf5-643a55-91a385-c39346&fonts=Inter-Inter).
 
 2. **Typography**:
    - Readability-first with clear, consistent headings and body text.
@@ -88,7 +88,9 @@ A clean, user-friendly design aligned with the project’s mission:
 ## 🔗 Key Links
 
 - **Color Palette & Fonts**: [Realtime Colors](https://www.realtimecolors.com/?colors=24021c-fffbf6-BC67CB-F5B8C8-9533EB&fonts=Inter-Inter)  
-- **Brochure Draft**: [Canva](https://www.canva.com/design/DAGbzFq34lw/QMtO1t_80gh-UQH1swiK3A/edit?utm_content=DAGbzFq34lw&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton)  
+- **Brochure Draft**: [Canva](https://www.canva.com/design/DAGbzFq34lw/QMtO1t_80gh-UQH1swiK3A/edit?utm_content=DAGbzFq34lw&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton)
+
+
 
 ---
 

@@ -23,6 +23,10 @@ app.get('/demo', (req, res) => {
     res.sendFile(path.join(__dirname, '../../website/demo.html'));
 });
 
+app.get('/privacyPolicy', (req, res) => {
+    res.sendFile(path.join(__dirname, '../../website/privacyPolicy.html'));
+});
+
 // 404 handler
 app.use((req, res) => {
     res.status(404).sendFile(path.join(__dirname, '../../website/404.html'));
