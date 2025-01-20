@@ -88,7 +88,8 @@ A clean, user-friendly design aligned with the project’s mission:
 ## 🔗 Key Links
 
 - **Color Palette & Fonts**: [Realtime Colors](https://www.realtimecolors.com/?colors=24021c-fffbf6-BC67CB-F5B8C8-9533EB&fonts=Inter-Inter)  
-- **Brochure Draft**: [Canva] https://www.canva.com/design/DAGbzFq34lw/QMtO1t_80gh-UQH1swiK3A/edit?utm_content=DAGbzFq34lw&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton
+- **Brochure Draft**: [Canva](https://www.canva.com/design/DAGbzFq34lw/QMtO1t_80gh-UQH1swiK3A/edit?utm_content=DAGbzFq34lw&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton)
+
 
 
 ---
