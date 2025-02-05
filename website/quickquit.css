@@ -340,7 +340,7 @@ li {
     box-shadow: 0 4px 8px rgba(74, 36, 69, 0.1);
 }
 
-#viewExtensionButton:active{
+#viewExtensionButton:active, #quickQuitButton:active{
     background-color: var(--teal);
     border-color: var(--teal);
     color: var(--cream);

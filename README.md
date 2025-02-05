@@ -20,8 +20,8 @@ The extension's mission aligns with creating a safer, more user-centric browsing
 ### **Tech Stack**
 This project utilizes the following technologies for development:
 
-- **JavaScript**: Core functionality and extension scripting.
-- **HTML/CSS**: Structuring and styling the extension UI and related web components.
+- **JavaScript**: Core functionality and extension scripting. Backend is built with Node.js and Express.js.
+- **HTML/CSS**: Structuring and styling the extension UI and related web components. Bootstrap is used for Responsive design.
 - **Bash**: Scripts for automating development tasks and deployment processes.
 
 ---

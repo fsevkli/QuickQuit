@@ -48,7 +48,7 @@ $(document).ready(function () {
 
     // Open GitHub repository
     $("#viewGitHubButton").click(function () {
-        window.open("https://github.com/fsevkli/getMeOut", "_blank");
+        window.open("https://github.com/fsevkli/QuickQuit", "_blank");
     });
 
     // Update code block based on user input
