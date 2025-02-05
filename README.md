@@ -25,6 +25,10 @@ This project utilizes the following technologies for development:
 - **Bash**: Scripts for automating development tasks and deployment processes.
 
 ---
+### Watch the Demo Video:
+You can view the demo video on YouTube:
+
+[![Watch the demo video](https://img.youtube.com/vi/rrM4XeWx_WU/0.jpg)](https://youtu.be/rrM4XeWx_WU?feature=shared)
 
 ## ✨ Features & Capabilities
 
